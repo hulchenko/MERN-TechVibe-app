@@ -3,3 +3,6 @@ node_modules
 
 # Ignore the .env file
 .env
+
+# Ignore the .vscode file/settings
+.vscode

@@ -1,0 +1,34 @@
+{
+  "name": "mern-ecommerce-platform",
+  "version": "1.0.0",
+  "description": "ecommerce app built with the MERN stack",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hulchenko/MERN-eCommerce-Platform.git"
+  },
+  "keywords": [
+    "mern"
+  ],
+  "author": "Vadym Hulchenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hulchenko/MERN-eCommerce-Platform/issues"
+  },
+  "homepage": "https://github.com/hulchenko/MERN-eCommerce-Platform#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "nodemon": "^3.0.1"
+  }
+}

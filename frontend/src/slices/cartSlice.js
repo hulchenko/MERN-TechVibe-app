@@ -15,11 +15,15 @@ const cartSlice = createSlice({
             } else {
                 state.cartItems = [...state.cartItems, item];
             }
-            updateCart(state); //TODO maybe this needs to be returned
+            return updateCart(state);
+        },
+        removeFromCart: (state, action) => {
+            state.cartItems = state.cartItems.filter((x) => x._id !== action.payload); //return all cart items but the one that is removed
+            return updateCart(state);
         }
     }
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

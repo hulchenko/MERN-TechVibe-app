@@ -14,7 +14,21 @@ const registerUser = asyncHandler(async (req, res) => {
 // Public
 
 const loginUser = asyncHandler(async (req, res) => {
-    res.send('auth user');
+    console.log(`Incoming obj: `, req?.body);
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (user) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin
+        });
+    } else {
+        res.status(401);
+        throw new Error('Invalid email or password');
+    }
 });
 
 

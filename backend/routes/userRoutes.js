@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import {
-    loginUser,
+    authUser,
     registerUser,
     logoutUser,
     getUserProfile,
@@ -14,7 +14,7 @@ import {
 
 router.route('/').get(getUsers).post(registerUser);
 router.post('/logout', logoutUser);
-router.post('/login', loginUser);
+router.post('/login', authUser);
 router.route('/profile').get(getUserProfile).put(updateUserProfile);
 router.route('/:id').delete(deleteUser).get(getUser).put(updateUser);
 

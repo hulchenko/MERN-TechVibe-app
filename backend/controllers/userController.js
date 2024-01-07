@@ -11,7 +11,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // Auth user & get token
-// POST /api/users/login
+// POST /api/users/auth
 // Public
 
 const authUser = asyncHandler(async (req, res) => {

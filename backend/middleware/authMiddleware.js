@@ -14,7 +14,6 @@ const protect = asyncHandler(async (req, res, next) => {
             req.user = await User.findById(decoded.userId).select('-password'); // mongoose method to exclude a field from the returned object
             next();
         } catch (error) {
-            console.log(`ERROR HERE: `, error);
             res.status(401);
             throw new Error('Authorization failed: incorrect token');
         }

@@ -1,16 +1,31 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLogoutMutation } from '../slices/usersApiSlice';
+import { removeCredentials } from '../slices/authSlice';
 import logo from '../assets/logo.png';
 
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const { cartItems } = useSelector((state) => state.cart); //this will access store reducer.cart in the store.js file
     const { userInfo } = useSelector((state) => state.auth);
-    const logoutHandler = () => {
-        console.log('Log out');
+
+    const [logoutApiCall] = useLogoutMutation();
+
+    const logoutHandler = async () => {
+        try {
+            await logoutApiCall().unwrap();
+            dispatch(removeCredentials());
+            navigate('/login');
+        } catch (error) {
+            console.error(`Error occured: ${error}`);
+        }
     };
 
     return (

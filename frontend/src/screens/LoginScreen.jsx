@@ -10,13 +10,13 @@ import { toast } from 'react-toastify';
 
 
 const LoginScreen = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [login, { isLoading }] = useLoginMutation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [loginApiCall, { isLoading }] = useLoginMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
     const { search } = useLocation();
@@ -34,7 +34,7 @@ const LoginScreen = () => {
         e.preventDefault();
         console.log('submit');
         try {
-            const res = await login({ email, password }).unwrap();
+            const res = await loginApiCall({ email, password }).unwrap();
             dispatch(setCredentials({ ...res }));
             navigate(redirect);
         } catch (err) {

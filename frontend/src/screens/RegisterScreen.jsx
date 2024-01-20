@@ -45,7 +45,6 @@ const RegisterScreen = () => {
             }
         } else {
             toast.error('Passwords do not match');
-            // return;
         }
     };
 

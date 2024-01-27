@@ -7,6 +7,12 @@ const addOrderItems = asyncHandler(async (req, res) => {
     res.send('Add order items');
 });
 
+// Get order by id
+// GET api/orders
+const getAllOrders = asyncHandler(async (req, res) => {
+    res.send('Get all orders');
+});
+
 // Get logged-in orders
 // GET api/orders/myorder
 const getMyOrder = asyncHandler(async (req, res) => {
@@ -20,11 +26,18 @@ const getOrderById = asyncHandler(async (req, res) => {
 });
 
 // Update paid status of the order
-// GET api/orders/:id/pay
+// PUT api/orders/:id/pay
 
 const updateOrderPaid = asyncHandler(async (req, res) => {
     res.send('Update paid status of the order');
 });
 
+// Update delivered status of the order
+// PUT api/orders/:id/deliver
 
-export { getProducts, getProductById };
+const updateOrderDelivered = asyncHandler(async (req, res) => {
+    res.send('Update delivered status of the order');
+});
+
+
+export { addOrderItems, getAllOrders, getMyOrder, getOrderById, updateOrderDelivered, updateOrderPaid };

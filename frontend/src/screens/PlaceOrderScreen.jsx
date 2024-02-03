@@ -52,7 +52,7 @@ const PlaceOrderScreen = () => {
                         <ListGroup.Item>
                             <h2>Shipping</h2>
                             <p>
-                                <strong>Address:</strong>
+                                <strong>Address: </strong>
                                 {cart.shippingAddress.address}, {cart.shippingAddress.city},{cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
                             </p>
                         </ListGroup.Item>
@@ -60,7 +60,7 @@ const PlaceOrderScreen = () => {
                             <ListGroup.Item>
                                 <h2>Payment Method</h2>
                                 <p>
-                                    <strong>Method:</strong>
+                                    <strong>Method: </strong>
                                     {cart.paymentMethod}
                                 </p>
                             </ListGroup.Item>
@@ -71,8 +71,8 @@ const PlaceOrderScreen = () => {
                                 {cart.cartItems.length === 0 ? (
                                     <Message>Your cart is empty</Message>
                                 ) : (
-                                    <ListGroup variant="flush">{cart.cartItems.map((item) => (
-                                        <ListGroup.Item>
+                                    <ListGroup variant="flush">{cart.cartItems.map((item, index) => (
+                                        <ListGroup.Item key={index}>
                                             <Row>
                                                 <Col md={1}>
                                                     <Image src={item.image} alt={item.name} fluid rounded />
@@ -100,25 +100,25 @@ const PlaceOrderScreen = () => {
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Items:</Col>
+                                    <Col>Items</Col>
                                     <Col>${cart.itemsPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Shipping:</Col>
+                                    <Col>Shipping</Col>
                                     <Col>${cart.shippingPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Tax:</Col>
+                                    <Col>Tax</Col>
                                     <Col>${cart.taxPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Total:</Col>
+                                    <Col>Total</Col>
                                     <Col>${cart.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>

@@ -1,15 +1,47 @@
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useGetOrderDetailsQuery } from '../slices/ordersApiSlice';
+import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from '../slices/ordersApiSlice';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const OrderScreen = () => {
     const { id: orderId } = useParams();
+    const { userInfo } = useSelector((state) => state.auth);
 
     const { data: order, isLoading, error } = useGetOrderDetailsQuery(orderId);
+    const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+    const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+    const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery();
 
-    console.log(`DATA: `, order);
+    useEffect(() => {
+        if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+            const loadPaypalScript = async () => {
+                paypalDispatch({
+                    type: 'resetOptions',
+                    value: {
+                        'client-id': paypal.clientId,
+                        currency: 'CAD'
+                    }
+                });
+            };
+            paypalDispatch({
+                type: 'setLoadingStatus',
+                value: 'pending'
+            });
+
+            if (order && !order.isPaid) { //if not paid
+                if (!window.paypal) { // + check if paypal script is loaded
+                    loadPaypalScript(); // load paypal script
+                }
+            }
+        }
+    }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
+
+
 
     return isLoading ? <Loader /> :
         error ? (<Message variant='danger' />) :

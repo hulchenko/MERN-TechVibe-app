@@ -4,8 +4,6 @@ import generateToken from '../utils/generateToken.js';
 
 // Register User
 // POST /api/users/login
-// Public
-
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
     const userExists = await User.findOne({ email });
@@ -34,8 +32,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // Auth user & get token
 // POST /api/users/auth
-// Public
-
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -57,8 +53,6 @@ const authUser = asyncHandler(async (req, res) => {
 
 // Log out the user / clear cookies
 // POST /api/users/logout
-// Private
-
 const logoutUser = asyncHandler(async (req, res) => {
     res.cookie('jwt', '', {
         httpOnly: true,
@@ -69,8 +63,6 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 // Get user profile
 // GET /api/users/profile
-// Private
-
 const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
     if (user) {
@@ -89,8 +81,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 // Update user profile
 // PUT /api/users/profile <- Token will be used, :id is not required
-// Private
-
 const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
     if (user) {
@@ -116,8 +106,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 // Get users
 // GET /api/users
-// Private (admin action)
-
 const getUsers = asyncHandler(async (req, res) => {
     res.send('get all users');
 });
@@ -125,16 +113,12 @@ const getUsers = asyncHandler(async (req, res) => {
 
 // Get user by id
 // GET /api/users/:id
-// Private (admin action)
-
 const getUser = asyncHandler(async (req, res) => {
     res.send('get user by ID');
 });
 
 // Update user by id
 // PUT /api/users/:id
-// Private (admin action)
-
 const updateUser = asyncHandler(async (req, res) => {
     res.send('update user by ID');
 });
@@ -142,8 +126,6 @@ const updateUser = asyncHandler(async (req, res) => {
 
 // Delete users
 // DELETE /api/users/:id
-// Private (admin action)
-
 const deleteUser = asyncHandler(async (req, res) => {
     res.send('delete user');
 });

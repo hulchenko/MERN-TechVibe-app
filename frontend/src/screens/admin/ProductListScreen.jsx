@@ -1,10 +1,10 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Button, Col, Row, Table } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
+import { LinkContainer } from 'react-router-bootstrap';
 import { toast } from 'react-toastify';
-import { useGetProductsQuery, useCreateProductMutation } from '../../slices/productsApiSlice';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import { useCreateProductMutation, useGetProductsQuery } from '../../slices/productsApiSlice';
 
 const ProductListScreen = () => {
     const { data: products, isLoading, error, refetch } = useGetProductsQuery();

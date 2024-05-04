@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Button, Col, Form, Row, Table, } from 'react-bootstrap';
+import { FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Row, Col, Table, } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
-import { useProfileMutation } from '../slices/usersApiSlice';
+import Message from '../components/Message';
 import { setCredentials } from '../slices/authSlice';
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
-import { FaTimes } from 'react-icons/fa';
-import Message from '../components/Message';
+import { useProfileMutation } from '../slices/usersApiSlice';
 
 export const ProfileScreen = () => {
 

@@ -29,10 +29,10 @@ const upload = multer({
     storage
 });
 
-router.post('/', upload.single('uploadedImage'), (req, res) => {
+router.post('/', upload.single('image'), (req, res) => {
     res.send({
         message: 'Image Uploaded',
-        uploadedImage: `/${req.file.path}`
+        image: `/${req.file.path}`
     });
 });
 

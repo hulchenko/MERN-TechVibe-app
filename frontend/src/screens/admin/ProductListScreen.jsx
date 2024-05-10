@@ -4,15 +4,24 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { toast } from 'react-toastify';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
-import { useCreateProductMutation, useGetProductsQuery } from '../../slices/productsApiSlice';
+import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '../../slices/productsApiSlice';
 
 const ProductListScreen = () => {
     const { data: products, isLoading, error, refetch } = useGetProductsQuery();
     const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
+    const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
 
 
-    const productDeleteHandler = (productId) => {
-        console.log(`ID: `, productId);
+    const productDeleteHandler = async (productId) => {
+        if (window.confirm('Are you sure?')) {
+            try {
+                await deleteProduct(productId);
+                toast.success('Product deleted');
+                refetch();
+            } catch (error) {
+                toast.error(error?.data?.message || error.error);
+            }
+        }
     };
 
     const createProductHandler = async () => {
@@ -38,6 +47,7 @@ const ProductListScreen = () => {
             </Col>
         </Row>
         {loadingCreate && <Loader />}
+        {loadingDelete && <Loader />}
         {isLoading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
             <>
                 <Table striped hover responsive className='table-sm'>

@@ -108,7 +108,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // GET /api/users
 const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find({});
-    res.send(200).json(users);
+    console.log(`USERS: `, users);
+    res.json(users);
 });
 
 

@@ -5,6 +5,7 @@ import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import {
+    useDeleteUserMutation,
     useGetUsersQuery,
 } from '../../slices/usersApiSlice';
 import { toast } from 'react-toastify';
@@ -12,8 +13,18 @@ import { toast } from 'react-toastify';
 const UserListScreen = () => {
     const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
+    const [deleteUser] = useDeleteUserMutation();
+
     const deleteHandler = async (id) => {
-        console.log(`DELETE`);
+        if (window.confirm('Are you sure')) {
+            try {
+                await deleteUser(id);
+                toast.success('User removed');
+                refetch();
+            } catch (err) {
+                toast.error(err?.data?.message || err.error);
+            }
+        }
     };
 
     return (
@@ -41,7 +52,9 @@ const UserListScreen = () => {
                             <tr key={user._id}>
                                 <td>{user._id}</td>
                                 <td>{user.name}</td>
-                                <td>{user.email}</td>
+                                <td>
+                                    <a href={`mailto:${user.email}`}>{user.email}</a>
+                                </td>
                                 <td>
                                     {user.isAdmin ? (
                                         <FaCheck style={{ color: 'green' }} />

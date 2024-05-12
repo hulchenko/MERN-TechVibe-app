@@ -115,9 +115,9 @@ const getUsers = asyncHandler(async (req, res) => {
 // Get user by id
 // GET /api/users/:id
 const getUser = asyncHandler(async (req, res) => {
-    const user = User.findById(req.params.id).select('-password'); // return user, ignore password field
+    const user = await User.findById(req.params.id).select('-password'); // return user, ignore password field
     if (user) {
-        res.send(200).json(user);
+        res.json(user);
     } else {
         res.send(404);
         throw new Error('User not found');
@@ -127,7 +127,7 @@ const getUser = asyncHandler(async (req, res) => {
 // Update user by id
 // PUT /api/users/:id
 const updateUser = asyncHandler(async (req, res) => {
-    const user = User.findById(req.params.id);
+    const user = await User.findById(req.params.id);
     if (user) {
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
@@ -151,7 +151,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // Delete users
 // DELETE /api/users/:id
 const deleteUser = asyncHandler(async (req, res) => {
-    const user = User.findById(req.params.id);
+    const user = await User.findById(req.params.id);
     if (user) {
         if (user.isAdmin) {
             res.status(400);

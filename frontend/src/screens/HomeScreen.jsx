@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Product from '../components/Product';
+import Paginate from '../components/Paginate';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 const HomeScreen = () => {
     const { pageNum } = useParams();
+    console.log(`PAGE NUM: `, pageNum);
     const { data, isLoading, error } = useGetProductsQuery({ pageNum });
 
     return (
@@ -23,7 +25,9 @@ const HomeScreen = () => {
                             <Product product={product} />
                         </Col>
                     ))}
-                </Row></>
+                </Row>
+                <Paginate pages={data.pages} currPage={pageNum} />
+            </>
             )}
 
         </>

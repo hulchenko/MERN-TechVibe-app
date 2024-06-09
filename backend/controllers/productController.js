@@ -3,8 +3,12 @@ import Product from '../models/productModel.js';
 
 // Fetch all products -> GET /api/products
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({});
-    res.status(200).json(products);
+    const pageSize = 3;
+    const page = Number(req.query.pageNumber) || 1;
+    const count = await Product.countDocuments();
+
+    const products = await Product.find({}).limit(pageSize).skip(pageSize * (page - 1));
+    res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // Fetch a product by id -> GET /api/products/:id

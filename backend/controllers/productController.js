@@ -110,5 +110,12 @@ const createProductReview = asyncHandler(async (req, res) => {
     }
 });
 
-export { createProduct, createProductReview, deleteProduct, getProductById, getProducts, updateProduct };
+// Fetch top products -> GET /api/products/top
+const getTopProducts = asyncHandler(async (req, res) => {
+    const maxToDisplay = 3;
+    const product = await Product.find({}).sort({ rating: -1 }).limit(maxToDisplay);
+    return res.status(200).json(product);
+});
+
+export { createProduct, createProductReview, deleteProduct, getProductById, getProducts, updateProduct, getTopProducts };
 

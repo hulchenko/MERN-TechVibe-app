@@ -31,8 +31,6 @@ const ProductScreen = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(`RATING: `, rating);
-        console.log(`COMMENT: `, comment);
         try {
             await createReview({
                 productId,

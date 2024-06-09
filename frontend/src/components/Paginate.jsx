@@ -2,8 +2,6 @@ import { Pagination } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const Paginate = ({ pages, currPage, isAdmin = false }) => {
-    console.log(`PAGES: `, pages);
-    console.log(`currPage: `, currPage);
     return (
         pages > 1 && (
             <Pagination>

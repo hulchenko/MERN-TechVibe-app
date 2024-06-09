@@ -8,7 +8,6 @@ import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 const HomeScreen = () => {
     const { pageNum } = useParams();
-    console.log(`PAGE NUM: `, pageNum);
     const { data, isLoading, error } = useGetProductsQuery({ pageNum });
 
     return (
@@ -26,7 +25,7 @@ const HomeScreen = () => {
                         </Col>
                     ))}
                 </Row>
-                <Paginate pages={data.pages} currPage={pageNum} />
+                <Paginate pages={data.pages} currPage={data.page} />
             </>
             )}
 

@@ -1,7 +1,6 @@
 {
-  "name": "mern-ecommerce-platform",
+  "name": "mern-ecommerce-app",
   "version": "1.0.0",
-  "description": "ecommerce app built with the MERN stack",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -14,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hulchenko/MERN-eCommerce-Platform.git"
+    "url": "git+https://github.com/hulchenko/MERN-TechVibe-app.git"
   },
   "keywords": [
     "mern"
@@ -22,9 +21,9 @@
   "author": "Vadym Hulchenko",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hulchenko/MERN-eCommerce-Platform/issues"
+    "url": "https://github.com/hulchenko/MERN-TechVibe-app/issues"
   },
-  "homepage": "https://github.com/hulchenko/MERN-eCommerce-Platform#readme",
+  "homepage": "https://github.com/hulchenko/MERN-TechVibe-app#readme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",

@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
-import store from "./store";
+import { store } from "./store";
 
 //Components
 import App from "./App";
@@ -59,11 +59,11 @@ const router = createBrowserRouter(
   )
 );
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true}>
+      <PayPalScriptProvider options={{ clientId: "" }} deferLoading={true}>
         <RouterProvider router={router} />
       </PayPalScriptProvider>
     </Provider>

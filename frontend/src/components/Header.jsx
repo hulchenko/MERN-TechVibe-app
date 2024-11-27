@@ -1,19 +1,18 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Badge, Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { useLogoutMutation } from "../slices/usersApiSlice";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { removeCredentials } from "../slices/authSlice";
+import { useLogoutMutation } from "../slices/usersApiSlice";
 import SearchBox from "./SearchBox";
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { cartItems } = useSelector((state) => state.cart); //this will access store reducer.cart in the store.js file
-  const { userInfo } = useSelector((state) => state.auth);
+  const { cartItems } = useAppSelector((state) => state.cart); //this will access store reducer.cart in the store.js file
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   const [logoutApiCall] = useLogoutMutation();
 

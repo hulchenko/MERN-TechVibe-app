@@ -10,7 +10,6 @@ export const store = configureStore({
     auth: authSliceReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
-  devTools: true,
 });
 
 // Types for TS

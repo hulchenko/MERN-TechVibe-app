@@ -7,6 +7,8 @@ import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setCredentials } from "../slices/authSlice";
 import { useLoginMutation } from "../slices/usersApiSlice";
+import { APIError } from "../types/api-error.type";
+import { apiErrorHandler } from "../utils/errorUtils";
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
@@ -28,14 +30,14 @@ const LoginScreen = () => {
     }
   }, [userInfo, redirect, navigate]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const res = await loginApiCall({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      apiErrorHandler(error);
     }
   };
 

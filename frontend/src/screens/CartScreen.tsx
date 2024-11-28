@@ -4,17 +4,28 @@ import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { addToCart, removeFromCart } from "../slices/cartSlice";
+import { OrderItem } from "../interfaces/order-item.interface";
+import { useGetProductsQuery, useGetTopProductsQuery } from "../slices/productsApiSlice";
+import { useGetAllOrdersQuery } from "../slices/ordersApiSlice";
 
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const { data: products } = useGetTopProductsQuery(null);
+  const { data: orders } = useGetAllOrdersQuery();
 
-  const addToCartHandler = (product, qty) => {
-    dispatch(addToCart({ ...product, qty }));
+  console.log(`CART ITEMS: `, cartItems);
+  console.log(`USER INFO: `, userInfo);
+  console.log(`PRODUCTS: `, products);
+  console.log(`ORDERS: `, orders);
+
+  const addToCartHandler = (item: OrderItem, qty: number) => {
+    dispatch(addToCart({ ...item, qty }));
   };
 
-  const removeFromCartHandler = (id) => {
+  const removeFromCartHandler = (id: string) => {
     dispatch(removeFromCart(id));
   };
 
@@ -44,15 +55,17 @@ const CartScreen = () => {
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>
                     <Form.Control as="select" value={item.qty} onChange={(e) => addToCartHandler(item, Number(e.target.value))}>
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
+                      {Array(item.countInStock)
+                        .fill(0)
+                        .map((_, idx) => (
+                          <option key={idx + 1} value={idx + 1}>
+                            {idx + 1}
+                          </option>
+                        ))}
                     </Form.Control>
                   </Col>
                   <Col md={2}>
-                    <Button type="button" variant="light" onClick={() => removeFromCartHandler(item._id)}>
+                    <Button type="button" variant="light" onClick={() => removeFromCartHandler(item._id || "")}>
                       <FaTrash></FaTrash>
                     </Button>
                   </Col>

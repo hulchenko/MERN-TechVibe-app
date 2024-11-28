@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setCredentials } from "../slices/authSlice";
 import { useRegisterMutation } from "../slices/usersApiSlice";
+import { APIError } from "../types/api-error.type";
 
 const RegisterScreen = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ const RegisterScreen = () => {
     }
   }, [userInfo, redirect, navigate]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password === confirmPassword) {
       try {
@@ -39,7 +40,16 @@ const RegisterScreen = () => {
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (error) {
-        toast.error(error?.data?.message || error.error);
+        // Narrow down the type of error
+        if ((error as APIError).data) {
+          // Handle API error with data
+          toast.error((error as APIError).data.message || "An API error occurred");
+        } else if (error instanceof Error) {
+          // Handle JavaScript Error
+          toast.error(error.message);
+        } else {
+          toast.error("An unknown error occurred");
+        }
       }
     } else {
       toast.error("Passwords do not match");

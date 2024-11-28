@@ -18,7 +18,7 @@ const ShippingScreen = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
     navigate("/payment");

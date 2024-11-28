@@ -1,4 +1,4 @@
-import { Product } from "./product.interface";
+import { ProductInterface } from "./product.interface";
 
 export interface OrderItem {
   _id?: string;
@@ -6,5 +6,6 @@ export interface OrderItem {
   qty: number;
   image: string;
   price: number;
-  product: Product;
+  product: ProductInterface;
+  countInStock: number;
 }

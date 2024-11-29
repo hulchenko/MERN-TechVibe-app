@@ -8,6 +8,7 @@ import Message from "../components/Message";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { clearCartItems } from "../slices/cartSlice";
 import { useCreateOrderMutation } from "../slices/ordersApiSlice";
+import { APIError } from "../types/api-error.type";
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
@@ -123,7 +124,7 @@ const PlaceOrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
-              <ListGroup>{error && <Message variant="danger">{error}</Message>}</ListGroup>
+              <ListGroup>{error && <Message variant="danger">{(error as APIError)?.data?.message}</Message>}</ListGroup>
 
               <ListGroup.Item>
                 <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>

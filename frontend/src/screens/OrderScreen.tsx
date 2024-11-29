@@ -65,7 +65,7 @@ const OrderScreen = () => {
   };
 
   const onError = (error: Record<string, unknown>) => {
-    toast.error(`Order not paid: ${(error as APIError).data.message || error.message}`);
+    toast.error(`Order not paid: ${(error as APIError)?.data.message || error.message}`);
   };
 
   const createOrder = async (data: CreateOrderData, actions: CreateOrderActions) => {
@@ -97,7 +97,7 @@ const OrderScreen = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (error) return <Message variant="danger">{(error as APIError).data?.message}</Message>;
+  if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
   if (!order) return <p>Order not found</p>;
 
   return (

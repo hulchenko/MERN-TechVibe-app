@@ -14,7 +14,7 @@ const HomeScreen = () => {
   const { data, isLoading, error } = useGetProductsQuery({ keyword, pageNum });
 
   if (isLoading) return <Loader />;
-  if (error) return <Message variant="danger">{(error as APIError).data?.message}</Message>;
+  if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
 
   return (
     <>

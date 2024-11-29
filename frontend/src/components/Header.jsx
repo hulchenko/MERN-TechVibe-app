@@ -3,7 +3,7 @@ import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { removeCredentials } from "../slices/authSlice";
+import { clearCredentials } from "../slices/authSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import SearchBox from "./SearchBox";
 import { resetCart } from "../slices/cartSlice";
@@ -20,7 +20,7 @@ const Header = () => {
   const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
-      dispatch(removeCredentials());
+      dispatch(clearCredentials());
       dispatch(resetCart());
       navigate("/login");
     } catch (error) {

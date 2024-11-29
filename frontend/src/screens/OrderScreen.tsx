@@ -19,35 +19,30 @@ const OrderScreen = () => {
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
 
+  // PayPal init
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery();
 
   useEffect(() => {
     if (!errorPayPal && !loadingPayPal && paypal?.clientId) {
       const loadPaypalScript = async () => {
+        const { clientId } = paypal;
         paypalDispatch({
           type: "resetOptions",
           value: {
-            clientId: paypal.clientId, // key used to be "client-id"
+            clientId, // key used to be "client-id"
             currency: "CAD",
-            state: SCRIPT_LOADING_STATE.PENDING,
           },
         });
       };
       paypalDispatch({
         type: "setLoadingStatus",
-        value: {
-          state: SCRIPT_LOADING_STATE.PENDING,
-          message: "",
-        },
+        value: SCRIPT_LOADING_STATE.PENDING,
       });
 
-      if (order && !order.isPaid) {
-        //if not paid
-        if (!window.paypal) {
-          // + check if paypal script is loaded
-          loadPaypalScript(); // load paypal script
-        }
+      if (order && !order.isPaid && !window.paypal) {
+        // check if paypal script is not loaded on not paid order
+        loadPaypalScript();
       }
     }
   }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);

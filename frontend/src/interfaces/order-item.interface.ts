@@ -1,6 +1,6 @@
 import { ProductInterface } from "./product.interface";
 
-export interface OrderItem {
+export interface OrderItemInterface {
   _id?: string;
   name: string;
   qty: number;

@@ -1,14 +1,13 @@
 export interface UserInterface {
-  _id?: string;
   name: string;
   email: string;
   isAdmin: boolean;
+  _id?: string;
+  userId?: string;
 }
 
-// TODO
-// {
-//     "_id": "67464b505dd30ccbce686c57",
-//     "name": "Admin User",
-//     "email": "admin@example.com",
-//     "isAdmin": true
-// }
+export interface UserAuth {
+  name?: string;
+  email: string;
+  password: string;
+}

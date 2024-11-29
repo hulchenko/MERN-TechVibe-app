@@ -1,10 +1,11 @@
 import { UserInterface } from "./user.interface";
 
-export interface Review {
-  _id?: string;
-  user: UserInterface;
-  name: string;
+export interface ReviewInterface {
   rating: number;
   comment: string;
-  createdAt: string;
+  _id?: string;
+  productId?: string;
+  user?: UserInterface;
+  name?: string;
+  createdAt?: string;
 }

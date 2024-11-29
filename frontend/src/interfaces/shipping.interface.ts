@@ -1,4 +1,4 @@
-export interface Shipping {
+export interface ShippingInterface {
   address: string;
   city: string;
   postalCode: string;

@@ -1,4 +1,4 @@
-export interface PaymentResult {
+export interface PaymentResultInterface {
   id: string;
   status: string;
   updateTime: string;

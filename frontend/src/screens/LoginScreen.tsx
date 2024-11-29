@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setCredentials } from "../slices/authSlice";
 import { useLoginMutation } from "../slices/usersApiSlice";
-import { APIError } from "../types/api-error.type";
 import { apiErrorHandler } from "../utils/errorUtils";
 
 const LoginScreen = () => {

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { removeCredentials } from "../slices/authSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import SearchBox from "./SearchBox";
+import { resetCart } from "../slices/cartSlice";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(removeCredentials());
+      dispatch(resetCart());
       navigate("/login");
     } catch (error) {
       console.error(`Error occured: ${error}`);

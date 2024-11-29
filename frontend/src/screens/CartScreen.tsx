@@ -3,23 +3,13 @@ import { FaTrash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { addToCart, removeFromCart } from "../slices/cartSlice";
 import { OrderItem } from "../interfaces/order-item.interface";
-import { useGetProductsQuery, useGetTopProductsQuery } from "../slices/productsApiSlice";
-import { useGetAllOrdersQuery } from "../slices/ordersApiSlice";
+import { addToCart, removeFromCart } from "../slices/cartSlice";
 
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
-  const { userInfo } = useAppSelector((state) => state.auth);
-  const { data: products } = useGetTopProductsQuery(null);
-  const { data: orders } = useGetAllOrdersQuery();
-
-  console.log(`CART ITEMS: `, cartItems);
-  console.log(`USER INFO: `, userInfo);
-  console.log(`PRODUCTS: `, products);
-  console.log(`ORDERS: `, orders);
 
   const addToCartHandler = (item: OrderItem, qty: number) => {
     dispatch(addToCart({ ...item, qty }));

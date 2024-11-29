@@ -10,7 +10,7 @@ import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery
 import { apiErrorHandler } from "../../utils/errorUtils";
 
 const ProductListScreen = () => {
-  const { pageNum } = useParams();
+  const { pageNum = "0" } = useParams();
   const { data, isLoading, error, refetch } = useGetProductsQuery({ pageNum });
   const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
@@ -30,7 +30,7 @@ const ProductListScreen = () => {
   const createProductHandler = async () => {
     if (window.confirm("Create a new product?")) {
       try {
-        await createProduct(null);
+        await createProduct();
         refetch();
       } catch (error) {
         apiErrorHandler(error);
@@ -70,7 +70,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data.products.map((product: ProductInterface) => (
+              {data?.products?.map((product: ProductInterface) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
@@ -91,7 +91,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
-          <Paginate pages={data.pages} currPage={data.page} />
+          <Paginate pages={data?.pages} currPage={data?.page} />
         </>
       )}
     </>

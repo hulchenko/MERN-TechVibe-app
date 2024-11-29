@@ -1,9 +1,13 @@
 import { PRODUCTS_URL, UPLOAD_URL } from "../constants";
+import { ProductInterface, ProductPaginationRes } from "../interfaces/product.interface";
+import { ReviewInterface } from "../interfaces/review.interface";
+import { UploadImageRes } from "../types/upload-image-response.type";
 import { apiSlice } from "./apiSlice";
+import { FilterParams } from "../types/filter-params.type";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
+    getProducts: builder.query<ProductPaginationRes, FilterParams>({
       query: ({ pageNum, keyword }) => ({
         url: PRODUCTS_URL,
         params: {
@@ -14,21 +18,21 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Product"],
     }),
-    getProductDetails: builder.query({
+    getProductDetails: builder.query<ProductInterface, string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Product"],
     }),
-    createProduct: builder.mutation({
+    createProduct: builder.mutation<ProductInterface, void>({
       query: () => ({
         url: PRODUCTS_URL,
         method: "POST",
       }),
       invalidatesTags: ["Product"],
     }),
-    updateProduct: builder.mutation({
+    updateProduct: builder.mutation<ProductInterface, ProductInterface>({
       query: (data) => ({
         url: `${PRODUCTS_URL}/${data.productId}`,
         method: "PUT",
@@ -36,7 +40,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
-    uploadProductImage: builder.mutation({
+    uploadProductImage: builder.mutation<UploadImageRes, FormData>({
       query: (data) => ({
         url: `${UPLOAD_URL}`,
         method: "POST",
@@ -44,14 +48,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
-    deleteProduct: builder.mutation({
+    deleteProduct: builder.mutation<void, string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Product"],
     }),
-    createReview: builder.mutation({
+    createReview: builder.mutation<void, ReviewInterface>({
       query: (data) => ({
         url: `${PRODUCTS_URL}/${data.productId}/reviews`,
         method: "POST",
@@ -59,7 +63,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
-    getTopProducts: builder.query({
+    getTopProducts: builder.query<ProductInterface[], void>({
+      // top products for carousel view
       query: () => ({
         url: `${PRODUCTS_URL}/top`,
       }),

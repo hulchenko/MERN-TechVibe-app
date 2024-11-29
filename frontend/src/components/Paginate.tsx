@@ -1,7 +1,7 @@
 import { Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Paginate = ({ pages, currPage, isAdmin = false, keyword = "" }) => {
+const Paginate = ({ pages = 0, currPage = 0, isAdmin = false, keyword = "" }) => {
   if (pages > 1) return null;
 
   return (

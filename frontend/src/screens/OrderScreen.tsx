@@ -54,6 +54,7 @@ const OrderScreen = () => {
     }
 
     return actions.order.capture().then(async (details) => {
+      console.log(`DETAILS: `, details);
       try {
         await payOrder({ orderId, details });
         refetch();

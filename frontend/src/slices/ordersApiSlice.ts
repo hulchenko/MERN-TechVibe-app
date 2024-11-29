@@ -1,24 +1,25 @@
-import { apiSlice } from "./apiSlice";
+import { OrderResponseBody } from "@paypal/paypal-js";
 import { ORDERS_URL, PAYPAL_URL } from "../constants";
 import { OrderInterface } from "../interfaces/order.interface";
 import { PayPalClientId } from "../types/paypal-client.type";
+import { apiSlice } from "./apiSlice";
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutation({
+    createOrder: builder.mutation<OrderInterface, any>({
       query: (order) => ({
         url: ORDERS_URL,
         method: "POST",
         body: { ...order },
       }),
     }),
-    getOrderDetails: builder.query<OrderInterface, any>({
+    getOrderDetails: builder.query<OrderInterface, string>({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    payOrder: builder.mutation({
+    payOrder: builder.mutation<OrderInterface, { orderId: string; details: OrderResponseBody }>({
       query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT",

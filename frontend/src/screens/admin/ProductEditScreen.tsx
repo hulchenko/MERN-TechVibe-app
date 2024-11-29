@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import FormContainer from "../../components/FormContainer";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
+import { ProductInterface } from "../../interfaces/product.interface";
 import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from "../../slices/productsApiSlice";
 import { APIError } from "../../types/api-error.type";
 import { apiErrorHandler } from "../../utils/errorUtils";
@@ -20,7 +21,7 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
 
-  const { data: product, isLoading, refetch, error: getProductError } = useGetProductDetailsQuery(productId);
+  const { data: product, isLoading, error: getProductError } = useGetProductDetailsQuery(productId || "");
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
   const [uploadProductImage] = useUploadProductImageMutation();
 
@@ -40,7 +41,7 @@ const ProductEditScreen = () => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedProduct = {
+    const updatedProduct: ProductInterface = {
       productId,
       name,
       price,

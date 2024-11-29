@@ -10,7 +10,7 @@ import { APIError } from "../../types/api-error.type";
 import { apiErrorHandler } from "../../utils/errorUtils";
 
 const UserListScreen = () => {
-  const { data: users, refetch, isLoading, error } = useGetUsersQuery(null);
+  const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
   const [deleteUser] = useDeleteUserMutation();
 
@@ -43,30 +43,31 @@ const UserListScreen = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user: UserInterface) => (
-            <tr key={user._id}>
-              <td>{user._id}</td>
-              <td>{user.name}</td>
-              <td>
-                <a href={`mailto:${user.email}`}>{user.email}</a>
-              </td>
-              <td>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</td>
-              <td>
-                {!user.isAdmin && (
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Nav.Link as={Link} to={`/admin/user/${user._id}/edit`} style={{ marginRight: "10px" }}>
-                      <Button variant="light" className="btn-sm">
-                        <FaEdit />
+          {users &&
+            users.map((user: UserInterface) => (
+              <tr key={user._id}>
+                <td>{user._id}</td>
+                <td>{user.name}</td>
+                <td>
+                  <a href={`mailto:${user.email}`}>{user.email}</a>
+                </td>
+                <td>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</td>
+                <td>
+                  {!user.isAdmin && (
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <Nav.Link as={Link} to={`/admin/user/${user._id}/edit`} style={{ marginRight: "10px" }}>
+                        <Button variant="light" className="btn-sm">
+                          <FaEdit />
+                        </Button>
+                      </Nav.Link>
+                      <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id || "")}>
+                        <FaTrash style={{ color: "white" }} />
                       </Button>
-                    </Nav.Link>
-                    <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id || "")}>
-                      <FaTrash style={{ color: "white" }} />
-                    </Button>
-                  </div>
-                )}
-              </td>
-            </tr>
-          ))}
+                    </div>
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </>

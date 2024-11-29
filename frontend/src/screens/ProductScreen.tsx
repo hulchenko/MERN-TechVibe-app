@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { Review } from "../interfaces/review.interface";
+import { ReviewInterface } from "../interfaces/review.interface";
 import { addToCart } from "../slices/cartSlice";
 import { useCreateReviewMutation, useGetProductDetailsQuery } from "../slices/productsApiSlice";
 import { APIError } from "../types/api-error.type";
@@ -22,7 +22,7 @@ const ProductScreen = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
-  const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
+  const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId || "");
   const [createReview, { isLoading: loadingReview }] = useCreateReviewMutation();
 
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -51,6 +51,7 @@ const ProductScreen = () => {
 
   if (isLoading) return <Loader />;
   if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
+  if (!product) return <p>Product not found</p>;
 
   return (
     <>
@@ -65,7 +66,7 @@ const ProductScreen = () => {
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <Rating value={product.rating} text={`${product.numReviews} reviews`} />
+              <Rating value={product.rating || 0} text={`${product.numReviews} reviews`} />
             </ListGroup.Item>
             <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
             <ListGroup.Item>Description: {product.description}</ListGroup.Item>
@@ -121,16 +122,17 @@ const ProductScreen = () => {
         <Col md={6}>
           <br />
           <h2>Reviews</h2>
-          {product.reviews.length === 0 && <Message>No Reviews</Message>}
+          {product?.reviews?.length === 0 && <Message>No Reviews</Message>}
           <ListGroup variant="flush">
-            {product.reviews.map((review: Review) => (
-              <ListGroup.Item key={review._id}>
-                <strong>{review.name}</strong>
-                <Rating value={review.rating} text={""} />
-                <p>{review.createdAt.substring(0, 10)}</p>
-                <p>{review.comment}</p>
-              </ListGroup.Item>
-            ))}
+            {product.reviews &&
+              product.reviews.map((review: ReviewInterface) => (
+                <ListGroup.Item key={review._id}>
+                  <strong>{review.name}</strong>
+                  <Rating value={review.rating} text={""} />
+                  <p>{review?.createdAt?.substring(0, 10)}</p>
+                  <p>{review.comment}</p>
+                </ListGroup.Item>
+              ))}
             <ListGroup.Item>
               <h2>Write a Customer Review</h2>
 

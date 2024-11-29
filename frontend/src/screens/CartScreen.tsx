@@ -3,7 +3,7 @@ import { FaTrash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { OrderItem } from "../interfaces/order-item.interface";
+import { OrderItemInterface } from "../interfaces/order-item.interface";
 import { addToCart, removeFromCart } from "../slices/cartSlice";
 
 const CartScreen = () => {
@@ -11,7 +11,7 @@ const CartScreen = () => {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
 
-  const addToCartHandler = (item: OrderItem, qty: number) => {
+  const addToCartHandler = (item: OrderItemInterface, qty: number) => {
     dispatch(addToCart({ ...item, qty }));
   };
 

@@ -10,7 +10,7 @@ import { ProductInterface } from "../interfaces/product.interface";
 import { APIError } from "../types/api-error.type";
 
 const HomeScreen = () => {
-  const { pageNum, keyword } = useParams();
+  const { pageNum = "0", keyword = "" } = useParams();
   const { data, isLoading, error } = useGetProductsQuery({ keyword, pageNum });
 
   if (isLoading) return <Loader />;
@@ -27,13 +27,13 @@ const HomeScreen = () => {
       )}
       <h1>Latest Products</h1>
       <Row>
-        {data.products.map((product: ProductInterface) => (
+        {data?.products?.map((product: ProductInterface) => (
           <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
             <Product product={product} />
           </Col>
         ))}
       </Row>
-      <Paginate pages={data.pages} currPage={data.page} keyword={keyword} />
+      <Paginate pages={data?.pages} currPage={data?.page} keyword={keyword} />
     </>
   );
 };

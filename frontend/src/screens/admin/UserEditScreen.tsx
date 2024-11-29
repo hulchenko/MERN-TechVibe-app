@@ -15,7 +15,7 @@ const UserEditScreen = () => {
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const { data: user, isLoading, refetch, error } = useGetUserDetailsQuery(userId);
+  const { data: user, isLoading, refetch, error } = useGetUserDetailsQuery(userId || "");
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
 
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const UserEditScreen = () => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
-      setIsAdmin(user.isAdmin);
+      setIsAdmin(user.isAdmin || false);
     }
   }, [user]);
 

@@ -36,10 +36,10 @@ const UserListScreen = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>NAME</th>
-            <th>EMAIL</th>
-            <th>ADMIN</th>
-            <th>ACTIONS</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Admin</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -53,7 +53,7 @@ const UserListScreen = () => {
               <td>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</td>
               <td>
                 {!user.isAdmin && (
-                  <>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
                     <Nav.Link as={Link} to={`/admin/user/${user._id}/edit`} style={{ marginRight: "10px" }}>
                       <Button variant="light" className="btn-sm">
                         <FaEdit />
@@ -62,7 +62,7 @@ const UserListScreen = () => {
                     <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id || "")}>
                       <FaTrash style={{ color: "white" }} />
                     </Button>
-                  </>
+                  </div>
                 )}
               </td>
             </tr>

@@ -62,11 +62,11 @@ const ProductListScreen = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
-                <th></th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -77,7 +77,7 @@ const ProductListScreen = () => {
                   <td>${product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
-                  <td>
+                  <td style={{ display: "flex", justifyContent: "center" }}>
                     <Nav.Link as={Link} to={`/admin/product/${product._id}/edit`}>
                       <Button className="btn-sm mx-2">
                         <FaEdit />

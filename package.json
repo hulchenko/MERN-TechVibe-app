@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hulchenko/MERN-BookStore-app.git"
+    "url": "git+https://github.com/hulchenko/MERN-bookstore.git"
   },
   "keywords": [
     "mern"
@@ -19,9 +19,9 @@
   "author": "Vadym Hulchenko",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hulchenko/MERN-BookStore-app/issues"
+    "url": "https://github.com/hulchenko/MERN-bookstore/issues"
   },
-  "homepage": "https://github.com/hulchenko/MERN-BookStore-app#readme",
+  "homepage": "https://github.com/hulchenko/MERN-bookstore#readme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",

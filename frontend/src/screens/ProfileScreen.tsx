@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, Nav, Row, Table } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
-import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -105,9 +105,9 @@ export const ProfileScreen = () => {
                   <td>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
                   <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
                   <td>
-                    <LinkContainer to={`/order/${order._id}`}>
+                    <Nav.Link as={Link} to={`/order/${order._id}`}>
                       <Button className="btn-sm">Details</Button>
-                    </LinkContainer>
+                    </Nav.Link>
                   </td>
                 </tr>
               ))

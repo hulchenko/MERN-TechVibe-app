@@ -1,13 +1,12 @@
-import React from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
-import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
-import Message from "../../components/Message";
-import Loader from "../../components/Loader";
-import { useDeleteUserMutation, useGetUsersQuery } from "../../slices/usersApiSlice";
+import { Button, Nav, Table } from "react-bootstrap";
+import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { APIError } from "../../types/api-error.type";
+import Loader from "../../components/Loader";
+import Message from "../../components/Message";
 import { UserInterface } from "../../interfaces/user.interface";
+import { useDeleteUserMutation, useGetUsersQuery } from "../../slices/usersApiSlice";
+import { APIError } from "../../types/api-error.type";
 import { apiErrorHandler } from "../../utils/errorUtils";
 
 const UserListScreen = () => {
@@ -55,11 +54,11 @@ const UserListScreen = () => {
               <td>
                 {!user.isAdmin && (
                   <>
-                    <LinkContainer to={`/admin/user/${user._id}/edit`} style={{ marginRight: "10px" }}>
+                    <Nav.Link as={Link} to={`/admin/user/${user._id}/edit`} style={{ marginRight: "10px" }}>
                       <Button variant="light" className="btn-sm">
                         <FaEdit />
                       </Button>
-                    </LinkContainer>
+                    </Nav.Link>
                     <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id || "")}>
                       <FaTrash style={{ color: "white" }} />
                     </Button>

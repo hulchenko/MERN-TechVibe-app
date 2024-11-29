@@ -1,14 +1,13 @@
-import { Button, Col, Row, Table } from "react-bootstrap";
+import { Button, Col, Nav, Row, Table } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { LinkContainer } from "react-router-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from "../../slices/productsApiSlice";
 import Paginate from "../../components/Paginate";
-import { apiErrorHandler } from "../../utils/errorUtils";
 import { ProductInterface } from "../../interfaces/product.interface";
+import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from "../../slices/productsApiSlice";
+import { apiErrorHandler } from "../../utils/errorUtils";
 
 const ProductListScreen = () => {
   const { pageNum } = useParams();
@@ -79,11 +78,11 @@ const ProductListScreen = () => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                    <Nav.Link as={Link} to={`/admin/product/${product._id}/edit`}>
                       <Button className="btn-sm mx-2">
                         <FaEdit />
                       </Button>
-                    </LinkContainer>
+                    </Nav.Link>
                     <Button variant="danger" className="btn-sm" onClick={() => productDeleteHandler(product._id || "")}>
                       <FaTrash style={{ color: "white" }} />
                     </Button>

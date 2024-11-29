@@ -1,19 +1,23 @@
 import { Pagination } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 
 const Paginate = ({ pages, currPage, isAdmin = false, keyword = "" }) => {
   if (pages > 1) return null;
 
   return (
     <Pagination>
-      {[...Array(pages).keys()].map((page) => (
-        <LinkContainer
-          key={page + 1}
-          to={!isAdmin ? (keyword ? `/search/${keyword}/page/${page + 1}` : `/page/${page + 1}`) : `/admin/productList/${page + 1}`}
-        >
-          <Pagination.Item active={page + 1 === currPage}>{page + 1}</Pagination.Item>
-        </LinkContainer>
-      ))}
+      {Array(pages)
+        .fill(0)
+        .map((_, idx) => (
+          <Pagination.Item
+            active={idx + 1 === currPage}
+            as={Link}
+            key={idx + 1}
+            to={!isAdmin ? (keyword ? `/search/${keyword}/page/${idx + 1}` : `/page/${idx + 1}`) : `/admin/productList/${idx + 1}`}
+          >
+            {idx + 1}
+          </Pagination.Item>
+        ))}
     </Pagination>
   );
 };

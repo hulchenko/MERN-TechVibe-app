@@ -13,7 +13,7 @@ const Paginate = ({ pages = 0, currPage = 0, isAdmin = false, keyword = "" }) =>
           <Pagination.Item
             active={idx + 1 === currPage}
             key={idx + 1}
-            onClick={() => navigate(!isAdmin ? (keyword ? `/search/${keyword}/page/${idx + 1}` : `/page/${idx + 1}`) : `/admin/productList/${idx + 1}`)}
+            onClick={() => navigate(!isAdmin ? (keyword ? `/search/${keyword}/page/${idx + 1}` : `/page/${idx + 1}`) : `/admin/productlist/${idx + 1}`)}
           >
             {idx + 1}
           </Pagination.Item>

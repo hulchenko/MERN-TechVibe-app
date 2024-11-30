@@ -91,7 +91,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
-          <Paginate pages={data?.pages} currPage={data?.page} />
+          <Paginate pages={data?.pages} currPage={data?.page} isAdmin={true} />
         </>
       )}
     </>

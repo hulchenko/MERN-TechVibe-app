@@ -46,21 +46,23 @@ const Header = () => {
                   </Badge>
                 )}
               </Nav.Link>
-              {userInfo && userInfo.isAdmin && (
-                <NavDropdown title="Admin Actions" id="adminmenu">
-                  <NavDropdown.Item as={Link} to="/admin/orderlist">
-                    Orders
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/admin/userlist">
-                    Users
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/admin/productlist">
-                    Products
-                  </NavDropdown.Item>
-                </NavDropdown>
-              )}
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
+                  {userInfo.isAdmin && (
+                    // Additional admin actions
+                    <>
+                      <NavDropdown.Item as={Link} to="/admin/orderlist">
+                        Orders
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/admin/userlist">
+                        Users
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/admin/productlist">
+                        Products
+                      </NavDropdown.Item>
+                      <hr style={{ margin: "0.25rem" }} />
+                    </>
+                  )}
                   <NavDropdown.Item as={Link} to="/profile">
                     Profile
                   </NavDropdown.Item>

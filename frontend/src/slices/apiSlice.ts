@@ -6,7 +6,7 @@ import { clearCredentials } from "./authSlice";
 
 const baseQuery = fetchBaseQuery({ baseUrl: BASE_URL });
 
-const queryAuthCheck: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta> = async (args, api, options) => {
+const baseQueryAuthMiddleware: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta> = async (args, api, options) => {
   // kick unauthorized user out on error
   const result = await baseQuery(args, api, options);
   if (result.error && result.error.status === 401) {
@@ -16,7 +16,7 @@ const queryAuthCheck: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryErr
 };
 
 export const apiSlice = createApi({
-  baseQuery: queryAuthCheck,
+  baseQuery: baseQueryAuthMiddleware,
   tagTypes: ["Product", "Order", "User"],
   endpoints: (builder) => ({}),
 });

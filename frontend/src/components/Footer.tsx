@@ -1,5 +1,4 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -8,7 +7,7 @@ const Footer = () => {
       <Container>
         <Row>
           <Col className="text-center py-3">
-            <p>BookStore &copy; {year}</p>
+            <p>&copy; {year}</p>
           </Col>
         </Row>
       </Container>

@@ -6,6 +6,8 @@ import { clearCredentials } from "../slices/authSlice";
 import { resetCart } from "../slices/cartSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import SearchBox from "./SearchBox";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +34,7 @@ const Header = () => {
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
           <Navbar.Brand as={Link} to="/">
-            BookStore
+            <FontAwesomeIcon icon={faBook} /> BookStore
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>

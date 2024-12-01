@@ -1,12 +1,10 @@
-import { Link } from "react-router-dom";
 import { Carousel, Image } from "react-bootstrap";
-import Loader from "./Loader";
-import Message from "./Message";
+import { Link } from "react-router-dom";
+import { ProductInterface } from "../interfaces/product.interface";
 import { useGetTopProductsQuery } from "../slices/productsApiSlice";
 import { APIError } from "../types/api-error.type";
-import { ProductInterface } from "../interfaces/product.interface";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loader from "./Loader";
+import Message from "./Message";
 
 const ProductCarousel = () => {
   const carouselCaption: React.CSSProperties = {

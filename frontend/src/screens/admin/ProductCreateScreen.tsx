@@ -11,13 +11,11 @@ import Loader from "../../components/Loader";
 import { APIError } from "../../types/api-error.type";
 
 const ProductCreateScreen = () => {
-  // validate the form fields
-
   const navigate = useNavigate();
   const [product, setProduct] = useState<ProductInterface>({
     name: "",
     price: "",
-    image: "",
+    image: "/images/no-image.png", // default
     genre: "",
     countInStock: 1,
     description: "",
@@ -40,9 +38,7 @@ const ProductCreateScreen = () => {
     const { files } = e.target;
     const formData = new FormData();
     const fileToUpload = files ? files[0] : "";
-    console.log(`form data before: `, formData);
     formData.append("image", fileToUpload);
-    console.log(`form data after: `, formData);
     try {
       const res = await uploadProductImage(formData).unwrap();
       toast.success(res.message);

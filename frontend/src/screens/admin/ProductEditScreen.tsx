@@ -17,9 +17,9 @@ const ProductEditScreen = () => {
     productId: "",
     name: "",
     price: "",
-    image: "",
+    image: "/images/no-image.png", // default
     genre: "",
-    countInStock: 0,
+    countInStock: 1,
     description: "",
   });
   const { data: initProduct, isLoading, error: getProductError } = useGetProductDetailsQuery(productId || "");

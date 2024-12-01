@@ -13,7 +13,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { cartItems } = useAppSelector((state) => state.cart); //this will access store reducer.cart in the store.js file
+  const { cartItems } = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.auth);
 
   const [logoutApiCall] = useLogoutMutation();

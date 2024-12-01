@@ -25,7 +25,7 @@ const ProductCarousel = () => {
   return (
     <>
       <h4 style={{ width: "100%", background: "goldenrod", color: "white", margin: "0", padding: "0.25rem", textAlign: "center", fontWeight: "lighter" }}>
-        <FontAwesomeIcon size="2xs" icon={faStar} /> Our Bestsellers <FontAwesomeIcon size="2xs" icon={faStar} />
+        Highest Rated Products
       </h4>
       <Carousel pause="hover" className="bg-primary mb-4">
         {products &&

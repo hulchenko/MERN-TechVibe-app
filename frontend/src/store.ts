@@ -9,7 +9,7 @@ export const store = configureStore({
     cart: cartSliceReducer,
     auth: authSliceReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware), // a must configuration for RTK query
 });
 
 // Types for TS

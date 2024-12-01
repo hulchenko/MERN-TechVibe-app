@@ -31,7 +31,6 @@ function fileFilter(req, file, cb) {
 const upload = multer({
   storage,
   fileFilter,
-  // dest: "uploads/", // alternative
 });
 
 router.post("/", (req, res) => {

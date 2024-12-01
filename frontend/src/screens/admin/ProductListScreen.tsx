@@ -1,18 +1,18 @@
 import { Button, Col, Nav, Row, Table } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import Paginate from "../../components/Paginate";
 import { ProductInterface } from "../../interfaces/product.interface";
-import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from "../../slices/productsApiSlice";
+import { useDeleteProductMutation, useGetProductsQuery } from "../../slices/productsApiSlice";
 import { apiErrorHandler } from "../../utils/errorUtils";
 
 const ProductListScreen = () => {
+  const navigate = useNavigate();
   const { pageNum = "0" } = useParams();
   const { data, isLoading, error, refetch } = useGetProductsQuery({ pageNum });
-  const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
 
   const productDeleteHandler = async (productId: string) => {
@@ -27,17 +27,6 @@ const ProductListScreen = () => {
     }
   };
 
-  const createProductHandler = async () => {
-    if (window.confirm("Create a new product?")) {
-      try {
-        await createProduct();
-        refetch();
-      } catch (error) {
-        apiErrorHandler(error);
-      }
-    }
-  };
-
   return (
     <>
       <Row className="align-items-center">
@@ -45,12 +34,11 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="btn-sm m-3" onClick={() => createProductHandler()}>
+          <Button className="btn-sm m-3" onClick={() => navigate("/admin/product/create")}>
             <FaEdit /> Create Product
           </Button>
         </Col>
       </Row>
-      {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
@@ -64,8 +52,7 @@ const ProductListScreen = () => {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Category</th>
-                <th>Brand</th>
+                <th>Genre</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -75,8 +62,7 @@ const ProductListScreen = () => {
                   <td>{product._id}</td>
                   <td>{product.name}</td>
                   <td>${product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
+                  <td>{product.genre}</td>
                   <td style={{ display: "flex", justifyContent: "center" }}>
                     <Nav.Link as={Link} to={`/admin/product/${product._id}/edit`}>
                       <Button className="btn-sm mx-2">

@@ -4,8 +4,7 @@ import { UserInterface } from "./user.interface";
 export interface ProductInterface {
   name: string;
   image: string;
-  brand: string;
-  category: string;
+  genre: string;
   description: string;
   price: string;
   countInStock: number;

@@ -3,7 +3,7 @@ import Product from "../models/productModel.js";
 
 const getProducts = asyncHandler(async (req, res) => {
   // Pagination params
-  const pageSize = 5;
+  const pageSize = 10;
   const page = Number(req.query.pageNum) || 1;
 
   // Search params
@@ -104,7 +104,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
 const getTopProducts = asyncHandler(async (req, res) => {
   // highest rating products for carousel view
-  const maxToDisplay = 3;
+  const maxToDisplay = 5;
   const product = await Product.find({}).sort({ rating: -1 }).limit(maxToDisplay);
   return res.status(200).json(product);
 });

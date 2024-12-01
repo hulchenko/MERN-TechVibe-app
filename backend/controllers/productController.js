@@ -28,31 +28,29 @@ const getProductById = asyncHandler(async (req, res) => {
 
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
-    name: "Default name",
-    price: 0,
+    ...req.body,
     user: req.user._id,
-    image: "/images/default.jpg",
-    brand: "Default brand",
-    category: "Default category",
-    countIntStock: 0,
     numReviews: 0,
-    description: "Default description",
   });
 
-  const createdProduct = await product.save();
-  res.status(201).json(createdProduct);
+  if (product) {
+    const createdProduct = await product.save();
+    res.status(201).json(createdProduct);
+  } else {
+    res.status(400);
+    throw new Error("Product was not provided");
+  }
 });
 
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, price, image, brand, category, countInStock, description } = req.body;
+  const { name, price, image, genre, countInStock, description } = req.body;
   const productId = req.params.id;
   const product = await Product.findById(productId);
   if (product) {
     product.name = name;
     product.price = price;
     product.image = image;
-    product.brand = brand;
-    product.category = category;
+    product.genre = genre;
     product.countInStock = countInStock;
     product.description = description;
   } else {

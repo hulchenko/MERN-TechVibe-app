@@ -1,48 +1,24 @@
-main {
-  min-height: 80vh;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-.rating span {
-  margin: 0.1rem;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.rating svg {
-  color: #f8e825;
+* {
+  box-sizing: border-box;
 }
 
-.rating-text {
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding-left: 0.5rem;
-}
-
-.product-title {
-  height: 2.5em;
-  /* Set a fixed height */
-  overflow: hidden;
-  /* Hide overflow content */
-  text-overflow: ellipsis;
-  /* Add ellipsis for long text */
-  white-space: nowrap;
-  /* Prevent wrapping */
-}
-
-table td,
-table th {
-  text-align: center;
-}
-
-.review {
-  margin-top: 30px;
-}
-
-.review h2 {
-  font-size: 24px;
-  background: #f4f4f4;
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-
-.review button {
-  margin-top: 10px;
+/* Rating */
+.text-amber-span span {
+  @apply text-amber-400;
 }

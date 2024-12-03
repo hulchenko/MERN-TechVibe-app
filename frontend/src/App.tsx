@@ -1,19 +1,19 @@
-import { Container } from "react-bootstrap";
-import { Outlet } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { NextUIProvider } from "@nextui-org/react";
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 const App = () => {
   return (
     <>
       <Header />
-      <main className="py-3">
-        <Container>
+      <NextUIProvider>
+        <main className="light text-foreground bg-background px-96">
           <Outlet />
-        </Container>
-      </main>
+        </main>
+      </NextUIProvider>
       <Footer />
       <ToastContainer />
     </>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Form, Nav, Row, Table } from "react-bootstrap";
+import { Button, Card, Table, Input, TableHeader, TableColumn, TableBody, TableCell, TableRow } from "@nextui-org/react";
+
 import { FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -17,6 +18,8 @@ export const ProfileScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -49,72 +52,65 @@ export const ProfileScreen = () => {
   if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
 
   return (
-    <Row>
-      <Col md={3}>
+    <div className="flex">
+      <Card>
         <h2>User Profile</h2>
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name" className="my-2">
-            <Form.Label>Name</Form.Label>
-            <Form.Control type="name" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="email" className="my-2">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="password" className="my-2">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="confirmPassword" className="my-2">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Button type="submit" variant="primary" className="my-2">
+        <form onSubmit={submitHandler}>
+          <Input type="text" label="Name" labelPlacement={"outside"} placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
+          <Input type="email" label="Email" labelPlacement={"outside"} placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input
+            type="password"
+            label="Password"
+            labelPlacement={"outside"}
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Input
+            type="password"
+            label="Confirm password"
+            labelPlacement={"outside"}
+            placeholder="Enter password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Button type="submit" color="primary" className="my-2">
             Update
           </Button>
           {loadingUpdateProfile && <Loader />}
-        </Form>
-      </Col>
-      <Col md={9}>
+        </form>
+      </Card>
+      <Card>
         <h2> My Orders</h2>
-        <Table striped bordered hover responsive className="table-sm">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders && orders.length === 0 ? (
-              <p>No orders found</p>
-            ) : (
-              orders &&
+        <Table>
+          <TableHeader>
+            <TableColumn>ID</TableColumn>
+            <TableColumn>Date</TableColumn>
+            <TableColumn>Total</TableColumn>
+            <TableColumn>Paid</TableColumn>
+            <TableColumn>Delivered</TableColumn>
+            <TableColumn>{""}</TableColumn>
+          </TableHeader>
+          <TableBody emptyContent={"No orders found."}>
+            {(orders &&
               orders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
-                  <td>{order.createdAt?.substring(0, 10)}</td>
-                  <td>{order.totalPrice}</td>
-                  <td>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
-                  <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
-                  <td>
-                    <Nav.Link as={Link} to={`/order/${order._id}`}>
-                      <Button className="btn-sm">Details</Button>
-                    </Nav.Link>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
+                <TableRow key={order._id}>
+                  <TableCell>{order._id}</TableCell>
+                  <TableCell>{order.createdAt?.substring(0, 10)}</TableCell>
+                  <TableCell>{order.totalPrice}</TableCell>
+                  <TableCell>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
+                  <TableCell>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
+                  <TableCell>
+                    <Button color="primary" onClick={() => navigate(`/order/${order._id}`)}>
+                      Details
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))) ||
+              []}
+          </TableBody>
         </Table>
-      </Col>
-    </Row>
+      </Card>
+    </div>
   );
 };

@@ -1,4 +1,7 @@
-import { Button, Col, Nav, Row, Table } from "react-bootstrap";
+import { Button } from "@nextui-org/button";
+import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
+import { Link as NextUILink } from "@nextui-org/react";
+
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,7 +15,7 @@ import { apiErrorHandler } from "../../utils/errorUtils";
 const ProductListScreen = () => {
   const navigate = useNavigate();
   const { pageNum = "0" } = useParams();
-  const { data, isLoading, error, refetch } = useGetProductsQuery({ pageNum });
+  const { data = { products: [], pages: 0, page: 0 }, isLoading, error, refetch } = useGetProductsQuery({ pageNum });
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
 
   const productDeleteHandler = async (productId: string) => {
@@ -29,16 +32,14 @@ const ProductListScreen = () => {
 
   return (
     <>
-      <Row className="align-items-center">
-        <Col>
-          <h1>Products</h1>
-        </Col>
-        <Col className="text-end">
-          <Button className="btn-sm m-3" onClick={() => navigate("/admin/product/create")}>
+      <div>
+        <h1>Products</h1>
+        <div>
+          <Button onClick={() => navigate("/admin/product/create")}>
             <FaEdit /> Create Product
           </Button>
-        </Col>
-      </Row>
+        </div>
+      </div>
       {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
@@ -46,36 +47,36 @@ const ProductListScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Table striped hover responsive className="table-sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Genre</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.products?.map((product: ProductInterface) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.genre}</td>
-                  <td style={{ display: "flex", justifyContent: "center" }}>
-                    <Nav.Link as={Link} to={`/admin/product/${product._id}/edit`}>
-                      <Button className="btn-sm mx-2">
-                        <FaEdit />
+          <Table>
+            <TableHeader>
+              <TableColumn>ID</TableColumn>
+              <TableColumn>Name</TableColumn>
+              <TableColumn>Price</TableColumn>
+              <TableColumn>Genre</TableColumn>
+              <TableColumn>Actions</TableColumn>
+            </TableHeader>
+            <TableBody emptyContent={"No products found."}>
+              {(data &&
+                data.products?.map((product: ProductInterface) => (
+                  <TableRow key={product._id}>
+                    <TableCell>{product._id}</TableCell>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell>${product.price}</TableCell>
+                    <TableCell>{product.genre}</TableCell>
+                    <TableCell style={{ display: "flex", justifyContent: "center" }}>
+                      <NextUILink as={Link} to={`/admin/product/${product._id}/edit`}>
+                        <Button className="btn-sm mx-2">
+                          <FaEdit />
+                        </Button>
+                      </NextUILink>
+                      <Button color={"danger"} onClick={() => productDeleteHandler(product._id || "")}>
+                        <FaTrash style={{ color: "white" }} />
                       </Button>
-                    </Nav.Link>
-                    <Button variant="danger" className="btn-sm" onClick={() => productDeleteHandler(product._id || "")}>
-                      <FaTrash style={{ color: "white" }} />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                    </TableCell>
+                  </TableRow>
+                ))) ||
+                []}
+            </TableBody>
           </Table>
           <Paginate pages={data?.pages} currPage={data?.page} isAdmin={true} />
         </>

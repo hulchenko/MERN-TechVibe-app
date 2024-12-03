@@ -1,46 +1,46 @@
-import { Nav } from "react-bootstrap";
+import { Breadcrumbs, BreadcrumbItem, Link as NextUILink } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
 const CheckoutSteps = ({ dashboardStep = false, shippingStep = false, paymentStep = false, orderStep = false }) => {
   return (
-    <Nav>
-      <Nav.Item>
+    <Breadcrumbs>
+      <BreadcrumbItem>
         {dashboardStep ? (
-          <Nav.Link as={Link} to="/login">
+          <NextUILink as={Link} to="/login">
             Dashboard
-          </Nav.Link>
+          </NextUILink>
         ) : (
-          <Nav.Link disabled>Sign In</Nav.Link>
+          <NextUILink isDisabled>Sign In</NextUILink>
         )}
-      </Nav.Item>
-      <Nav.Item>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
         {shippingStep ? (
-          <Nav.Link as={Link} to="/shipping">
+          <NextUILink as={Link} to="/shipping">
             Shipping
-          </Nav.Link>
+          </NextUILink>
         ) : (
-          <Nav.Link disabled>Shipping</Nav.Link>
+          <NextUILink isDisabled>Shipping</NextUILink>
         )}
-      </Nav.Item>
-      <Nav.Item>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
         {paymentStep ? (
-          <Nav.Link as={Link} to="/payment">
+          <NextUILink as={Link} to="/payment">
             Payment
-          </Nav.Link>
+          </NextUILink>
         ) : (
-          <Nav.Link disabled>Payment</Nav.Link>
+          <NextUILink isDisabled>Payment</NextUILink>
         )}
-      </Nav.Item>
-      <Nav.Item>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
         {orderStep ? (
-          <Nav.Link as={Link} to="/placeorder">
+          <NextUILink as={Link} to="/placeorder">
             Place Order
-          </Nav.Link>
+          </NextUILink>
         ) : (
-          <Nav.Link disabled>Place Order</Nav.Link>
+          <NextUILink isDisabled>Place Order</NextUILink>
         )}
-      </Nav.Item>
-    </Nav>
+      </BreadcrumbItem>
+    </Breadcrumbs>
   );
 };
 

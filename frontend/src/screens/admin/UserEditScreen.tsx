@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Input, Card, Switch } from "@nextui-org/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import FormContainer from "../../components/FormContainer";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import { useUpdateUserMutation, useGetUserDetailsQuery } from "../../slices/usersApiSlice";
+import { useGetUserDetailsQuery, useUpdateUserMutation } from "../../slices/usersApiSlice";
 import { APIError } from "../../types/api-error.type";
 import { apiErrorHandler } from "../../utils/errorUtils";
 
@@ -42,10 +41,10 @@ const UserEditScreen = () => {
 
   return (
     <>
-      <Link to="/admin/userlist" className="btn btn-light my-3">
+      <Button color="primary" onClick={() => navigate("/admin/userlist")}>
         Go Back
-      </Link>
-      <FormContainer>
+      </Button>
+      <Card>
         <h1>Edit User</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
@@ -53,27 +52,16 @@ const UserEditScreen = () => {
         ) : error ? (
           <Message variant="danger">{(error as APIError)?.data?.message}</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group className="my-2" controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control type="name" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
-            </Form.Group>
-
-            <Form.Group className="my-2" controlId="email">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
-            </Form.Group>
-
-            <Form.Group className="my-2" controlId="isadmin">
-              <Form.Check type="checkbox" label="Is Admin" checked={isAdmin} onChange={(e) => setIsAdmin(e.target.checked)}></Form.Check>
-            </Form.Group>
-
-            <Button type="submit" variant="primary">
+          <form onSubmit={submitHandler}>
+            <Input type="text" label="Name" labelPlacement={"outside"} placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input type="email" label="Email" labelPlacement={"outside"} placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Switch isSelected={isAdmin} onValueChange={(key) => setIsAdmin(key)} />
+            <Button type="submit" color="primary">
               Update
             </Button>
-          </Form>
+          </form>
         )}
-      </FormContainer>
+      </Card>
     </>
   );
 };

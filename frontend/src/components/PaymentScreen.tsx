@@ -1,8 +1,7 @@
+import { Button, Radio, RadioGroup } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { Button, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
-import FormContainer from "../components/FormContainer";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { savePaymentMethod } from "../slices/cartSlice";
 
@@ -28,30 +27,20 @@ const PaymentScreen = () => {
   };
 
   return (
-    <FormContainer>
+    <>
       <CheckoutSteps dashboardStep shippingStep paymentStep />
       <h1>Payment Method</h1>
-      <Form onSubmit={submitHandler}>
-        <Form.Group>
-          <Form.Label as="legend">Select Method</Form.Label>
-          <Col>
-            <Form.Check
-              type="radio"
-              className="my-2"
-              label="PayPal or Credit Card"
-              id="PayPal"
-              name="paymentMethod"
-              value="PayPal"
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
-          </Col>
-        </Form.Group>
-        <Button type="submit" variant="primary">
+      <form onSubmit={submitHandler}>
+        <RadioGroup label="Select Method" defaultValue="paypal">
+          <Radio value="paypal" onChange={(e) => setPaymentMethod(e.target.value)}>
+            PayPal or Credit Card
+          </Radio>
+        </RadioGroup>
+        <Button type="submit" color="primary">
           Continue
         </Button>
-      </Form>
-    </FormContainer>
+      </form>
+    </>
   );
 };
 

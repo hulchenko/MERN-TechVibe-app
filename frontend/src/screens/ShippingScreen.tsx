@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
-import FormContainer from "../components/FormContainer";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { saveShippingAddress } from "../slices/cartSlice";
+import { Card, Input, Button } from "@nextui-org/react";
 
 const ShippingScreen = () => {
   const cart = useAppSelector((state) => state.cart);
@@ -25,31 +24,42 @@ const ShippingScreen = () => {
   };
 
   return (
-    <FormContainer>
+    <>
       <CheckoutSteps dashboardStep shippingStep />
-      <h1>Shipping Details</h1>
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId="address" className="my-2">
-          <Form.Label>Address</Form.Label>
-          <Form.Control type="text" placeholder="Enter Address" value={address} onChange={(e) => setAddress(e.target.value)}></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="city" className="my-2">
-          <Form.Label>City</Form.Label>
-          <Form.Control type="text" placeholder="Enter City" value={city} onChange={(e) => setCity(e.target.value)}></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="postalCode" className="my-2">
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control type="text" placeholder="Enter postal code" value={postalCode} onChange={(e) => setPostalCode(e.target.value)}></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="country" className="my-2">
-          <Form.Label>Country</Form.Label>
-          <Form.Control type="text" placeholder="Enter country" value={country} onChange={(e) => setCountry(e.target.value)}></Form.Control>
-        </Form.Group>
-        <Button type="submit" variant="primary" className="my-2">
-          Continue
-        </Button>
-      </Form>
-    </FormContainer>
+      <Card>
+        <h1>Shipping Details</h1>
+        <form onSubmit={submitHandler}>
+          <Input
+            type="text"
+            label="Address"
+            labelPlacement={"outside"}
+            placeholder="Enter address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <Input type="text" label="City" labelPlacement={"outside"} placeholder="Enter city" value={city} onChange={(e) => setCity(e.target.value)} />
+          <Input
+            type="text"
+            label="Postal Code"
+            labelPlacement={"outside"}
+            placeholder="Enter postal code"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+          />
+          <Input
+            type="text"
+            label="Country"
+            labelPlacement={"outside"}
+            placeholder="Enter country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+          <Button type="submit" color="primary">
+            Continue
+          </Button>
+        </form>
+      </Card>
+    </>
   );
 };
 

@@ -1,4 +1,23 @@
-import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Link as NextUILink,
+  Input,
+  DropdownItem,
+  DropdownTrigger,
+  Dropdown,
+  DropdownMenu,
+  Avatar,
+  Badge,
+  Button,
+  Divider,
+} from "@nextui-org/react";
+
+import { SearchIcon } from "../icons/SearchIcon";
+import { CartIcon } from "../icons/CartIcon";
+
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -15,6 +34,7 @@ const Header = () => {
 
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.auth);
+  const totalCartItems = cartItems.reduce((acc, curr) => acc + curr.qty, 0) || 0;
 
   const [logoutApiCall] = useLogoutMutation();
 
@@ -31,53 +51,51 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
-        <Container>
-          <Navbar.Brand as={Link} to="/">
-            <FontAwesomeIcon icon={faBook} /> BookStore
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse>
-            <Nav className="ms-auto">
-              <SearchBox />
-              <Nav.Link as={Link} to="/cart">
-                <FaShoppingCart /> Cart
-                {cartItems.length > 0 && (
-                  <Badge pill bg="warning" style={{ marginLeft: "5px" }}>
-                    {cartItems.reduce((acc, curr) => acc + curr.qty, 0)}
-                  </Badge>
-                )}
-              </Nav.Link>
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  {userInfo.isAdmin && (
-                    // Additional admin actions
-                    <>
-                      <NavDropdown.Item as={Link} to="/admin/orderlist">
-                        Orders
-                      </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/admin/userlist">
-                        Users
-                      </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/admin/productlist">
-                        Products
-                      </NavDropdown.Item>
-                      <hr style={{ margin: "0.25rem" }} />
-                    </>
-                  )}
-                  <NavDropdown.Item as={Link} to="/profile">
-                    Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Item onClick={logoutHandler}>Log Out</NavDropdown.Item>
-                </NavDropdown>
+      <Navbar>
+        <NavbarBrand as={Link} to="/">
+          <FontAwesomeIcon icon={faBook} /> BookStore
+        </NavbarBrand>
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          {/* <SearchIcon /> */}
+          {/* TODO */}
+          <SearchBox />
+          <NavbarItem>
+            <NextUILink as={Link} to="/cart">
+              <Badge color="primary" content={totalCartItems} isInvisible={totalCartItems === 0} shape="circle">
+                <CartIcon />
+              </Badge>
+            </NextUILink>
+          </NavbarItem>
+          {userInfo ? (
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant="bordered">{userInfo.name}</Button>
+              </DropdownTrigger>
+
+              {userInfo.isAdmin ? (
+                // Additional admin actions
+                <DropdownMenu>
+                  <DropdownItem className={"display: none"} onClick={() => navigate("/admin/orderlist")}>
+                    Orders
+                  </DropdownItem>
+                  <DropdownItem onClick={() => navigate("/admin/userlist")}>Users</DropdownItem>
+                  <DropdownItem onClick={() => navigate("/admin/productlist")}>Products</DropdownItem>
+                  <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
+                  <DropdownItem onClick={logoutHandler}>Log Out</DropdownItem>
+                </DropdownMenu>
               ) : (
-                <Nav.Link as={Link} to="/login">
-                  <FaUser /> Sign In
-                </Nav.Link>
+                <DropdownMenu>
+                  <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
+                  <DropdownItem onClick={logoutHandler}>Log Out</DropdownItem>
+                </DropdownMenu>
               )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
+            </Dropdown>
+          ) : (
+            <NextUILink as={Link} to="/login">
+              <FaUser /> Sign In
+            </NextUILink>
+          )}
+        </NavbarContent>
       </Navbar>
     </header>
   );

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, CardBody, CardHeader, Image, Input } from "@nextui-org/react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CheckoutSteps from "../components/CheckoutSteps";
@@ -19,7 +19,7 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
-      navigate("/shipping");
+      navigate("/shipping"); // if some fields are empty send user back
     } else if (!cart.paymentMethod) {
       navigate("/payment");
     }
@@ -46,96 +46,51 @@ const PlaceOrderScreen = () => {
   return (
     <>
       <CheckoutSteps dashboardStep shippingStep paymentStep orderStep />
-      <Row>
-        <Col md={8}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <h2>Shipping</h2>
-              <p>
-                <strong>Address: </strong>
-                {cart.shippingAddress.address}, {cart.shippingAddress.city},{cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
-              </p>
-            </ListGroup.Item>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <h2>Payment Method</h2>
-                <p>
-                  <strong>Method: </strong>
-                  {cart.paymentMethod}
-                </p>
-              </ListGroup.Item>
-            </ListGroup>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <h2>Order Items</h2>
-                {cart.cartItems.length === 0 ? (
-                  <Message>Your cart is empty</Message>
-                ) : (
-                  <ListGroup variant="flush">
-                    {cart.cartItems.map((item, index) => (
-                      <ListGroup.Item key={index}>
-                        <Row>
-                          <Col md={1}>
-                            <Image src={item.image} alt={item.name} fluid rounded />
-                          </Col>
-                          <Col>
-                            <Link to={`/product/${item.product}`}>{item.name}</Link>
-                          </Col>
-                          <Col md={4}>
-                            {item.qty} x ${item.price} = ${item.qty * item.price}
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                )}
-              </ListGroup.Item>
-            </ListGroup>
-          </ListGroup>
-        </Col>
-        <Col md={4}>
-          <Card>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <h2>Order Summary</h2>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Items</Col>
-                  <Col>${cart.itemsPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Shipping</Col>
-                  <Col>${cart.shippingPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Tax</Col>
-                  <Col>${cart.taxPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Total</Col>
-                  <Col>${cart.totalPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-
-              <ListGroup>{error && <Message variant="danger">{(error as APIError)?.data?.message}</Message>}</ListGroup>
-
-              <ListGroup.Item>
-                <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
-                  Place Order
-                </Button>
-                {isLoading && <Loader />}
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+      <Card>
+        <CardHeader>
+          <h2>Shipping</h2>
+          <Input
+            isReadOnly
+            label="Address"
+            variant="bordered"
+            defaultValue={`${cart.shippingAddress.address}, ${cart.shippingAddress.city}, ${cart.shippingAddress.postalCode}, ${cart.shippingAddress.country}`}
+            className="max-w-xs"
+          />
+          <h2>Payment Method</h2>
+          <Input isReadOnly label="Method" variant="bordered" defaultValue={`${cart.paymentMethod}`} className="max-w-xs" />
+          <h2>Order Items</h2>
+          {cart.cartItems.length === 0 ? (
+            <Message>Your cart is empty</Message>
+          ) : (
+            <>
+              {cart.cartItems.map((item, index) => (
+                <Card key={index}>
+                  <CardBody>
+                    <Image src={item.image} alt={item.name}></Image>
+                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    <p>
+                      {item.qty} x ${item.price} = ${item.qty * item.price}
+                    </p>
+                  </CardBody>
+                </Card>
+              ))}
+            </>
+          )}
+        </CardHeader>
+        <CardBody>
+          <h2>Order Summary</h2>
+          <Input isReadOnly label="Items" variant="bordered" defaultValue={`$${cart.itemsPrice}`} className="max-w-xs" />
+          <Input isReadOnly label="Shipping" variant="bordered" defaultValue={`$${cart.shippingPrice}`} className="max-w-xs" />
+          <Input isReadOnly label="Tax" variant="bordered" defaultValue={`$${cart.taxPrice}`} className="max-w-xs" />
+          <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
+          <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
+          {error && <Message variant="danger">{(error as APIError)?.data?.message}</Message>}
+          <Button type="button" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
+            Place Order
+          </Button>
+          {isLoading && <Loader />}
+        </CardBody>
+      </Card>
     </>
   );
 };

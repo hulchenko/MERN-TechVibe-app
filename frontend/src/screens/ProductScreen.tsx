@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Input, Divider, Textarea } from "@nextui-org/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
@@ -19,7 +19,7 @@ const ProductScreen = () => {
   const navigate = useNavigate();
 
   const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState<number | null>(null);
   const [comment, setComment] = useState("");
 
   const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId || "");
@@ -37,7 +37,7 @@ const ProductScreen = () => {
     try {
       await createReview({
         productId,
-        rating,
+        rating: rating || 0,
         comment,
       }).unwrap();
       refetch();
@@ -55,119 +55,89 @@ const ProductScreen = () => {
 
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      <Button color="primary" onClick={() => navigate("/")}>
         Go Back
-      </Link>
+      </Button>
 
-      <Row>
-        <Col md={6}>
-          <Image src={product.image} alt={product.name} fluid />
-        </Col>
-        <Col md={3}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <Rating value={product.rating || 0} text={`${product.numReviews} reviews`} />
-            </ListGroup.Item>
-            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-            <ListGroup.Item>Description: {product.description}</ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={3}>
-          <Card>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <Row>
-                  <Col>Price:</Col>
-                  <Col>
-                    <strong>${product.price}</strong>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Status:</Col>
-                  <Col>
-                    <strong>{product.countInStock > 0 ? "In Stock" : "Out Of Stock"}</strong>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              {product.countInStock > 0 && (
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Qty</Col>
-                    <Col>
-                      <Form.Control as="select" value={qty} onChange={(e) => setQty(Number(e.target.value))}>
-                        {Array(product.countInStock)
-                          .fill(0)
-                          .map((_, idx) => (
-                            <option key={idx + 1} value={idx + 1}>
-                              {idx + 1}
-                            </option>
-                          ))}
-                      </Form.Control>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              )}
-              <ListGroup.Item>
-                <Button className="btn-block" type="button" disabled={product.countInStock === 0} onClick={addToCartHandler}>
-                  Add To Cart
-                </Button>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
-      <Row className="review">
-        <Col md={6}>
-          <br />
-          <h2>Reviews</h2>
-          {product?.reviews?.length === 0 && <Message>No Reviews</Message>}
-          <ListGroup variant="flush">
-            {product.reviews &&
-              product.reviews.map((review: ReviewInterface) => (
-                <ListGroup.Item key={review._id}>
-                  <strong>{review.name}</strong>
-                  <Rating value={review.rating} text={""} />
-                  <p>{review?.createdAt?.substring(0, 10)}</p>
-                  <p>{review.comment}</p>
-                </ListGroup.Item>
+      <Card>
+        <Image src={product.image} alt={product.name} />
+        <Rating value={product.rating || 0} text={`${product.numReviews} reviews`} />
+        <Input isReadOnly label="Price" variant="bordered" defaultValue={`$${product.price}`} className="max-w-xs" />
+        <Input isReadOnly label="Description" variant="bordered" defaultValue={product.description} className="max-w-xs" />
+      </Card>
+      <Card>
+        <Input isReadOnly label="Price" variant="bordered" defaultValue={`$${product.price}`} className="max-w-xs" />
+        <Input isReadOnly label="Status" variant="bordered" defaultValue={product.countInStock > 0 ? "In Stock" : "Out Of Stock"} className="max-w-xs" />
+        <Input isReadOnly label="Qty" variant="bordered" defaultValue={product.countInStock > 0 ? "In Stock" : "Out Of Stock"} className="max-w-xs" />
+
+        <Dropdown as="select">
+          <DropdownTrigger>
+            <Button variant="bordered">{qty}</Button>
+          </DropdownTrigger>
+          <DropdownMenu onAction={(key) => setQty(Number(key))}>
+            {Array(product.countInStock)
+              .fill(0)
+              .map((_, idx) => (
+                <DropdownItem key={idx + 1} value={idx + 1}>
+                  {idx + 1}
+                </DropdownItem>
               ))}
-            <ListGroup.Item>
-              <h2>Write a Customer Review</h2>
+          </DropdownMenu>
+        </Dropdown>
 
-              {loadingReview && <Loader />}
+        <Button className="btn-block" type="button" disabled={product.countInStock === 0} onClick={addToCartHandler}>
+          Add To Cart
+        </Button>
+      </Card>
+      <Card>
+        <h2>Reviews</h2>
+        {product?.reviews?.length === 0 && <Message>No Reviews</Message>}
 
-              {userInfo ? (
-                <Form onSubmit={submitHandler}>
-                  <Form.Group className="my-2" controlId="rating">
-                    <Form.Label>Rating</Form.Label>
-                    <Form.Control as="select" required value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-                      <option value="">Select...</option>
-                      <option value="1">Poor</option>
-                      <option value="2">Fair</option>
-                      <option value="3">Good</option>
-                      <option value="4">Very Good</option>
-                      <option value="5">Excellent</option>
-                    </Form.Control>
-                  </Form.Group>
-                  <Form.Group className="my-2" controlId="comment">
-                    <Form.Label>Comment</Form.Label>
-                    <Form.Control as="textarea" required value={comment} onChange={(e) => setComment(e.target.value)}></Form.Control>
-                  </Form.Group>
-                  <Button disabled={loadingReview} type="submit" variant="primary">
-                    Submit
-                  </Button>
-                </Form>
-              ) : (
-                <Message>
-                  Please <Link to="/login">sign in</Link> to write a review
-                </Message>
-              )}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-      </Row>
+        {product.reviews &&
+          product.reviews.map((review: ReviewInterface) => (
+            <Card key={review._id}>
+              <strong>{review.name}</strong>
+              <Rating value={review.rating} text={""} />
+              <p>{review?.createdAt?.substring(0, 10)}</p>
+              <p>{review.comment}</p>
+            </Card>
+          ))}
+        <Divider />
+        <h2>Write a Customer Review</h2>
+
+        {loadingReview && <Loader />}
+
+        {userInfo ? (
+          <form onSubmit={submitHandler}>
+            <h2>Rating</h2>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button color="primary" variant="bordered">
+                  {rating || "Select"}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu onAction={(key) => setRating(Number(key))}>
+                <DropdownItem value="1">Poor</DropdownItem>
+                <DropdownItem value="2">Fair</DropdownItem>
+                <DropdownItem value="3">Good</DropdownItem>
+                <DropdownItem value="4">Very Good</DropdownItem>
+                <DropdownItem value="5">Excellent</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
+            <h2>Comment</h2>
+            <Textarea label="Comment" placeholder="Add a comment" className="max-w-xs" onChange={(e) => setComment(e.target.value)} />
+
+            <Button isDisabled={loadingReview} type="submit" color="primary">
+              Submit
+            </Button>
+          </form>
+        ) : (
+          <Message>
+            Please <Link to="/login">sign in</Link> to write a review
+          </Message>
+        )}
+      </Card>
     </>
   );
 };

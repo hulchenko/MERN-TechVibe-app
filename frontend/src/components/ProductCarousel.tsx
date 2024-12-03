@@ -22,10 +22,11 @@ const ProductCarousel = () => {
 
   return (
     <>
-      <h4 style={{ width: "100%", background: "goldenrod", color: "white", margin: "0", padding: "0.25rem", textAlign: "center", fontWeight: "lighter" }}>
+      <h1 className="font-bold text-2xl">Carousel here</h1>
+      {/* <h4 style={{ width: "100%", background: "goldenrod", color: "white", margin: "0", padding: "0.25rem", textAlign: "center", fontWeight: "lighter" }}>
         Highest Rated Products
-      </h4>
-      <Carousel pause="hover" className="bg-primary mb-4">
+      </h4> */}
+      {/* <Carousel pause="hover" className="bg-primary mb-4">
         {products &&
           products.map((product: ProductInterface) => (
             <Carousel.Item key={product._id}>
@@ -39,7 +40,7 @@ const ProductCarousel = () => {
               </Link>
             </Carousel.Item>
           ))}
-      </Carousel>
+      </Carousel> */}
     </>
   );
 };

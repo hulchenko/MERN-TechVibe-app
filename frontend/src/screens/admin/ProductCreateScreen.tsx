@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import FormContainer from "../../components/FormContainer";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "@nextui-org/button";
 import { Link, useNavigate } from "react-router-dom";
 import genres from "./../../assets/data/genres.json";
 import { ProductInterface } from "../../interfaces/product.interface";
@@ -9,6 +8,7 @@ import { toast } from "react-toastify";
 import { apiErrorHandler } from "../../utils/errorUtils";
 import Loader from "../../components/Loader";
 import { APIError } from "../../types/api-error.type";
+import { Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Textarea } from "@nextui-org/react";
 
 const ProductCreateScreen = () => {
   const navigate = useNavigate();
@@ -52,77 +52,76 @@ const ProductCreateScreen = () => {
 
   return (
     <>
-      <Link to={"/admin/productlist"} className="btn btn-light my-3">
+      <Button color="primary" onClick={() => navigate("/admin/productlist")}>
         Go Back
-      </Link>
-      <FormContainer>
+      </Button>
+
+      <Card>
         <h1>New Product</h1>
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name" className="my-2">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Enter name"
-              value={product.name}
-              onChange={(e) => setProduct({ ...product, name: e.target.value })}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="price" className="my-2">
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              required
-              type="number"
-              placeholder="Enter price"
-              value={product.price}
-              onChange={(e) => setProduct({ ...product, price: e.target.value })}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="image" className="my-2">
-            <Form.Label>Image</Form.Label>
-            <Form.Control type="file" onChange={uploadFileHandler}></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="genre" className="my-2">
-            <Form.Label>Genre</Form.Label>
-            <Form.Select required value={product.genre} onChange={(e) => setProduct({ ...product, genre: e.target.value })}>
-              <option disabled value="">
-                Select genre
-              </option>
+        <form onSubmit={submitHandler}>
+          <Input
+            type="text"
+            label="Name"
+            labelPlacement={"outside"}
+            placeholder="Enter name"
+            value={product.name}
+            onChange={(e) => setProduct({ ...product, name: e.target.value })}
+          />
+          <Input
+            type="number"
+            label="Price"
+            labelPlacement={"outside"}
+            placeholder="Enter price"
+            value={product.name}
+            onChange={(e) => setProduct({ ...product, price: e.target.value })}
+          />
+          <Input type="file" label="Image" labelPlacement={"outside"} placeholder="Upload image" onChange={uploadFileHandler} color="primary" />
+
+          <Dropdown as="select">
+            <DropdownTrigger>
+              <Button variant="bordered">Select genre</Button>
+            </DropdownTrigger>
+            <DropdownMenu onAction={(key) => setProduct({ ...product, genre: String(key) })}>
+              {/* TODO string key? */}
               {genres.map((genre, idx) => (
-                <option key={idx} value={genre}>
+                <DropdownItem key={genre} value={genre}>
                   {genre}
-                </option>
+                </DropdownItem>
               ))}
-            </Form.Select>
-          </Form.Group>
-          <Form.Group controlId="countInStock" className="my-2">
-            <Form.Label>Count In Stock</Form.Label>
-            <Form.Control
-              required
-              type="number"
-              placeholder="Enter count in stock"
-              min={1}
-              max={99}
-              value={product.countInStock}
-              onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="description" className="my-2">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              as="textarea"
-              placeholder="Enter description"
-              value={product.description}
-              onChange={(e) => setProduct({ ...product, description: e.target.value })}
-            ></Form.Control>
-          </Form.Group>
-          <Button type="submit" variant="primary" className="my-2">
+            </DropdownMenu>
+          </Dropdown>
+
+          <Input
+            type="number"
+            label="Count In Stock"
+            labelPlacement={"outside"}
+            placeholder="Enter stock qty"
+            min={1}
+            max={99}
+            value={String(product.countInStock)}
+            onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
+          />
+
+          <Input
+            type="text"
+            label="Desription"
+            labelPlacement={"outside"}
+            placeholder="Enter description"
+            value={String(product.countInStock)}
+            onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
+          />
+          <h2>Description</h2>
+          <Textarea
+            label="Description"
+            placeholder="Enter description"
+            className="max-w-xs"
+            onChange={(e) => setProduct({ ...product, description: e.target.value })}
+          />
+          <Button type="submit" color="primary">
             Save
           </Button>
-        </Form>
-      </FormContainer>
+        </form>
+      </Card>
     </>
   );
 };

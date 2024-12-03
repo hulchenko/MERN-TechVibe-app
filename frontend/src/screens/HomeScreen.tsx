@@ -1,4 +1,3 @@
-import { Col, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -22,17 +21,15 @@ const HomeScreen = () => {
         <ProductCarousel />
       ) : (
         <Link to="/" className="btn btn-light mb-4">
-          Go Back
+          Reset
         </Link>
       )}
       <h1>Latest Products</h1>
-      <Row>
+      <div className="grid grid-flow-row grid-cols-4 gap-4">
         {data?.products?.map((product: ProductInterface) => (
-          <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
-            <Product product={product} />
-          </Col>
+          <Product product={product} key={product._id} />
         ))}
-      </Row>
+      </div>
       <Paginate pages={data?.pages} currPage={data?.page} keyword={keyword} />
     </>
   );

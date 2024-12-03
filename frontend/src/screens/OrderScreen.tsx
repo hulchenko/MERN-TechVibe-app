@@ -1,7 +1,7 @@
 import type { CreateOrderActions, CreateOrderData, OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
-import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Image, Card, CardBody, CardHeader, Input, CardFooter } from "@nextui-org/react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
@@ -103,107 +103,68 @@ const OrderScreen = () => {
   return (
     <>
       <h1>Order: {order._id}</h1>
-      <Row>
-        <Col md={8}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <h2>Shipping</h2>
-              <p>
-                <strong>Name: </strong>
-                {order?.user?.name}
-              </p>
-              <p>
-                <strong>Email: </strong>
-                {order?.user?.email}
-              </p>
-              <p>
-                <strong>Address: </strong>
-                {order.shippingAddress.address}, {order.shippingAddress.city},{order.shippingAddress.postalCode}, {order.shippingAddress.country}
-              </p>
-              {order.isDelivered ? <Message variant="success">Delivered on {order.deliveredAt}</Message> : <Message variant="danger">Not delivered</Message>}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h2>Payment Method</h2>
-              <p>
-                <strong>Method: </strong>
-                {order.paymentMethod}
-              </p>
-              {order.isPaid ? <Message variant="success">Paid on {order.paidAt}</Message> : <Message variant="danger">Not paid</Message>}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h2>Order Items</h2>
-              {order.orderItems.map((item, index) => (
-                <ListGroup.Item key={index}>
-                  <Row>
-                    <Col md={1}>
-                      <Image src={item.image} alt={item.name} fluid rounded></Image>
-                    </Col>
-                    <Col>
-                      <Link to={`/product/${item.product}`}>{item.name}</Link>
-                    </Col>
-                    <Col md={4}>
-                      {item.qty} x ${item.price} = ${item.qty * item.price}
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              ))}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={4}>
-          <Card>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <h2>Order Summary</h2>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Items</Col>
-                  <Col>${order.itemsPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Shipping</Col>
-                  <Col>${order.shippingPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Tax</Col>
-                  <Col>${order.taxPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Total</Col>
-                  <Col>${order.totalPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              {!order.isPaid && (
-                <ListGroup.Item>
-                  {loadingPay && <Loader />}
-                  {isPending ? (
-                    <Loader />
-                  ) : (
-                    <div>
-                      <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
-                    </div>
-                  )}
-                </ListGroup.Item>
-              )}
-              {loadingDeliver && <Loader />}
-              {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                <ListGroup.Item>
-                  <Button type="button" className="btn btn-block" onClick={deliverOrderHandler}>
-                    Mark As Delivered
-                  </Button>
-                </ListGroup.Item>
-              )}
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+      <Card>
+        <CardHeader>
+          <div>
+            <h2>Shipping</h2>
+            <Input isReadOnly label="Name" variant="bordered" defaultValue={order?.user?.name} className="max-w-xs" />
+            <Input isReadOnly label="Email" variant="bordered" defaultValue={order?.user?.email} className="max-w-xs" />
+            <Input
+              isReadOnly
+              label="Address"
+              variant="bordered"
+              defaultValue={`${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.postalCode}, ${order.shippingAddress.country}`}
+              className="max-w-xs"
+            />
+            {order.isDelivered ? <Message variant="success">Delivered on {order.deliveredAt}</Message> : <Message variant="danger">Not delivered</Message>}
+          </div>
+          <div>
+            <h2>Payment Method</h2>
+            <Input isReadOnly label="Method" variant="bordered" defaultValue={order.paymentMethod} className="max-w-xs" />
+            {order.isPaid ? <Message variant="success">Paid on {order.paidAt}</Message> : <Message variant="danger">Not paid</Message>}
+          </div>
+        </CardHeader>
+        <CardBody>
+          <h2>Order Items</h2>
+          {order.orderItems.map((item, index) => (
+            <Card key={index}>
+              <CardBody>
+                <Image src={item.image} alt={item.name}></Image>
+                <Link to={`/product/${item.product}`}>{item.name}</Link>
+                <p>
+                  {item.qty} x ${item.price} = ${item.qty * item.price}
+                </p>
+              </CardBody>
+            </Card>
+          ))}
+        </CardBody>
+        <CardFooter>
+          <Input isReadOnly label="Order Summary" variant="bordered" defaultValue={`${order.itemsPrice}`} className="max-w-xs" />
+          <Input isReadOnly label="Shipping" variant="bordered" defaultValue={`${order.shippingPrice}`} className="max-w-xs" />
+          <Input isReadOnly label="Tax" variant="bordered" defaultValue={`${order.taxPrice}`} className="max-w-xs" />
+          <Input isReadOnly label="Total" variant="bordered" defaultValue={`${order.totalPrice}`} className="max-w-xs" />
+          <div>
+            {!order.isPaid && (
+              <Card>
+                {loadingPay && <Loader />}
+                {isPending ? (
+                  <Loader />
+                ) : (
+                  <div>
+                    <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
+                  </div>
+                )}
+              </Card>
+            )}
+            {loadingDeliver && <Loader />}
+            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+              <Button type="button" className="btn btn-block" onClick={deliverOrderHandler}>
+                Mark As Delivered
+              </Button>
+            )}
+          </div>
+        </CardFooter>
+      </Card>
     </>
   );
 };

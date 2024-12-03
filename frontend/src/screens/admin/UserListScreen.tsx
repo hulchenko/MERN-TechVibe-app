@@ -1,6 +1,6 @@
-import { Button, Nav, Table } from "react-bootstrap";
+import { Button, Table, TableHeader, TableColumn, TableBody, TableCell, TableRow, Card } from "@nextui-org/react";
 import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
@@ -10,8 +10,8 @@ import { APIError } from "../../types/api-error.type";
 import { apiErrorHandler } from "../../utils/errorUtils";
 
 const UserListScreen = () => {
+  const navigate = useNavigate();
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
-
   const [deleteUser] = useDeleteUserMutation();
 
   const deleteHandler = async (id: string) => {
@@ -30,47 +30,46 @@ const UserListScreen = () => {
   if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
 
   return (
-    <>
+    <Card>
       <h1>Users</h1>
-      <Table striped bordered hover responsive className="table-sm">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Admin</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users &&
+      <Table>
+        <TableHeader>
+          <TableColumn>ID</TableColumn>
+          <TableColumn>Name</TableColumn>
+          <TableColumn>Email</TableColumn>
+          <TableColumn>Admin</TableColumn>
+          <TableColumn>Actions</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"No users found."}>
+          {(users &&
             users.map((user: UserInterface) => (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td>
+              <TableRow key={user._id}>
+                <TableCell>{user._id}</TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>
                   <a href={`mailto:${user.email}`}>{user.email}</a>
-                </td>
-                <td>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</td>
-                <td>
+                  {/* TODO */}
+                </TableCell>
+                <TableCell>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</TableCell>
+                <TableCell>
                   {!user.isAdmin && (
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <Nav.Link as={Link} to={`/admin/user/${user._id}/edit`} style={{ marginRight: "10px" }}>
-                        <Button variant="light" className="btn-sm">
-                          <FaEdit />
-                        </Button>
-                      </Nav.Link>
-                      <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id || "")}>
+                    <div className="flex content-center">
+                      <Button color="secondary" onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
+                        <FaEdit />
+                      </Button>
+
+                      <Button color="danger" onClick={() => deleteHandler(user._id || "")}>
                         <FaTrash style={{ color: "white" }} />
                       </Button>
                     </div>
                   )}
-                </td>
-              </tr>
-            ))}
-        </tbody>
+                </TableCell>
+              </TableRow>
+            ))) ||
+            []}
+        </TableBody>
       </Table>
-    </>
+    </Card>
   );
 };
 

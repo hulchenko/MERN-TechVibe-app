@@ -1,17 +1,18 @@
-import { Spinner } from 'react-bootstrap';
+import { CircularProgress } from "@nextui-org/progress";
 
 const Loader = () => {
-    return (
-        <Spinner
-            animation='border'
-            role='status'
-            style={{
-                width: '100px',
-                height: '100px',
-                margin: 'auto',
-                display: 'block'
-            }}></Spinner>
-    );
+  return (
+    <CircularProgress
+      aria-label="Loading..."
+      // TODO not sure if style is needed
+      //   style={{
+      //     width: "100px",
+      //     height: "100px",
+      //     margin: "auto",
+      //     display: "block",
+      //   }}
+    ></CircularProgress>
+  );
 };
 
 export default Loader;

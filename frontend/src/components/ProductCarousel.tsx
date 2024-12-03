@@ -1,4 +1,4 @@
-import { Carousel, Image } from "react-bootstrap";
+// import { Carousel, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ProductInterface } from "../interfaces/product.interface";
 import { useGetTopProductsQuery } from "../slices/productsApiSlice";

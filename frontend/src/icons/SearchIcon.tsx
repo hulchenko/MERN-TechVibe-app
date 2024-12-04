@@ -1,8 +1,4 @@
-import { SVGProps } from "react";
-
-export type IconSvgProps = SVGProps<SVGSVGElement> & {
-  size?: number;
-};
+import { IconSvgProps } from "../types/svg-props.type";
 
 export const SearchIcon = (props: IconSvgProps) => (
   <svg aria-hidden="true" fill="none" focusable="false" height={24} role="presentation" viewBox="0 0 24 24" width={24} {...props}>

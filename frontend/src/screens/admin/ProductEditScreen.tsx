@@ -118,20 +118,12 @@ const ProductEditScreen = () => {
             value={String(product.countInStock)}
             onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
           />
-
-          <Input
-            type="text"
-            label="Desription"
-            labelPlacement={"outside"}
-            placeholder="Enter description"
-            value={String(product.countInStock)}
-            onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
-          />
           <h2>Description</h2>
           <Textarea
             label="Description"
             placeholder="Enter description"
             className="max-w-xs"
+            value={product.description}
             onChange={(e) => setProduct({ ...product, description: e.target.value })}
           />
           <Button type="submit" color="primary">

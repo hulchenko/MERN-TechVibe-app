@@ -1,47 +1,39 @@
 // import { Carousel, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ProductInterface } from "../interfaces/product.interface";
 import { useGetTopProductsQuery } from "../slices/productsApiSlice";
 import { APIError } from "../types/api-error.type";
 import Loader from "./Loader";
 import Message from "./Message";
+import { Image } from "@nextui-org/react";
+
+// Embla API
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 const ProductCarousel = () => {
-  const carouselCaption: React.CSSProperties = {
-    position: "absolute",
-    width: "100%",
-    left: "0",
-    right: "0",
-    bottom: "0",
-    background: "rgba(0, 0, 0, 0.5)",
-  };
+  const navigate = useNavigate();
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
   const { data: products, isLoading, error } = useGetTopProductsQuery();
 
   if (isLoading) return <Loader />;
   if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
 
   return (
-    <>
-      <h1 className="font-bold text-2xl">Carousel here</h1>
-      {/* <h4 style={{ width: "100%", background: "goldenrod", color: "white", margin: "0", padding: "0.25rem", textAlign: "center", fontWeight: "lighter" }}>
-        Highest Rated Products
-      </h4> */}
-      {/* <Carousel pause="hover" className="bg-primary mb-4">
+    <div className="embla" ref={emblaRef}>
+      <div className="embla__container">
         {products &&
           products.map((product: ProductInterface) => (
-            <Carousel.Item key={product._id}>
-              <Link to={`/product/${product._id}`}>
-                <Image src={product.image} alt={product.name} fluid />
-                <Carousel.Caption style={carouselCaption}>
-                  <h2 className="text-white text-right">
-                    {product.name} (${product.price})
-                  </h2>
-                </Carousel.Caption>
-              </Link>
-            </Carousel.Item>
+            <div className="embla__slide" key={product._id}>
+              <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} />
+              <div className="text-gray-400 font-bold w-full whitespace-nowrap text-ellipsis overflow-hidden">
+                <h2>{product.name}</h2>
+                <h5>${product.price}</h5>
+              </div>
+            </div>
           ))}
-      </Carousel> */}
-    </>
+      </div>
+    </div>
   );
 };
 

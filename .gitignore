@@ -6,3 +6,5 @@ node_modules
 
 # Ignore the .vscode file/settings
 .vscode
+
+uploads/*

@@ -10,7 +10,7 @@ const App = () => {
     <>
       <Header />
       <NextUIProvider>
-        <main className="light text-foreground bg-background px-96">
+        <main className="dark text-foreground bg-background px-96">
           <Outlet />
         </main>
       </NextUIProvider>

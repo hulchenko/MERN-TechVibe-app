@@ -45,8 +45,10 @@ const createProduct = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, image, genre, countInStock, description } = req.body;
   const productId = req.params.id;
+  const userId = req.user._id;
   const product = await Product.findById(productId);
   if (product) {
+    product.user = userId;
     product.name = name;
     product.price = price;
     product.image = image;

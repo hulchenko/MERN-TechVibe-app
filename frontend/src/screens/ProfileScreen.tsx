@@ -74,7 +74,7 @@ export const ProfileScreen = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <Button type="submit" color="primary" className="my-2">
+          <Button type="submit" color="primary" variant="solid" className="my-2">
             Update
           </Button>
           {loadingUpdateProfile && <Loader />}
@@ -101,7 +101,7 @@ export const ProfileScreen = () => {
                   <TableCell>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
                   <TableCell>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
                   <TableCell>
-                    <Button color="primary" onClick={() => navigate(`/order/${order._id}`)}>
+                    <Button color="primary" variant="faded" onClick={() => navigate(`/order/${order._id}`)}>
                       Details
                     </Button>
                   </TableCell>

@@ -33,10 +33,10 @@ const OrderListScreen = () => {
                 <TableCell>{order.user && order.user.name}</TableCell>
                 <TableCell>{order.createdAt?.substring(0, 10)}</TableCell>
                 <TableCell>${order.totalPrice}</TableCell>
-                <TableCell>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
-                <TableCell>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
+                <TableCell className="text-success">{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes className="text-warning" />}</TableCell>
+                <TableCell className="text-success">{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes className="text-warning" />}</TableCell>
                 <TableCell>
-                  <Button color="primary" onClick={() => navigate(`/order/${order._id}`)}>
+                  <Button color="primary" variant="faded" onClick={() => navigate(`/order/${order._id}`)}>
                     Details
                   </Button>
                 </TableCell>

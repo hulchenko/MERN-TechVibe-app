@@ -55,8 +55,8 @@ const ProductScreen = () => {
 
   return (
     <>
-      <Button color="primary" onClick={() => navigate("/")}>
-        Go Back
+      <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
+        Back
       </Button>
 
       <Card>
@@ -72,10 +72,10 @@ const ProductScreen = () => {
 
         <Dropdown as="select">
           <DropdownTrigger>
-            <Button variant="bordered">{qty}</Button>
+            <Button variant="faded">{qty}</Button>
           </DropdownTrigger>
           <DropdownMenu onAction={(key) => setQty(Number(key))}>
-            {Array(product.countInStock)
+            {Array(product.countInStock > 10 ? 10 : product.countInStock)
               .fill(0)
               .map((_, idx) => (
                 <DropdownItem key={idx + 1} value={idx + 1}>
@@ -85,7 +85,7 @@ const ProductScreen = () => {
           </DropdownMenu>
         </Dropdown>
 
-        <Button className="btn-block" type="button" disabled={product.countInStock === 0} onClick={addToCartHandler}>
+        <Button className="btn-block" variant="bordered" color="primary" type="button" isDisabled={product.countInStock === 0} onClick={addToCartHandler}>
           Add To Cart
         </Button>
       </Card>
@@ -112,7 +112,7 @@ const ProductScreen = () => {
             <h2>Rating</h2>
             <Dropdown>
               <DropdownTrigger>
-                <Button color="primary" variant="bordered">
+                <Button color="primary" variant="faded">
                   {rating || "Select"}
                 </Button>
               </DropdownTrigger>

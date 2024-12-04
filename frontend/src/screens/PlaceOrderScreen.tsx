@@ -85,7 +85,7 @@ const PlaceOrderScreen = () => {
           <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
           <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
           {error && <Message variant="danger">{(error as APIError)?.data?.message}</Message>}
-          <Button type="button" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
+          <Button type="button" color="success" variant="solid" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
             Place Order
           </Button>
           {isLoading && <Loader />}

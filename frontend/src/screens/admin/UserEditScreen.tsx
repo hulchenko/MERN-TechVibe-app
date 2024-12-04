@@ -41,8 +41,8 @@ const UserEditScreen = () => {
 
   return (
     <>
-      <Button color="primary" onClick={() => navigate("/admin/userlist")}>
-        Go Back
+      <Button color="primary" variant="bordered" onClick={() => navigate("/admin/userlist")}>
+        Back
       </Button>
       <Card>
         <h1>Edit User</h1>
@@ -56,7 +56,7 @@ const UserEditScreen = () => {
             <Input type="text" label="Name" labelPlacement={"outside"} placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
             <Input type="email" label="Email" labelPlacement={"outside"} placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <Switch isSelected={isAdmin} onValueChange={(key) => setIsAdmin(key)} />
-            <Button type="submit" color="primary">
+            <Button type="submit" color="primary" variant="solid">
               Update
             </Button>
           </form>

@@ -29,7 +29,10 @@ const CartScreen = () => {
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message>
-            Your Cart Is Empty. <Link to={"/"}>Go Back.</Link>
+            Your Cart Is Empty.{" "}
+            <Link to={"/"} className="text-violet-500">
+              Back
+            </Link>
           </Message>
         ) : (
           <>
@@ -44,12 +47,12 @@ const CartScreen = () => {
                   <p>${item.price}</p>
                 </CardBody>
                 <Divider />
-                <Dropdown as="select">
+                <Dropdown>
                   <DropdownTrigger>
                     <Button variant="bordered">{item.qty}</Button>
                   </DropdownTrigger>
                   <DropdownMenu onAction={(key) => addToCartHandler(item, key)}>
-                    {Array(item.countInStock)
+                    {Array(item.countInStock > 10 ? 10 : item.countInStock)
                       .fill(0)
                       .map((_, idx) => (
                         <DropdownItem key={idx + 1} value={idx + 1}>
@@ -59,7 +62,7 @@ const CartScreen = () => {
                   </DropdownMenu>
                 </Dropdown>
                 <CardFooter>
-                  <Button type="button" variant="light" onClick={() => removeFromCartHandler(item._id || "")}>
+                  <Button type="button" variant="bordered" color="danger" onClick={() => removeFromCartHandler(item._id || "")}>
                     <FaTrash></FaTrash>
                   </Button>
                 </CardFooter>
@@ -76,7 +79,7 @@ const CartScreen = () => {
             {cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
           </div>
           <div className="flex">
-            <Button type="button" className="btn-block" disabled={cartItems.length === 0} onClick={checkoutHandler}>
+            <Button type="button" variant="solid" color="primary" className="btn-block" isDisabled={cartItems.length === 0} onClick={checkoutHandler}>
               Proceed To Checkout
             </Button>
           </div>

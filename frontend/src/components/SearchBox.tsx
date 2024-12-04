@@ -21,14 +21,10 @@ const SearchBox = () => {
     return () => clearTimeout(timer);
   }, [keyword]);
 
-  const stringValidate = (str: string) => {
-    return /[a-zA-Z]/.test(str); // Alphabetic only
-  };
-
   return (
     <Input
       labelPlacement={"outside"}
-      placeholder="Search..."
+      placeholder="Search"
       value={keyword}
       onChange={(e) => setKeyword(e.target.value)}
       startContent={<SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />}

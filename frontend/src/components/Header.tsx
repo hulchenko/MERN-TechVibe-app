@@ -46,52 +46,54 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <Navbar>
-        <NavbarBrand as={Link} to="/">
-          <FontAwesomeIcon icon={faBook} /> BookStore
-        </NavbarBrand>
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <SearchBox />
-          <NavbarItem>
-            <NextUILink as={Link} to="/cart">
-              <Badge color="primary" content={totalCartItems} isInvisible={totalCartItems === 0} shape="circle">
-                <CartIcon />
-              </Badge>
-            </NextUILink>
-          </NavbarItem>
-          {userInfo ? (
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="bordered">{userInfo.name}</Button>
-              </DropdownTrigger>
+    <Navbar>
+      <NavbarBrand as={Link} to="/" className="text-lg font-bold gap-2">
+        <FontAwesomeIcon icon={faBook} className="text-violet-500" /> BookStore
+      </NavbarBrand>
+      <NavbarContent justify="center">
+        <SearchBox />
+        <NavbarItem>
+          <NextUILink as={Link} to="/cart">
+            <Badge color="primary" content={totalCartItems} isInvisible={totalCartItems === 0} shape="circle">
+              <CartIcon className="text-violet-500" />
+            </Badge>
+          </NextUILink>
+        </NavbarItem>
+        {userInfo ? (
+          <Dropdown>
+            <DropdownTrigger>
+              <Button variant="faded" color="primary">
+                {userInfo.name}
+              </Button>
+            </DropdownTrigger>
 
-              {userInfo.isAdmin ? (
-                // Additional admin actions
-                <DropdownMenu>
-                  <DropdownItem className={"display: none"} onClick={() => navigate("/admin/orderlist")}>
-                    Orders
-                  </DropdownItem>
-                  <DropdownItem onClick={() => navigate("/admin/userlist")}>Users</DropdownItem>
-                  <DropdownItem onClick={() => navigate("/admin/productlist")}>Products</DropdownItem>
-                  <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
-                  <DropdownItem onClick={logoutHandler}>Log Out</DropdownItem>
-                </DropdownMenu>
-              ) : (
-                <DropdownMenu>
-                  <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
-                  <DropdownItem onClick={logoutHandler}>Log Out</DropdownItem>
-                </DropdownMenu>
-              )}
-            </Dropdown>
-          ) : (
-            <NextUILink as={Link} to="/login">
-              <FaUser /> Sign In
-            </NextUILink>
-          )}
-        </NavbarContent>
-      </Navbar>
-    </header>
+            {userInfo.isAdmin ? (
+              // Additional admin actions
+              <DropdownMenu>
+                <DropdownItem onClick={() => navigate("/admin/orderlist")}>Orders</DropdownItem>
+                <DropdownItem onClick={() => navigate("/admin/userlist")}>Users</DropdownItem>
+                <DropdownItem onClick={() => navigate("/admin/productlist")}>Products</DropdownItem>
+                <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
+                <DropdownItem onClick={logoutHandler} className="text-warning" color="warning">
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            ) : (
+              <DropdownMenu>
+                <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
+                <DropdownItem onClick={logoutHandler} className="text-warning" color="warning">
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            )}
+          </Dropdown>
+        ) : (
+          <Button variant="ghost" color="primary" onClick={() => navigate("/login")}>
+            Sign In
+          </Button>
+        )}
+      </NavbarContent>
+    </Navbar>
   );
 };
 

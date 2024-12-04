@@ -32,10 +32,11 @@ const ProductListScreen = () => {
 
   return (
     <>
-      <div>
-        <h1>Products</h1>
+      <div className="flex w-full justify-between py-2">
+        {/* TODO USE THIS FOR THE PAGES */}
+        <h1 className="text-lg font-bold">Products</h1>
         <div>
-          <Button onClick={() => navigate("/admin/product/create")}>
+          <Button color="primary" variant="solid" onClick={() => navigate("/admin/product/create")}>
             <FaEdit /> Create Product
           </Button>
         </div>
@@ -63,14 +64,12 @@ const ProductListScreen = () => {
                     <TableCell>{product.name}</TableCell>
                     <TableCell>${product.price}</TableCell>
                     <TableCell>{product.genre}</TableCell>
-                    <TableCell style={{ display: "flex", justifyContent: "center" }}>
-                      <NextUILink as={Link} to={`/admin/product/${product._id}/edit`}>
-                        <Button className="btn-sm mx-2">
-                          <FaEdit />
-                        </Button>
-                      </NextUILink>
-                      <Button color={"danger"} onClick={() => productDeleteHandler(product._id || "")}>
-                        <FaTrash style={{ color: "white" }} />
+                    <TableCell className="flex gap-2">
+                      <Button color="primary" variant="faded" onClick={() => navigate(`/admin/product/${product._id}/edit`)}>
+                        <FaEdit />
+                      </Button>
+                      <Button color="danger" variant="bordered" onClick={() => productDeleteHandler(product._id || "")}>
+                        <FaTrash />
                       </Button>
                     </TableCell>
                   </TableRow>

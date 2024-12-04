@@ -54,7 +54,7 @@ const LoginScreen = () => {
           />
         </div>
 
-        <Button type="submit" color="primary" isDisabled={isLoading}>
+        <Button type="submit" color="primary" variant="shadow" isDisabled={isLoading}>
           Sign In
         </Button>
         {isLoading && <Loader />}
@@ -62,7 +62,10 @@ const LoginScreen = () => {
 
       <Divider />
       <p>
-        New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>Sign Up</Link>
+        New Customer?{" "}
+        <Link to={redirect ? `/register?redirect=${redirect}` : "/register"} className="text-violet-500">
+          Sign Up
+        </Link>
       </p>
     </Card>
   );

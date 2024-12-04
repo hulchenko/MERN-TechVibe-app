@@ -71,8 +71,8 @@ const ProductEditScreen = () => {
 
   return (
     <>
-      <Button color="primary" onClick={() => navigate("/admin/productlist")}>
-        Go Back
+      <Button color="primary" variant="bordered" onClick={() => navigate("/admin/productlist")}>
+        Back
       </Button>
       <Card>
         <h1>Edit Product</h1>
@@ -126,7 +126,7 @@ const ProductEditScreen = () => {
             value={product.description}
             onChange={(e) => setProduct({ ...product, description: e.target.value })}
           />
-          <Button type="submit" color="primary">
+          <Button type="submit" color="primary" variant="solid">
             Update
           </Button>
         </form>

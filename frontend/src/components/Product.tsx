@@ -7,18 +7,18 @@ const Product = ({ product }: { product: ProductInterface }) => {
   const navigate = useNavigate();
 
   return (
-    <Card className="my-3 p-3 rounded" isPressable onPress={() => navigate(`/product/${product._id}`)}>
+    <Card className="rounded" isPressable onPress={() => navigate(`/product/${product._id}`)}>
       <CardHeader className="pb-0 pt-2 px-4 flex-col">
         <b className="font-bold text-large overflow-auto max-w-60 items-center">{product.name}</b>
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full px-6 items-center">
           <small>
             <Rating value={product.rating || 0} text={`${product.numReviews} reviews`}></Rating>
           </small>
-          <p className="text-tiny uppercase font-bold">${product.price}</p>
+          <p className="uppercase font-bold">${product.price}</p>
         </div>
       </CardHeader>
-      <CardBody>
-        <Image src={product.image} shadow="sm" radius="lg" width={300} alt="product image" className="object-cover rounded-xl" />
+      <CardBody className="items-center justify-center">
+        <Image src={product.image} alt="product image" className="object-cover rounded-xl w-40" />
       </CardBody>
     </Card>
   );

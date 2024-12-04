@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@nextui-org/button";
 import { Link, useNavigate } from "react-router-dom";
 import genres from "./../../assets/data/genres.json";
@@ -52,8 +52,8 @@ const ProductCreateScreen = () => {
 
   return (
     <>
-      <Button color="primary" onClick={() => navigate("/admin/productlist")}>
-        Go Back
+      <Button color="primary" variant="bordered" onClick={() => navigate("/admin/productlist")}>
+        Back
       </Button>
 
       <Card>
@@ -77,13 +77,14 @@ const ProductCreateScreen = () => {
           />
           <Input type="file" label="Image" labelPlacement={"outside"} placeholder="Upload image" onChange={uploadFileHandler} color="primary" />
 
-          <Dropdown as="select">
+          <Dropdown>
             <DropdownTrigger>
-              <Button variant="bordered">Select genre</Button>
+              <Button variant="faded" color="primary">
+                Select genre
+              </Button>
             </DropdownTrigger>
             <DropdownMenu onAction={(key) => setProduct({ ...product, genre: String(key) })}>
-              {/* TODO string key? */}
-              {genres.map((genre, idx) => (
+              {genres.map((genre) => (
                 <DropdownItem key={genre} value={genre}>
                   {genre}
                 </DropdownItem>
@@ -101,7 +102,7 @@ const ProductCreateScreen = () => {
             value={String(product.countInStock)}
             onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
           />
-          <h2>Description</h2>
+          <p>Description</p>
           <Textarea
             label="Description"
             placeholder="Enter description"

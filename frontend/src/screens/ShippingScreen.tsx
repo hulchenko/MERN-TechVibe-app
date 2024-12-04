@@ -26,39 +26,38 @@ const ShippingScreen = () => {
   return (
     <>
       <CheckoutSteps dashboardStep shippingStep />
-      <Card>
-        <h1>Shipping Details</h1>
-        <form onSubmit={submitHandler}>
-          <Input
-            type="text"
-            label="Address"
-            labelPlacement={"outside"}
-            placeholder="Enter address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <Input type="text" label="City" labelPlacement={"outside"} placeholder="Enter city" value={city} onChange={(e) => setCity(e.target.value)} />
-          <Input
-            type="text"
-            label="Postal Code"
-            labelPlacement={"outside"}
-            placeholder="Enter postal code"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-          />
-          <Input
-            type="text"
-            label="Country"
-            labelPlacement={"outside"}
-            placeholder="Enter country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-          />
-          <Button type="submit" color="primary">
-            Continue
-          </Button>
-        </form>
-      </Card>
+
+      <h1>Shipping Details</h1>
+      <form onSubmit={submitHandler}>
+        <Input
+          type="text"
+          label="Address"
+          labelPlacement={"outside"}
+          placeholder="Enter address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <Input type="text" label="City" labelPlacement={"outside"} placeholder="Enter city" value={city} onChange={(e) => setCity(e.target.value)} />
+        <Input
+          type="text"
+          label="Postal Code"
+          labelPlacement={"outside"}
+          placeholder="Enter postal code"
+          value={postalCode}
+          onChange={(e) => setPostalCode(e.target.value)}
+        />
+        <Input
+          type="text"
+          label="Country"
+          labelPlacement={"outside"}
+          placeholder="Enter country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
+        <Button type="submit" color="primary" variant="bordered">
+          Continue
+        </Button>
+      </form>
     </>
   );
 };

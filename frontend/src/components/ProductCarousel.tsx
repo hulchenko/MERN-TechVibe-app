@@ -25,7 +25,7 @@ const ProductCarousel = () => {
         {products &&
           products.map((product: ProductInterface) => (
             <div className="embla__slide" key={product._id}>
-              <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} />
+              <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} className="embla__slide__number" />
               <div className="text-gray-400 font-bold w-full whitespace-nowrap text-ellipsis overflow-hidden">
                 <h2>{product.name}</h2>
                 <h5>${product.price}</h5>

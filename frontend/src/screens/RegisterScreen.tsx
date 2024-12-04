@@ -56,7 +56,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <Card>
+    <>
       <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
         <div className="flex flex-col gap-2 w-56">
@@ -79,16 +79,19 @@ const RegisterScreen = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-        <Button type="submit" color="primary" isDisabled={isLoading}>
+        <Button type="submit" color="primary" variant="shadow" isDisabled={isLoading}>
           Register
         </Button>
         {isLoading && <Loader />}
       </form>
       <Divider />
       <p>
-        Already have an account? <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>Sign In</Link>
+        Already have an account?{" "}
+        <Link className="text-violet-500" to={redirect ? `/login?redirect=${redirect}` : "/login"}>
+          Sign In
+        </Link>
       </p>
-    </Card>
+    </>
   );
 };
 

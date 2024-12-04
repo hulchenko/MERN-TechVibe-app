@@ -46,20 +46,17 @@ const UserListScreen = () => {
               <TableRow key={user._id}>
                 <TableCell>{user._id}</TableCell>
                 <TableCell>{user.name}</TableCell>
-                <TableCell>
-                  <a href={`mailto:${user.email}`}>{user.email}</a>
-                  {/* TODO */}
-                </TableCell>
+                <TableCell>{user.email}</TableCell>
                 <TableCell>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</TableCell>
                 <TableCell>
                   {!user.isAdmin && (
                     <div className="flex content-center">
-                      <Button color="secondary" onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
+                      <Button color="primary" variant="faded" onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
                         <FaEdit />
                       </Button>
 
-                      <Button color="danger" onClick={() => deleteHandler(user._id || "")}>
-                        <FaTrash style={{ color: "white" }} />
+                      <Button color="danger" variant="bordered" onClick={() => deleteHandler(user._id || "")}>
+                        <FaTrash />
                       </Button>
                     </div>
                   )}

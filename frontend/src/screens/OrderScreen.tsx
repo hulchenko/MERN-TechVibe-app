@@ -1,8 +1,8 @@
 import type { CreateOrderActions, CreateOrderData, OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
-import { Button, Image, Card, CardBody, CardHeader, Input, CardFooter } from "@nextui-org/react";
-import { Link, useParams } from "react-router-dom";
+import { Button, Image, Card, CardBody, CardHeader, Input, CardFooter, useNavbar } from "@nextui-org/react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -12,6 +12,7 @@ import { APIError } from "../types/api-error.type";
 import { apiErrorHandler } from "../utils/errorUtils";
 
 const OrderScreen = () => {
+  const navigate = useNavigate();
   const { id: orderId = "" } = useParams();
   const { userInfo } = useAppSelector((state) => state.auth);
 
@@ -102,6 +103,10 @@ const OrderScreen = () => {
 
   return (
     <>
+      <Button color="primary" variant="bordered" onClick={() => navigate("/admin/orderlist")}>
+        Back
+      </Button>
+
       <h1>Order: {order._id}</h1>
       <Card>
         <CardHeader>
@@ -158,7 +163,7 @@ const OrderScreen = () => {
             )}
             {loadingDeliver && <Loader />}
             {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-              <Button type="button" className="btn btn-block" onClick={deliverOrderHandler}>
+              <Button type="button" variant="solid" color="success" className="btn btn-block" onClick={deliverOrderHandler}>
                 Mark As Delivered
               </Button>
             )}

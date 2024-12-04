@@ -36,7 +36,7 @@ const PaymentScreen = () => {
             PayPal or Credit Card
           </Radio>
         </RadioGroup>
-        <Button type="submit" color="primary">
+        <Button type="submit" color="primary" variant="bordered">
           Continue
         </Button>
       </form>

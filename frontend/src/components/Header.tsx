@@ -16,8 +16,7 @@ import { CartIcon } from "../icons/CartIcon";
 
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FaUser } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { clearCredentials } from "../slices/authSlice";
 import { resetCart } from "../slices/cartSlice";
@@ -27,10 +26,12 @@ import SearchBox from "./SearchBox";
 const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.auth);
   const totalCartItems = cartItems.reduce((acc, curr) => acc + curr.qty, 0) || 0;
+  const isHomePage = location.pathname === "/";
 
   const [logoutApiCall] = useLogoutMutation();
 
@@ -51,7 +52,7 @@ const Header = () => {
         <FontAwesomeIcon icon={faBook} className="text-violet-500" /> BookStore
       </NavbarBrand>
       <NavbarContent justify="center">
-        <SearchBox />
+        {isHomePage && <SearchBox />}
         <NavbarItem>
           <NextUILink as={Link} to="/cart">
             <Badge color="primary" content={totalCartItems} isInvisible={totalCartItems === 0} shape="circle">

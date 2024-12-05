@@ -74,63 +74,62 @@ const ProductEditScreen = () => {
       <Button color="primary" variant="bordered" onClick={() => navigate("/admin/productlist")}>
         Back
       </Button>
-      <Card>
-        <h1>Edit Product</h1>
-        {loadingUpdate && <Loader />}
-        <form onSubmit={submitHandler}>
-          <Input
-            type="text"
-            label="Name"
-            labelPlacement={"outside"}
-            placeholder="Enter name"
-            value={product.name}
-            onChange={(e) => setProduct({ ...product, name: e.target.value })}
-          />
-          <Input
-            type="number"
-            label="Price"
-            labelPlacement={"outside"}
-            placeholder="Enter price"
-            value={product.price}
-            onChange={(e) => setProduct({ ...product, price: e.target.value })}
-          />
-          <Input type="file" label="Image" labelPlacement={"outside"} placeholder="Upload image" onChange={uploadFileHandler} color="primary" />
-          <Dropdown as="select">
-            <DropdownTrigger>
-              <Button variant="bordered">Select genre</Button>
-            </DropdownTrigger>
-            <DropdownMenu onAction={(key) => setProduct({ ...product, genre: String(key) })}>
-              {/* TODO string key? */}
-              {genres.map((genre, idx) => (
-                <DropdownItem key={genre} value={genre}>
-                  {genre}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-          <Input
-            type="number"
-            label="Count In Stock"
-            labelPlacement={"outside"}
-            placeholder="Enter stock qty"
-            min={1}
-            max={99}
-            value={String(product.countInStock)}
-            onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
-          />
-          <h2>Description</h2>
-          <Textarea
-            label="Description"
-            placeholder="Enter description"
-            className="max-w-xs"
-            value={product.description}
-            onChange={(e) => setProduct({ ...product, description: e.target.value })}
-          />
-          <Button type="submit" color="primary" variant="solid">
-            Update
-          </Button>
-        </form>
-      </Card>
+
+      <h1>Edit Product</h1>
+      {loadingUpdate && <Loader />}
+      <form onSubmit={submitHandler}>
+        <Input
+          type="text"
+          label="Name"
+          labelPlacement={"outside"}
+          placeholder="Enter name"
+          value={product.name}
+          onChange={(e) => setProduct({ ...product, name: e.target.value })}
+        />
+        <Input
+          type="number"
+          label="Price"
+          labelPlacement={"outside"}
+          placeholder="Enter price"
+          value={product.price}
+          onChange={(e) => setProduct({ ...product, price: e.target.value })}
+        />
+        <Input type="file" label="Image" labelPlacement={"outside"} placeholder="Upload image" onChange={uploadFileHandler} color="primary" />
+        <Dropdown as="select">
+          <DropdownTrigger>
+            <Button variant="bordered">Select genre</Button>
+          </DropdownTrigger>
+          <DropdownMenu onAction={(key) => setProduct({ ...product, genre: String(key) })}>
+            {/* TODO string key? */}
+            {genres.map((genre, idx) => (
+              <DropdownItem key={genre} value={genre}>
+                {genre}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
+        <Input
+          type="number"
+          label="Count In Stock"
+          labelPlacement={"outside"}
+          placeholder="Enter stock qty"
+          min={1}
+          max={99}
+          value={String(product.countInStock)}
+          onChange={(e) => setProduct({ ...product, countInStock: Number(e.target.value) })}
+        />
+        <h2>Description</h2>
+        <Textarea
+          label="Description"
+          placeholder="Enter description"
+          className="max-w-xs"
+          value={product.description}
+          onChange={(e) => setProduct({ ...product, description: e.target.value })}
+        />
+        <Button type="submit" color="primary" variant="solid">
+          Update
+        </Button>
+      </form>
     </>
   );
 };

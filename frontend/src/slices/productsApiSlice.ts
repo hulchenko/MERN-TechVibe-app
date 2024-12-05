@@ -56,7 +56,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
-    createReview: builder.mutation<void, ReviewInterface>({
+    createReview: builder.mutation<void | { message: string }, ReviewInterface>({
       query: (data) => ({
         url: `${PRODUCTS_URL}/${data.productId}/reviews`,
         method: "POST",

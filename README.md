@@ -3,6 +3,8 @@ Redux
 TypeScript
 MongoDB
 PayPal API
+NextUI
+Tailwind
 
 Note: some browser extensions affect the carousel component
 

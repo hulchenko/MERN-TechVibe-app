@@ -21,6 +21,25 @@ footer {
   @apply dark text-foreground bg-background;
 }
 
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #222;
+}
+
 /* Rating */
 .text-amber-span span {
   @apply text-amber-400;

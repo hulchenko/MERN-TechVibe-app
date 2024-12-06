@@ -1,4 +1,5 @@
 import { CartInterface } from "../interfaces/cart.interface";
+import { OrderItemInterface } from "../interfaces/order-item.interface";
 
 export const addDecimals = (num: number) => {
   return (Math.round(num * 100) / 100).toFixed(2);
@@ -17,4 +18,8 @@ export const updateCart = (state: CartInterface) => {
   localStorage.setItem("cart", JSON.stringify(state)); //save state to local storage
 
   return state;
+};
+
+export const reduceCartItems = (cartItems: OrderItemInterface[]) => {
+  return cartItems.reduce((acc, item) => acc + Number(item.qty), 0) || 0;
 };

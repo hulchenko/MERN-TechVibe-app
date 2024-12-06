@@ -22,6 +22,7 @@ import { clearCredentials } from "../slices/authSlice";
 import { resetCart } from "../slices/cartSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import SearchBox from "./SearchBox";
+import { reduceCartItems } from "../utils/cartUtils";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -30,8 +31,8 @@ const Header = () => {
 
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.auth);
-  const totalCartItems = cartItems.reduce((acc, curr) => acc + curr.qty, 0) || 0;
-  const isHomePage = location.pathname === "/";
+  const totalCartItems = reduceCartItems(cartItems);
+  const isHomePage = location.pathname === "/" || location.pathname.includes("page");
 
   const [logoutApiCall] = useLogoutMutation();
 
@@ -48,7 +49,7 @@ const Header = () => {
 
   return (
     <Navbar>
-      <NavbarBrand as={Link} to="/" className="text-lg font-bold gap-2">
+      <NavbarBrand as={Link} to="/" className="text-2xl font-bold gap-2">
         <FontAwesomeIcon icon={faBook} className="text-violet-500" /> BookStore
       </NavbarBrand>
       <NavbarContent justify="center">

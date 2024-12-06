@@ -1,16 +1,16 @@
 import { Breadcrumbs, BreadcrumbItem, Link as NextUILink } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
-const CheckoutSteps = ({ dashboardStep = false, shippingStep = false, paymentStep = false, orderStep = false }) => {
+const CheckoutSteps = ({ cartStep = false, shippingStep = false, paymentStep = false, orderStep = false }) => {
   return (
     <Breadcrumbs>
       <BreadcrumbItem>
-        {dashboardStep ? (
-          <NextUILink as={Link} to="/login">
-            Dashboard
+        {cartStep ? (
+          <NextUILink as={Link} to="/cart">
+            Cart
           </NextUILink>
         ) : (
-          <NextUILink isDisabled>Sign In</NextUILink>
+          <NextUILink isDisabled>Cart</NextUILink>
         )}
       </BreadcrumbItem>
       <BreadcrumbItem>

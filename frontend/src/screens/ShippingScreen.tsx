@@ -25,7 +25,7 @@ const ShippingScreen = () => {
 
   return (
     <>
-      <CheckoutSteps dashboardStep shippingStep />
+      <CheckoutSteps cartStep shippingStep />
 
       <h1>Shipping Details</h1>
       <form onSubmit={submitHandler}>

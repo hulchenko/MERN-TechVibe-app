@@ -45,7 +45,7 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
-      <CheckoutSteps dashboardStep shippingStep paymentStep orderStep />
+      <CheckoutSteps cartStep shippingStep paymentStep orderStep />
       <Card>
         <CardHeader>
           <h2>Shipping</h2>

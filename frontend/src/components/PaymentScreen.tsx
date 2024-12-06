@@ -28,7 +28,7 @@ const PaymentScreen = () => {
 
   return (
     <>
-      <CheckoutSteps dashboardStep shippingStep paymentStep />
+      <CheckoutSteps cartStep shippingStep paymentStep />
       <h1>Payment Method</h1>
       <form onSubmit={submitHandler}>
         <RadioGroup label="Select Method" defaultValue="paypal">

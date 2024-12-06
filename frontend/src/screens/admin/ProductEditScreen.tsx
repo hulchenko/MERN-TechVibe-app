@@ -67,7 +67,7 @@ const ProductEditScreen = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (getProductError) return <Message variant="danger">{getProductError}</Message>;
+  if (getProductError) return <Message color="danger" title="Error" description={getProductError} />;
 
   return (
     <>

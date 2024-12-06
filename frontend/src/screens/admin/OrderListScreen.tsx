@@ -10,7 +10,7 @@ const OrderListScreen = () => {
   const navigate = useNavigate();
 
   if (isLoading) return <Loader />;
-  if (error) return <Message variant="danger">{error}</Message>;
+  if (error) return <Message color="danger" title="Error" description={error} />;
 
   return (
     <>

@@ -60,7 +60,7 @@ const PlaceOrderScreen = () => {
           <Input isReadOnly label="Method" variant="bordered" defaultValue={`${cart.paymentMethod}`} className="max-w-xs" />
           <h2>Order Items</h2>
           {cart.cartItems.length === 0 ? (
-            <Message>Your cart is empty</Message>
+            <Message title="Your cart is empty" />
           ) : (
             <>
               {cart.cartItems.map((item, index) => (
@@ -84,7 +84,7 @@ const PlaceOrderScreen = () => {
           <Input isReadOnly label="Tax" variant="bordered" defaultValue={`$${cart.taxPrice}`} className="max-w-xs" />
           <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
           <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
-          {error && <Message variant="danger">{(error as APIError)?.data?.message}</Message>}
+          {error && <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />}
           <Button type="button" color="success" variant="solid" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
             Place Order
           </Button>

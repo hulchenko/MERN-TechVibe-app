@@ -45,7 +45,7 @@ const ProductListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message color="danger" title="Error" description={error} />
       ) : (
         <>
           <Table>

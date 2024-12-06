@@ -1,15 +1,14 @@
-// import { Carousel, Image } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Image } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 import { ProductInterface } from "../interfaces/product.interface";
 import { useGetTopProductsQuery } from "../slices/productsApiSlice";
 import { APIError } from "../types/api-error.type";
 import Loader from "./Loader";
 import Message from "./Message";
-import { Image } from "@nextui-org/react";
 
 // Embla API
-import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
 
 const ProductCarousel = () => {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetTopProductsQuery();
 
   if (isLoading) return <Loader />;
-  if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
+  if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
 
   return (
     <div className="embla" ref={emblaRef}>

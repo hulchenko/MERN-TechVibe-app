@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
 import {
   Button,
   Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
   Image,
-  Input,
-  Divider,
   Textarea,
-  CardHeader,
-  CardFooter,
-  CardBody,
 } from "@nextui-org/react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -72,18 +71,27 @@ const ProductScreen = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
+  if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
   if (!product) return <p>Product not found</p>;
 
   return (
     <>
-      <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
-        Back
-      </Button>
+      <div className="flex justify-between mt-12">
+        <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
+          Back
+        </Button>
+        <div>
+          <h1 className="text-lg font-bold">Product Details</h1>
+          <Divider />
+        </div>
+        <span id="do-no-remove"></span>
+      </div>
 
       <div className="flex gap-4 justify-between h-96 mt-6">
         <div className="flex-col h-full w-full">
-          <Image src={product.image} alt={product.name} height="40rem" />
+          <div className="flex items-center justify-center py-4">
+            <Image src={product.image} alt={product.name} height="40rem" />
+          </div>
           <Rating value={product.rating || 0} text={`${product.numReviews} review(s)`} />
           <Divider className="mt-6" />
           <h2 className="my-6 font-bold">Write a customer review</h2>
@@ -110,13 +118,7 @@ const ProductScreen = () => {
               </Button>
             </form>
           ) : (
-            <Message>
-              Please{" "}
-              <Link to="/login" className="text-violet-500">
-                sign in
-              </Link>{" "}
-              to write a review
-            </Message>
+            <Message title="Please sign in to write a review"></Message>
           )}
         </div>
 
@@ -129,8 +131,8 @@ const ProductScreen = () => {
           </Card>
           <Divider className="mt-6" />
           <h2 className="my-6 font-bold">Customer comments</h2>
-          <div className="h-full overflow-auto">
-            {product?.reviews?.length === 0 && <Message>No Comments</Message>}
+          <div className="h-[44rem] overflow-auto">
+            {product?.reviews?.length === 0 && <Message title="No comments here yet."></Message>}
             {product.reviews &&
               product.reviews.map((review: ReviewInterface) => (
                 <Card key={review._id} className="mt-4">
@@ -155,7 +157,7 @@ const ProductScreen = () => {
               <h2>Price</h2>
               <p className="font-bold">${product.price}</p>
             </CardHeader>
-            <CardBody className="flex-col">
+            <CardBody>
               <div className="flex justify-between">
                 <h2>Status</h2>
                 <p className="font-bold">{product.countInStock > 0 ? "In Stock" : "Out Of Stock"}</p>
@@ -180,7 +182,7 @@ const ProductScreen = () => {
               </div>
             </CardBody>
             <CardFooter className="flex-col">
-              <Button className="btn-block" variant="bordered" color="primary" type="button" isDisabled={product.countInStock === 0} onClick={addToCartHandler}>
+              <Button variant="bordered" color="primary" type="button" isDisabled={product.countInStock === 0} onClick={addToCartHandler}>
                 Add To Cart
               </Button>
             </CardFooter>

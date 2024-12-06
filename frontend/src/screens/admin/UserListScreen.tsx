@@ -27,7 +27,7 @@ const UserListScreen = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
+  if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
 
   return (
     <Card>

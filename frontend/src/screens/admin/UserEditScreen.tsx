@@ -50,7 +50,7 @@ const UserEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{(error as APIError)?.data?.message}</Message>
+          <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />
         ) : (
           <form onSubmit={submitHandler}>
             <Input type="text" label="Name" labelPlacement={"outside"} placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />

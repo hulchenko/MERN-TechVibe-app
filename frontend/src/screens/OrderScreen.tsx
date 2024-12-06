@@ -98,7 +98,7 @@ const OrderScreen = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (error) return <Message variant="danger">{(error as APIError)?.data?.message}</Message>;
+  if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
   if (!order) return <p>Order not found</p>;
 
   return (
@@ -121,12 +121,20 @@ const OrderScreen = () => {
               defaultValue={`${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.postalCode}, ${order.shippingAddress.country}`}
               className="max-w-xs"
             />
-            {order.isDelivered ? <Message variant="success">Delivered on {order.deliveredAt}</Message> : <Message variant="danger">Not delivered</Message>}
+            {order.isDelivered ? (
+              <Message color="success" title="Success" description={`Delivered on ${order.deliveredAt}`} />
+            ) : (
+              <Message color="warning" title="Warning" description="Not delivered" />
+            )}
           </div>
           <div>
             <h2>Payment Method</h2>
             <Input isReadOnly label="Method" variant="bordered" defaultValue={order.paymentMethod} className="max-w-xs" />
-            {order.isPaid ? <Message variant="success">Paid on {order.paidAt}</Message> : <Message variant="danger">Not paid</Message>}
+            {order.isPaid ? (
+              <Message color="success" title="Success" description={`Paid on ${order.paidAt}`} />
+            ) : (
+              <Message color="warning" title="Warning" description="Not paid" />
+            )}
           </div>
         </CardHeader>
         <CardBody>

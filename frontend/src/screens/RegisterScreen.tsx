@@ -60,9 +60,29 @@ const RegisterScreen = () => {
       <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
         <div className="flex flex-col gap-2 w-56">
-          <Input type="text" label="Name" labelPlacement={"outside"} placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input type="email" label="Email" labelPlacement={"outside"} placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input
+            color="primary"
+            variant="bordered"
+            type="text"
+            label="Name"
+            labelPlacement={"outside"}
+            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            color="primary"
+            variant="bordered"
+            type="email"
+            label="Email"
+            labelPlacement={"outside"}
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            color="primary"
+            variant="bordered"
             type="password"
             label="Password"
             labelPlacement={"outside"}
@@ -71,6 +91,8 @@ const RegisterScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />{" "}
           <Input
+            color="primary"
+            variant="bordered"
             type="password"
             label="Confirm Password"
             labelPlacement={"outside"}

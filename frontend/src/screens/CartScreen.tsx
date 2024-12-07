@@ -27,7 +27,7 @@ const CartScreen = () => {
   return (
     <>
       <div className="flex justify-between mt-12">
-        <Button color="primary" variant="bordered" onClick={() => navigate(-1)}>
+        <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
           Back
         </Button>
         <div>

@@ -60,6 +60,8 @@ const ProductCreateScreen = () => {
         <h1>New Product</h1>
         <form onSubmit={submitHandler}>
           <Input
+            color="primary"
+            variant="bordered"
             type="text"
             label="Name"
             labelPlacement={"outside"}
@@ -68,6 +70,8 @@ const ProductCreateScreen = () => {
             onChange={(e) => setProduct({ ...product, name: e.target.value })}
           />
           <Input
+            color="primary"
+            variant="bordered"
             type="number"
             label="Price"
             labelPlacement={"outside"}
@@ -75,7 +79,15 @@ const ProductCreateScreen = () => {
             value={product.name}
             onChange={(e) => setProduct({ ...product, price: e.target.value })}
           />
-          <Input type="file" label="Image" labelPlacement={"outside"} placeholder="Upload image" onChange={uploadFileHandler} color="primary" />
+          <Input
+            color="primary"
+            variant="bordered"
+            type="file"
+            label="Image"
+            labelPlacement={"outside"}
+            placeholder="Upload image"
+            onChange={uploadFileHandler}
+          />
 
           <Dropdown>
             <DropdownTrigger>
@@ -93,6 +105,7 @@ const ProductCreateScreen = () => {
           </Dropdown>
 
           <Input
+            color="primary"
             type="number"
             label="Count In Stock"
             labelPlacement={"outside"}
@@ -104,6 +117,7 @@ const ProductCreateScreen = () => {
           />
           <p>Description</p>
           <Textarea
+            variant="bordered"
             label="Description"
             placeholder="Enter description"
             className="max-w-xs"

@@ -1,14 +1,14 @@
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Textarea } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import genres from "../../assets/data/genres.json";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { ProductInterface } from "../../interfaces/product.interface";
 import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from "../../slices/productsApiSlice";
 import { APIError } from "../../types/api-error.type";
 import { apiErrorHandler } from "../../utils/errorUtils";
-import genres from "../../assets/data/genres.json";
-import { Card, Button, Input, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Textarea } from "@nextui-org/react";
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
@@ -79,6 +79,8 @@ const ProductEditScreen = () => {
       {loadingUpdate && <Loader />}
       <form onSubmit={submitHandler}>
         <Input
+          color="primary"
+          variant="bordered"
           type="text"
           label="Name"
           labelPlacement={"outside"}
@@ -87,6 +89,8 @@ const ProductEditScreen = () => {
           onChange={(e) => setProduct({ ...product, name: e.target.value })}
         />
         <Input
+          color="primary"
+          variant="bordered"
           type="number"
           label="Price"
           labelPlacement={"outside"}
@@ -94,14 +98,21 @@ const ProductEditScreen = () => {
           value={product.price}
           onChange={(e) => setProduct({ ...product, price: e.target.value })}
         />
-        <Input type="file" label="Image" labelPlacement={"outside"} placeholder="Upload image" onChange={uploadFileHandler} color="primary" />
-        <Dropdown as="select">
+        <Input
+          variant="bordered"
+          type="file"
+          label="Image"
+          labelPlacement={"outside"}
+          placeholder="Upload image"
+          onChange={uploadFileHandler}
+          color="primary"
+        />
+        <Dropdown>
           <DropdownTrigger>
             <Button variant="bordered">Select genre</Button>
           </DropdownTrigger>
           <DropdownMenu onAction={(key) => setProduct({ ...product, genre: String(key) })}>
-            {/* TODO string key? */}
-            {genres.map((genre, idx) => (
+            {genres.map((genre) => (
               <DropdownItem key={genre} value={genre}>
                 {genre}
               </DropdownItem>
@@ -109,6 +120,8 @@ const ProductEditScreen = () => {
           </DropdownMenu>
         </Dropdown>
         <Input
+          color="primary"
+          variant="bordered"
           type="number"
           label="Count In Stock"
           labelPlacement={"outside"}
@@ -120,6 +133,7 @@ const ProductEditScreen = () => {
         />
         <h2>Description</h2>
         <Textarea
+          variant="bordered"
           label="Description"
           placeholder="Enter description"
           className="max-w-xs"

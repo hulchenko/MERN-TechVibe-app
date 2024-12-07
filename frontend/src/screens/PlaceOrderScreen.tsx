@@ -50,6 +50,7 @@ const PlaceOrderScreen = () => {
         <CardHeader>
           <h2>Shipping</h2>
           <Input
+            color="primary"
             isReadOnly
             label="Address"
             variant="bordered"
@@ -57,7 +58,7 @@ const PlaceOrderScreen = () => {
             className="max-w-xs"
           />
           <h2>Payment Method</h2>
-          <Input isReadOnly label="Method" variant="bordered" defaultValue={`${cart.paymentMethod}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Method" variant="bordered" defaultValue={`${cart.paymentMethod}`} className="max-w-xs" />
           <h2>Order Items</h2>
           {cart.cartItems.length === 0 ? (
             <Message title="Your cart is empty" />
@@ -79,11 +80,11 @@ const PlaceOrderScreen = () => {
         </CardHeader>
         <CardBody>
           <h2>Order Summary</h2>
-          <Input isReadOnly label="Items" variant="bordered" defaultValue={`$${cart.itemsPrice}`} className="max-w-xs" />
-          <Input isReadOnly label="Shipping" variant="bordered" defaultValue={`$${cart.shippingPrice}`} className="max-w-xs" />
-          <Input isReadOnly label="Tax" variant="bordered" defaultValue={`$${cart.taxPrice}`} className="max-w-xs" />
-          <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
-          <Input isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Items" variant="bordered" defaultValue={`$${cart.itemsPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Shipping" variant="bordered" defaultValue={`$${cart.shippingPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Tax" variant="bordered" defaultValue={`$${cart.taxPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
           {error && <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />}
           <Button type="button" color="success" variant="solid" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
             Place Order

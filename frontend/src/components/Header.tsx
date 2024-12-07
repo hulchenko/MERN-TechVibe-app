@@ -21,8 +21,8 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { clearCredentials } from "../slices/authSlice";
 import { resetCart } from "../slices/cartSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
-import SearchBox from "./SearchBox";
 import { reduceCartItems } from "../utils/cartUtils";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +32,7 @@ const Header = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.auth);
   const totalCartItems = reduceCartItems(cartItems);
-  const isHomePage = location.pathname === "/" || location.pathname.includes("page");
+  const isHomePage = location.pathname === "/" || location.pathname.includes("page") || location.pathname.includes("search");
 
   const [logoutApiCall] = useLogoutMutation();
 

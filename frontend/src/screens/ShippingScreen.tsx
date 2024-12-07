@@ -50,6 +50,7 @@ const ShippingScreen = () => {
         <CheckoutSteps cartStep shippingStep />
         <Form onSubmit={submitHandler} className="w-full max-w-xs flex flex-col gap-4 mt-4">
           <Input
+            color="primary"
             variant="bordered"
             isRequired
             type="text"
@@ -62,6 +63,7 @@ const ShippingScreen = () => {
             onChange={(e) => setAddress(e.target.value)}
           />
           <Input
+            color="primary"
             variant="bordered"
             isRequired
             type="text"
@@ -74,6 +76,7 @@ const ShippingScreen = () => {
             onChange={(e) => setCity(e.target.value)}
           />
           <Input
+            color="primary"
             variant="bordered"
             isRequired
             type="text"
@@ -86,6 +89,7 @@ const ShippingScreen = () => {
             onChange={(e) => setPostalCode(e.target.value)}
           />
           <Input
+            color="primary"
             variant="bordered"
             isRequired
             type="text"

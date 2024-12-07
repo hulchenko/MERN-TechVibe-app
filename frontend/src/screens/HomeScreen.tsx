@@ -1,14 +1,13 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button } from "@nextui-org/button";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import Product from "../components/Product";
 import Paginate from "../components/Paginate";
+import Product from "../components/Product";
 import ProductCarousel from "../components/ProductCarousel";
-import { useGetProductsQuery } from "../slices/productsApiSlice";
 import { ProductInterface } from "../interfaces/product.interface";
+import { useGetProductsQuery } from "../slices/productsApiSlice";
 import { APIError } from "../types/api-error.type";
-import { Button } from "@nextui-org/button";
-import { Card } from "@nextui-org/react";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -20,9 +19,8 @@ const HomeScreen = () => {
 
   return (
     <>
-      {!keyword ? (
-        <ProductCarousel />
-      ) : (
+      {!keyword && <ProductCarousel />}
+      {keyword && data?.products.length === 0 && (
         <div className="w-full text-center pt-96">
           <h2>Nothing found.</h2>
           <Button onClick={() => navigate("/")} color="primary" variant="solid" className="mt-8">
@@ -30,12 +28,16 @@ const HomeScreen = () => {
           </Button>
         </div>
       )}
-      <div className="grid grid-flow-row grid-cols-5 gap-4 py-4">
-        {data?.products?.map((product: ProductInterface) => (
-          <Product product={product} key={product._id} />
-        ))}
-      </div>
-      <Paginate pages={data?.pages} currPage={data?.page} keyword={keyword} />
+      {data && data.products.length > 0 && (
+        <>
+          <div className="grid grid-flow-row grid-cols-5 gap-4 py-4">
+            {data.products.map((product: ProductInterface) => (
+              <Product product={product} key={product._id} />
+            ))}
+          </div>
+          <Paginate pages={data?.pages} currPage={data?.page} keyword={keyword} />
+        </>
+      )}
     </>
   );
 };

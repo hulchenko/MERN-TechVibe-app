@@ -112,9 +112,10 @@ const OrderScreen = () => {
         <CardHeader>
           <div>
             <h2>Shipping</h2>
-            <Input isReadOnly label="Name" variant="bordered" defaultValue={order?.user?.name} className="max-w-xs" />
-            <Input isReadOnly label="Email" variant="bordered" defaultValue={order?.user?.email} className="max-w-xs" />
+            <Input color="primary" isReadOnly label="Name" variant="bordered" defaultValue={order?.user?.name} className="max-w-xs" />
+            <Input color="primary" isReadOnly label="Email" variant="bordered" defaultValue={order?.user?.email} className="max-w-xs" />
             <Input
+              color="primary"
               isReadOnly
               label="Address"
               variant="bordered"
@@ -129,7 +130,7 @@ const OrderScreen = () => {
           </div>
           <div>
             <h2>Payment Method</h2>
-            <Input isReadOnly label="Method" variant="bordered" defaultValue={order.paymentMethod} className="max-w-xs" />
+            <Input color="primary" isReadOnly label="Method" variant="bordered" defaultValue={order.paymentMethod} className="max-w-xs" />
             {order.isPaid ? (
               <Message color="success" title="Success" description={`Paid on ${order.paidAt}`} />
             ) : (
@@ -152,10 +153,10 @@ const OrderScreen = () => {
           ))}
         </CardBody>
         <CardFooter>
-          <Input isReadOnly label="Order Summary" variant="bordered" defaultValue={`${order.itemsPrice}`} className="max-w-xs" />
-          <Input isReadOnly label="Shipping" variant="bordered" defaultValue={`${order.shippingPrice}`} className="max-w-xs" />
-          <Input isReadOnly label="Tax" variant="bordered" defaultValue={`${order.taxPrice}`} className="max-w-xs" />
-          <Input isReadOnly label="Total" variant="bordered" defaultValue={`${order.totalPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Order Summary" variant="bordered" defaultValue={`${order.itemsPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Shipping" variant="bordered" defaultValue={`${order.shippingPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Tax" variant="bordered" defaultValue={`${order.taxPrice}`} className="max-w-xs" />
+          <Input color="primary" isReadOnly label="Total" variant="bordered" defaultValue={`${order.totalPrice}`} className="max-w-xs" />
           <div>
             {!order.isPaid && (
               <Card>

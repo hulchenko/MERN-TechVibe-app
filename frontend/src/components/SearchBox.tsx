@@ -23,6 +23,8 @@ const SearchBox = () => {
 
   return (
     <Input
+      color="primary"
+      variant="bordered"
       labelPlacement={"outside"}
       placeholder="Search"
       value={keyword}

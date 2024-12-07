@@ -112,7 +112,14 @@ const ProductScreen = () => {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              <Textarea required label="Comment" placeholder="Add a comment" className="w-full" onChange={(e) => setComment(e.target.value)} />
+              <Textarea
+                variant="bordered"
+                required
+                label="Comment"
+                placeholder="Add a comment"
+                className="w-full"
+                onChange={(e) => setComment(e.target.value)}
+              />
               <Button isDisabled={loadingReview} type="submit" color="primary" className="max-w-6">
                 Submit
               </Button>
@@ -165,7 +172,7 @@ const ProductScreen = () => {
               <Divider className="my-4" />
               <div className="flex justify-between">
                 <h2>Qty</h2>
-                <Dropdown as="select">
+                <Dropdown>
                   <DropdownTrigger>
                     <Button variant="faded">{qty}</Button>
                   </DropdownTrigger>

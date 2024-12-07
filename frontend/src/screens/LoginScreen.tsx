@@ -43,8 +43,19 @@ const LoginScreen = () => {
       <h1>Sign In</h1>
       <form onSubmit={submitHandler}>
         <div className="flex flex-col gap-2 w-56">
-          <Input type="email" label="Email" labelPlacement={"outside"} placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input
+            color="primary"
+            variant="bordered"
+            type="email"
+            label="Email"
+            labelPlacement={"outside"}
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            color="primary"
+            variant="bordered"
             type="password"
             label="Password"
             labelPlacement={"outside"}

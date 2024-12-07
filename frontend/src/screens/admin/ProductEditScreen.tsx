@@ -79,6 +79,7 @@ const ProductEditScreen = () => {
       {loadingUpdate && <Loader />}
       <form onSubmit={submitHandler}>
         <Input
+          variant="bordered"
           type="text"
           label="Name"
           labelPlacement={"outside"}
@@ -87,6 +88,7 @@ const ProductEditScreen = () => {
           onChange={(e) => setProduct({ ...product, name: e.target.value })}
         />
         <Input
+          variant="bordered"
           type="number"
           label="Price"
           labelPlacement={"outside"}
@@ -94,14 +96,21 @@ const ProductEditScreen = () => {
           value={product.price}
           onChange={(e) => setProduct({ ...product, price: e.target.value })}
         />
-        <Input type="file" label="Image" labelPlacement={"outside"} placeholder="Upload image" onChange={uploadFileHandler} color="primary" />
-        <Dropdown as="select">
+        <Input
+          variant="bordered"
+          type="file"
+          label="Image"
+          labelPlacement={"outside"}
+          placeholder="Upload image"
+          onChange={uploadFileHandler}
+          color="primary"
+        />
+        <Dropdown>
           <DropdownTrigger>
             <Button variant="bordered">Select genre</Button>
           </DropdownTrigger>
           <DropdownMenu onAction={(key) => setProduct({ ...product, genre: String(key) })}>
-            {/* TODO string key? */}
-            {genres.map((genre, idx) => (
+            {genres.map((genre) => (
               <DropdownItem key={genre} value={genre}>
                 {genre}
               </DropdownItem>
@@ -109,6 +118,7 @@ const ProductEditScreen = () => {
           </DropdownMenu>
         </Dropdown>
         <Input
+          variant="bordered"
           type="number"
           label="Count In Stock"
           labelPlacement={"outside"}
@@ -120,6 +130,7 @@ const ProductEditScreen = () => {
         />
         <h2>Description</h2>
         <Textarea
+          variant="bordered"
           label="Description"
           placeholder="Enter description"
           className="max-w-xs"

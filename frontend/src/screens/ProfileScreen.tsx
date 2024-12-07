@@ -56,9 +56,26 @@ export const ProfileScreen = () => {
       <Card>
         <h2>User Profile</h2>
         <form onSubmit={submitHandler}>
-          <Input type="text" label="Name" labelPlacement={"outside"} placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input type="email" label="Email" labelPlacement={"outside"} placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input
+            variant="bordered"
+            type="text"
+            label="Name"
+            labelPlacement={"outside"}
+            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            variant="bordered"
+            type="email"
+            label="Email"
+            labelPlacement={"outside"}
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            variant="bordered"
             type="password"
             label="Password"
             labelPlacement={"outside"}
@@ -67,6 +84,7 @@ export const ProfileScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Input
+            variant="bordered"
             type="password"
             label="Confirm password"
             labelPlacement={"outside"}

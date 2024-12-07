@@ -13,7 +13,7 @@ import { useProfileMutation } from "../slices/usersApiSlice";
 import { APIError } from "../types/api-error.type";
 import { apiErrorHandler } from "../utils/errorUtils";
 
-export const ProfileScreen = () => {
+const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -136,3 +136,5 @@ export const ProfileScreen = () => {
     </div>
   );
 };
+
+export default ProfileScreen;

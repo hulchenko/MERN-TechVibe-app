@@ -9,23 +9,23 @@ import { store } from "./store";
 //Components
 import App from "./App";
 import AdminRoute from "./components/AdminRoute";
-import PaymentScreen from "./components/PaymentScreen";
 import PrivateRoute from "./components/PrivateRoute";
 import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import OrderScreen from "./screens/OrderScreen";
+import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProductScreen from "./screens/ProductScreen";
-import { ProfileScreen } from "./screens/ProfileScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ShippingScreen from "./screens/ShippingScreen";
 import OrderListScreen from "./screens/admin/OrderListScreen";
+import ProductCreateScreen from "./screens/admin/ProductCreateScreen";
 import ProductEditScreen from "./screens/admin/ProductEditScreen";
 import ProductListScreen from "./screens/admin/ProductListScreen";
 import UserEditScreen from "./screens/admin/UserEditScreen";
 import UserListScreen from "./screens/admin/UserListScreen";
-import ProductCreateScreen from "./screens/admin/ProductCreateScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

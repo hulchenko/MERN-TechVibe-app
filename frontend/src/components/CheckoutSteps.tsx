@@ -5,40 +5,24 @@ const CheckoutSteps = ({ cartStep = false, shippingStep = false, paymentStep = f
   return (
     <Breadcrumbs>
       <BreadcrumbItem>
-        {cartStep ? (
-          <NextUILink as={Link} to="/cart">
-            Cart
-          </NextUILink>
-        ) : (
-          <NextUILink isDisabled>Cart</NextUILink>
-        )}
+        <NextUILink as={Link} to="/cart" isDisabled={!cartStep}>
+          Cart
+        </NextUILink>
       </BreadcrumbItem>
       <BreadcrumbItem>
-        {shippingStep ? (
-          <NextUILink as={Link} to="/shipping">
-            Shipping
-          </NextUILink>
-        ) : (
-          <NextUILink isDisabled>Shipping</NextUILink>
-        )}
+        <NextUILink as={Link} to="/shipping" isDisabled={!shippingStep}>
+          Shipping
+        </NextUILink>
       </BreadcrumbItem>
       <BreadcrumbItem>
-        {paymentStep ? (
-          <NextUILink as={Link} to="/payment">
-            Payment
-          </NextUILink>
-        ) : (
-          <NextUILink isDisabled>Payment</NextUILink>
-        )}
+        <NextUILink as={Link} to="/payment" isDisabled={!paymentStep}>
+          Payment
+        </NextUILink>
       </BreadcrumbItem>
       <BreadcrumbItem>
-        {orderStep ? (
-          <NextUILink as={Link} to="/placeorder">
-            Place Order
-          </NextUILink>
-        ) : (
-          <NextUILink isDisabled>Place Order</NextUILink>
-        )}
+        <NextUILink as={Link} to="/placeorder" isDisabled={!orderStep}>
+          Place Order
+        </NextUILink>
       </BreadcrumbItem>
     </Breadcrumbs>
   );

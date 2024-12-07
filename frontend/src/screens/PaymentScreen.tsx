@@ -1,4 +1,4 @@
-import { Button, Radio, RadioGroup } from "@nextui-org/react";
+import { Button, Form, Radio, RadioGroup } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
@@ -27,20 +27,24 @@ const PaymentScreen = () => {
   };
 
   return (
-    <>
-      <CheckoutSteps cartStep shippingStep paymentStep />
-      <h1>Payment Method</h1>
-      <form onSubmit={submitHandler}>
-        <RadioGroup label="Select Method" defaultValue="paypal">
-          <Radio value="paypal" onChange={(e) => setPaymentMethod(e.target.value)}>
-            PayPal or Credit Card
-          </Radio>
-        </RadioGroup>
-        <Button type="submit" color="primary" variant="bordered">
-          Continue
-        </Button>
-      </form>
-    </>
+    <div className="w-full flex justify-center mt-12">
+      <div>
+        <CheckoutSteps cartStep shippingStep paymentStep />
+        <Form onSubmit={submitHandler} className="gap-4 mt-4">
+          <RadioGroup label="Select Method" defaultValue="paypal">
+            <Radio value="paypal" onChange={(e) => setPaymentMethod(e.target.value)}>
+              PayPal
+            </Radio>
+            <Radio value="credit" isDisabled>
+              Credit Card
+            </Radio>
+          </RadioGroup>
+          <Button type="submit" color="primary" variant="bordered">
+            Continue
+          </Button>
+        </Form>
+      </div>
+    </div>
   );
 };
 

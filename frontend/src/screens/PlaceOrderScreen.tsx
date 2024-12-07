@@ -85,7 +85,7 @@ const PlaceOrderScreen = () => {
         <div className="w-full flex justify-center">
           <Card className="h-96 w-1/2">
             <CardHeader>
-              <h2 className="font-bold text-xl">Order Summary</h2>
+              <h2 className="font-bold text-xl w-full text-center">Order Summary</h2>
             </CardHeader>
             <CardBody>
               <div className="flex justify-between">

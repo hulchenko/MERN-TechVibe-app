@@ -1,8 +1,8 @@
+import { Button, Card, CardBody, CardHeader, Divider, Image } from "@nextui-org/react";
 import type { CreateOrderActions, CreateOrderData, OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
-import { Button, Image, Card, CardBody, CardHeader, Input, CardFooter, useNavbar } from "@nextui-org/react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -10,6 +10,7 @@ import { useAppSelector } from "../hooks";
 import { useDeliverOrderMutation, useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation } from "../slices/ordersApiSlice";
 import { APIError } from "../types/api-error.type";
 import { apiErrorHandler } from "../utils/errorUtils";
+import { dateUTCFormat } from "../utils/genericUtils";
 
 const OrderScreen = () => {
   const navigate = useNavigate();
@@ -103,82 +104,145 @@ const OrderScreen = () => {
 
   return (
     <>
-      <Button color="primary" variant="bordered" onClick={() => navigate("/admin/orderlist")}>
-        Back
-      </Button>
+      <div className="flex justify-between mt-12">
+        {userInfo.isAdmin && (
+          <Button color="primary" variant="bordered" onClick={() => navigate("/admin/orderlist")}>
+            Orders
+          </Button>
+        )}
+        {userInfo && !userInfo.isAdmin && (
+          <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
+            Home
+          </Button>
+        )}
+        <div>
+          <h1 className="text-lg font-bold">Order Details</h1>
+          <Divider />
+        </div>
+        <span id="do-no-remove"></span>
+      </div>
 
-      <h1>Order: {order._id}</h1>
-      <Card>
-        <CardHeader>
+      <div className="w-full flex justify-between">
+        <div className="w-full">
           <div>
-            <h2>Shipping</h2>
-            <Input color="primary" isReadOnly label="Name" variant="bordered" defaultValue={order?.user?.name} className="max-w-xs" />
-            <Input color="primary" isReadOnly label="Email" variant="bordered" defaultValue={order?.user?.email} className="max-w-xs" />
-            <Input
-              color="primary"
-              isReadOnly
-              label="Address"
-              variant="bordered"
-              defaultValue={`${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.postalCode}, ${order.shippingAddress.country}`}
-              className="max-w-xs"
-            />
-            {order.isDelivered ? (
-              <Message color="success" title="Success" description={`Delivered on ${order.deliveredAt}`} />
-            ) : (
-              <Message color="warning" title="Warning" description="Not delivered" />
-            )}
+            <h2 className="my-6 font-bold text-xl">Shipping Details</h2>
+            <div className="flex items-center gap-4">
+              <h2 className="my-2 font-bold w-16">Order ID</h2>
+              <p>{order._id}</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <h2 className="my-2 font-bold w-16">Name</h2>
+              <p>{order?.user?.name}</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <h2 className="my-2 font-bold w-16">Email</h2>
+              <p>{order?.user?.email}</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <h2 className="my-2 font-bold w-16">Address</h2>
+              <p>{`${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.postalCode}, ${order.shippingAddress.country}`}</p>
+            </div>
+            <div>
+              <h2 className="my-2 font-bold w-16">Status</h2>
+              {!order.isPaid && <Message color="warning" title="Warning" description="Awaiting payment" />}
+              {order.isPaid && !order.isDelivered && <Message color="default" title="Info" description="Not delivered" />}
+              {order.isPaid && order.isDelivered && (
+                <Message color="success" title="Success" description={`Delivered on ${dateUTCFormat(order.deliveredAt)}`} />
+              )}
+            </div>
           </div>
+          <Divider className="mt-2" />
           <div>
-            <h2>Payment Method</h2>
-            <Input color="primary" isReadOnly label="Method" variant="bordered" defaultValue={order.paymentMethod} className="max-w-xs" />
-            {order.isPaid ? (
-              <Message color="success" title="Success" description={`Paid on ${order.paidAt}`} />
-            ) : (
-              <Message color="warning" title="Warning" description="Not paid" />
-            )}
+            <h2 className="my-6 font-bold text-xl">Payment Details</h2>
+            <div className="flex items-center gap-4">
+              <h2 className="my-2 font-bold w-16">Method</h2>
+              <p>{order.paymentMethod}</p>
+            </div>
+            <div>
+              <h2 className="my-2 font-bold w-16">Status</h2>
+              {order.isPaid && <Message color="success" title="Success" description={`Paid on ${dateUTCFormat(order.paidAt)}`} />}
+              {!order.isPaid && <Message color="warning" title="Warning" description="Not paid" />}
+            </div>
           </div>
-        </CardHeader>
-        <CardBody>
-          <h2>Order Items</h2>
-          {order.orderItems.map((item, index) => (
-            <Card key={index}>
+          <Divider className="mt-2" />
+          <div>
+            <h2 className="my-6 font-bold text-xl">Order Items</h2>
+            {order.orderItems.length === 0 && <Message title="No orders to display." />}
+            {order.orderItems.map((item, index) => (
+              <Card key={index} className="w-full flex my-4">
+                <CardBody>
+                  <div className="w-full flex items-center justify-between gap-4">
+                    <Image src={item.image} alt={item.name} height={100} radius="sm" width={60}></Image>
+                    <Link to={`/product/${item.product}`} className="w-40 underline text-violet-500">
+                      {item.name}
+                    </Link>
+                    <p>
+                      {item.qty} x ${item.price} = ${item.qty * item.price}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full flex-col justify-items-center">
+          <div className="w-1/2">
+            <Card>
+              <CardHeader>
+                <h2 className="font-bold text-xl w-full text-center">Order Summary</h2>
+              </CardHeader>
               <CardBody>
-                <Image src={item.image} alt={item.name}></Image>
-                <Link to={`/product/${item.product}`}>{item.name}</Link>
-                <p>
-                  {item.qty} x ${item.price} = ${item.qty * item.price}
-                </p>
+                <div className="flex justify-between">
+                  <h2 className="font-bold text-md">Items</h2>
+                  <p>${order.itemsPrice}</p>
+                </div>
+                <Divider className="my-4" />
+                <div className="flex justify-between">
+                  <h2 className="font-bold text-md">Shipping</h2>
+                  <p>${order.shippingPrice}</p>
+                </div>
+                <Divider className="my-4" />{" "}
+                <div className="flex justify-between">
+                  <h2 className="font-bold text-md">Tax</h2>
+                  <p>${order.taxPrice}</p>
+                </div>
+                <Divider className="my-4" />
+                <div className="flex justify-between">
+                  <h2 className="font-bold text-md">Total</h2>
+                  <p>${order.totalPrice}</p>
+                </div>
               </CardBody>
             </Card>
-          ))}
-        </CardBody>
-        <CardFooter>
-          <Input color="primary" isReadOnly label="Order Summary" variant="bordered" defaultValue={`${order.itemsPrice}`} className="max-w-xs" />
-          <Input color="primary" isReadOnly label="Shipping" variant="bordered" defaultValue={`${order.shippingPrice}`} className="max-w-xs" />
-          <Input color="primary" isReadOnly label="Tax" variant="bordered" defaultValue={`${order.taxPrice}`} className="max-w-xs" />
-          <Input color="primary" isReadOnly label="Total" variant="bordered" defaultValue={`${order.totalPrice}`} className="max-w-xs" />
-          <div>
-            {!order.isPaid && (
-              <Card>
-                {loadingPay && <Loader />}
-                {isPending ? (
-                  <Loader />
-                ) : (
-                  <div>
-                    <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
-                  </div>
-                )}
-              </Card>
-            )}
-            {loadingDeliver && <Loader />}
-            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-              <Button type="button" variant="solid" color="success" className="btn btn-block" onClick={deliverOrderHandler}>
-                Mark As Delivered
-              </Button>
-            )}
+
+            <Divider className="my-2" />
+
+            <div className="w-full">
+              {!order.isPaid && (
+                <>
+                  {loadingPay || isPending ? (
+                    <Loader />
+                  ) : (
+                    <PayPalButtons
+                      style={{ color: "black", tagline: false, layout: "horizontal" }}
+                      className="bg-violet-400 border border-violet-400 rounded"
+                      createOrder={createOrder}
+                      onApprove={onApprove}
+                      onError={onError}
+                    ></PayPalButtons>
+                  )}
+                </>
+              )}
+              {loadingDeliver && <Loader />}
+              {userInfo?.isAdmin && order.isPaid && !order.isDelivered && (
+                <Button type="button" variant="solid" color="success" className="btn btn-block w-full" onClick={deliverOrderHandler}>
+                  Mark As Delivered
+                </Button>
+              )}
+            </div>
           </div>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </>
   );
 };

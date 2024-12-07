@@ -12,25 +12,26 @@ import useEmblaCarousel from "embla-carousel-react";
 
 const ProductCarousel = () => {
   const navigate = useNavigate();
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
+  const [emblaRef] = useEmblaCarousel({ loop: true, align: "center" }, [Autoplay()]);
   const { data: products, isLoading, error } = useGetTopProductsQuery();
 
   if (isLoading) return <Loader />;
   if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
 
   return (
-    <div className="embla" ref={emblaRef}>
-      <div className="embla__container">
-        {products &&
-          products.map((product: ProductInterface) => (
-            <div className="embla__slide" key={product._id}>
-              <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} className="embla__slide__number" />
-              <div className="text-gray-400 font-bold w-full whitespace-nowrap text-ellipsis overflow-hidden">
-                <h2>{product.name}</h2>
-                <h5>${product.price}</h5>
+    <div className="w-full flex justify-center">
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container">
+          {products &&
+            products.map((product: ProductInterface) => (
+              <div className="embla__slide" key={product._id}>
+                <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} className="embla__slide__number" />
+                <div className="font-bold">
+                  <h2 className="w-52 text-center text-wrap">{product.name}</h2>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     </div>
   );

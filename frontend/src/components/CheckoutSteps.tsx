@@ -20,7 +20,7 @@ const CheckoutSteps = ({ cartStep = false, shippingStep = false, paymentStep = f
         </NextUILink>
       </BreadcrumbItem>
       <BreadcrumbItem>
-        <NextUILink as={Link} to="/placeorder" isDisabled={!orderStep}>
+        <NextUILink as={Link} to="/place-order" isDisabled={!orderStep}>
           Place Order
         </NextUILink>
       </BreadcrumbItem>

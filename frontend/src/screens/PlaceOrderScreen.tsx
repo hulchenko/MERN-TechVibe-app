@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Card, CardBody, CardHeader, Image, Input } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image, Input } from "@nextui-org/react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CheckoutSteps from "../components/CheckoutSteps";
@@ -44,55 +44,80 @@ const PlaceOrderScreen = () => {
   };
 
   return (
-    <>
-      <CheckoutSteps cartStep shippingStep paymentStep orderStep />
-      <Card>
-        <CardHeader>
-          <h2>Shipping</h2>
-          <Input
-            color="primary"
-            isReadOnly
-            label="Address"
-            variant="bordered"
-            defaultValue={`${cart.shippingAddress.address}, ${cart.shippingAddress.city}, ${cart.shippingAddress.postalCode}, ${cart.shippingAddress.country}`}
-            className="max-w-xs"
-          />
-          <h2>Payment Method</h2>
-          <Input color="primary" isReadOnly label="Method" variant="bordered" defaultValue={`${cart.paymentMethod}`} className="max-w-xs" />
-          <h2>Order Items</h2>
-          {cart.cartItems.length === 0 ? (
-            <Message title="Your cart is empty" />
-          ) : (
-            <>
+    <div className="w-full mt-12">
+      <div className="flex justify-center">
+        <CheckoutSteps cartStep shippingStep paymentStep orderStep />
+      </div>
+      <div className="flex gap-4 justify-between h-96 mt-6">
+        <div className="flex-col h-full w-full">
+          <div>
+            <h2 className="my-6 font-bold">Shipping To</h2>
+            <p>{`${cart.shippingAddress.address}, ${cart.shippingAddress.city}, ${cart.shippingAddress.postalCode}, ${cart.shippingAddress.country}`}</p>
+          </div>
+          <Divider className="mt-2" />
+          <div>
+            <h2 className="my-6 font-bold">Payment Method</h2>
+            <p>{`${cart.paymentMethod}`}</p>
+          </div>
+          <Divider className="mt-2" />
+          <div>
+            <h2 className="my-6 font-bold">Order Items</h2>
+            <div className="h-[44rem] overflow-auto">
+              {cart.cartItems.length === 0 && <Message title="Your cart is empty" />}
               {cart.cartItems.map((item, index) => (
-                <Card key={index}>
+                <Card key={index} className="w-full flex my-4">
                   <CardBody>
-                    <Image src={item.image} alt={item.name}></Image>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                    <p>
-                      {item.qty} x ${item.price} = ${item.qty * item.price}
-                    </p>
+                    <div className="w-full flex items-center justify-between gap-4">
+                      <Image src={item.image} alt={item.name} height={150} radius="sm" width={100}></Image>
+                      <Link className="w-40 underline text-violet-500" to={`/product/${item._id}`}>
+                        {item.name}
+                      </Link>
+                      <p>
+                        {item.qty} x ${item.price} = ${item.qty * item.price}
+                      </p>
+                    </div>
                   </CardBody>
                 </Card>
               ))}
-            </>
-          )}
-        </CardHeader>
-        <CardBody>
-          <h2>Order Summary</h2>
-          <Input color="primary" isReadOnly label="Items" variant="bordered" defaultValue={`$${cart.itemsPrice}`} className="max-w-xs" />
-          <Input color="primary" isReadOnly label="Shipping" variant="bordered" defaultValue={`$${cart.shippingPrice}`} className="max-w-xs" />
-          <Input color="primary" isReadOnly label="Tax" variant="bordered" defaultValue={`$${cart.taxPrice}`} className="max-w-xs" />
-          <Input color="primary" isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
-          <Input color="primary" isReadOnly label="Total" variant="bordered" defaultValue={`$${cart.totalPrice}`} className="max-w-xs" />
-          {error && <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />}
-          <Button type="button" color="success" variant="solid" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
-            Place Order
-          </Button>
-          {isLoading && <Loader />}
-        </CardBody>
-      </Card>
-    </>
+            </div>
+          </div>
+        </div>
+        <div className="w-full flex justify-center">
+          <Card className="h-96 w-1/2">
+            <CardHeader>
+              <h2 className="font-bold text-xl">Order Summary</h2>
+            </CardHeader>
+            <CardBody>
+              <div className="flex justify-between">
+                <h2 className="font-bold text-md">Items</h2>
+                <p>${cart.itemsPrice}</p>
+              </div>
+              <Divider className="my-4" />
+              <div className="flex justify-between">
+                <h2 className="font-bold text-md">Shipping</h2>
+                <p>${cart.shippingPrice}</p>
+              </div>
+              <Divider className="my-4" />{" "}
+              <div className="flex justify-between">
+                <h2 className="font-bold text-md">Tax</h2>
+                <p>${cart.taxPrice}</p>
+              </div>
+              <Divider className="my-4" />
+              <div className="flex justify-between">
+                <h2 className="font-bold text-md">Total</h2>
+                <p>${cart.totalPrice}</p>
+              </div>
+              {error && <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />}
+            </CardBody>
+            <CardFooter className="flex-col">
+              <Button type="button" color="success" variant="solid" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
+                Place Order
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -79,7 +79,7 @@ const CartScreen = () => {
         <div className="w-1/2 flex justify-center">
           <Card className="h-40 w-1/2">
             <CardBody>
-              <h2 className="font-bold text-lg">Subtotal ({reduceCartItems(cartItems)}) item(s)</h2>
+              <h2 className="font-bold text-md">Subtotal ({reduceCartItems(cartItems)}) item(s)</h2>
               <p>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</p>
               <Divider className="mt-2" />
             </CardBody>

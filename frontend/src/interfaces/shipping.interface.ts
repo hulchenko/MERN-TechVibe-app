@@ -4,3 +4,10 @@ export interface ShippingInterface {
   postalCode: string;
   country: string;
 }
+
+export interface ShippingFormValidators {
+  address: boolean;
+  city: boolean;
+  postalCode: boolean;
+  country: boolean;
+}

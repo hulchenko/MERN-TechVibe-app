@@ -11,7 +11,7 @@ import { APIError } from "../types/api-error.type";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
-  const { pageNum = "0", keyword = "" } = useParams();
+  const { pageNum = "1", keyword = "" } = useParams();
   const { data, isLoading, error } = useGetProductsQuery({ keyword, pageNum });
 
   if (isLoading) return <Loader />;

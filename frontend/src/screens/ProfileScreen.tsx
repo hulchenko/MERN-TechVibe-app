@@ -1,8 +1,8 @@
+import { Button, Card, Input, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { Button, Card, Table, Input, TableHeader, TableColumn, TableBody, TableCell, TableRow } from "@nextui-org/react";
 
 import { FaTimes } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -20,11 +20,12 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
+  const { pageNum = "1" } = useParams();
 
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.auth);
   const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
-  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
+  const { data, isLoading, error } = useGetMyOrdersQuery({ pageNum });
 
   useEffect(() => {
     if (userInfo) {
@@ -114,22 +115,20 @@ const ProfileScreen = () => {
             <TableColumn>{""}</TableColumn>
           </TableHeader>
           <TableBody emptyContent={"No orders found."}>
-            {(orders &&
-              orders.map((order) => (
-                <TableRow key={order._id}>
-                  <TableCell>{order._id}</TableCell>
-                  <TableCell>{order.createdAt?.substring(0, 10)}</TableCell>
-                  <TableCell>{order.totalPrice}</TableCell>
-                  <TableCell>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
-                  <TableCell>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
-                  <TableCell>
-                    <Button color="primary" variant="faded" onClick={() => navigate(`/order/${order._id}`)}>
-                      Details
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))) ||
-              []}
+            {data?.orders.map((order) => (
+              <TableRow key={order._id}>
+                <TableCell>{order._id}</TableCell>
+                <TableCell>{order.createdAt?.substring(0, 10)}</TableCell>
+                <TableCell>{order.totalPrice}</TableCell>
+                <TableCell>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
+                <TableCell>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
+                <TableCell>
+                  <Button color="primary" variant="faded" onClick={() => navigate(`/order/${order._id}`)}>
+                    Details
+                  </Button>
+                </TableCell>
+              </TableRow>
+            )) || []}
           </TableBody>
         </Table>
       </Card>

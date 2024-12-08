@@ -1,25 +1,25 @@
 import { Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SearchIcon } from "../icons/SearchIcon";
 
 const SearchBox = () => {
   const navigate = useNavigate();
-  const { keyword: urlKeyword } = useParams();
-  const [keyword, setKeyword] = useState(urlKeyword || "");
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("search") || "");
 
   useEffect(() => {
-    const search = () => {
-      if (keyword.length > 0) {
-        navigate(`/search/${keyword.trim()}`);
+    const callSearch = () => {
+      if (search.length > 0) {
+        navigate(`/?search=${search.trim()}`);
       } else {
         navigate("/");
       }
     };
 
-    const timer = setTimeout(() => search(), 1500);
+    const timer = setTimeout(() => callSearch(), 1500);
     return () => clearTimeout(timer);
-  }, [keyword]);
+  }, [search]);
 
   return (
     <Input
@@ -27,8 +27,8 @@ const SearchBox = () => {
       variant="bordered"
       labelPlacement={"outside"}
       placeholder="Search"
-      value={keyword}
-      onChange={(e) => setKeyword(e.target.value)}
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
       startContent={<SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />}
       type="search"
     />

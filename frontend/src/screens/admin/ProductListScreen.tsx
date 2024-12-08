@@ -1,9 +1,8 @@
 import { Button } from "@nextui-org/button";
-import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
-import { Link as NextUILink } from "@nextui-org/react";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
@@ -14,7 +13,8 @@ import { apiErrorHandler } from "../../utils/errorUtils";
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
-  const { pageNum = "1" } = useParams();
+  const [searchParams] = useSearchParams();
+  const pageNum = searchParams.get("page") || "1";
   const { data = { products: [], pages: 0, page: 0 }, isLoading, error, refetch } = useGetProductsQuery({ pageNum });
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
 
@@ -57,7 +57,7 @@ const ProductListScreen = () => {
               <TableColumn>Actions</TableColumn>
             </TableHeader>
             <TableBody emptyContent={"No products found."}>
-              {data?.products.map((product: ProductInterface) => (
+              {data?.products?.map((product: ProductInterface) => (
                 <TableRow key={product._id}>
                   <TableCell>{product._id}</TableCell>
                   <TableCell>{product.name}</TableCell>
@@ -75,7 +75,7 @@ const ProductListScreen = () => {
               )) || []}
             </TableBody>
           </Table>
-          <Paginate pages={data?.pages} currPage={data?.page} isAdmin={true} />
+          <Paginate pages={data?.pages} currPage={data?.page} />
         </>
       )}
     </>

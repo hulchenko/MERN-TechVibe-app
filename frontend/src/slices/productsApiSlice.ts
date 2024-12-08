@@ -8,10 +8,10 @@ import { FilterParams } from "../types/filter-params.type";
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<ProductPaginationRes, FilterParams>({
-      query: ({ pageNum, keyword }) => ({
+      query: ({ pageNum, search }) => ({
         url: PRODUCTS_URL,
         params: {
-          keyword,
+          search,
           pageNum,
         },
       }),

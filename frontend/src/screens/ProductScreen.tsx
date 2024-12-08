@@ -140,21 +140,20 @@ const ProductScreen = () => {
           <h2 className="my-6 font-bold">Customer comments</h2>
           <div className="h-[44rem] overflow-auto">
             {product?.reviews?.length === 0 && <Message title="No comments here yet."></Message>}
-            {product.reviews &&
-              product.reviews.map((review: ReviewInterface) => (
-                <Card key={review._id} className="mt-4">
-                  <CardHeader>
-                    <h2 className="font-bold">{review.name}</h2>
-                  </CardHeader>
-                  <CardBody>
-                    <Rating value={review.rating} text={""} />
-                    <p>{review?.createdAt?.substring(0, 10)}</p>
-                  </CardBody>
-                  <CardFooter>
-                    <p>{review.comment}</p>
-                  </CardFooter>
-                </Card>
-              ))}
+            {product?.reviews?.map((review: ReviewInterface) => (
+              <Card key={review._id} className="mt-4">
+                <CardHeader>
+                  <h2 className="font-bold">{review.name}</h2>
+                </CardHeader>
+                <CardBody>
+                  <Rating value={review.rating} text={""} />
+                  <p>{review?.createdAt?.substring(0, 10)}</p>
+                </CardBody>
+                <CardFooter>
+                  <p>{review.comment}</p>
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         </div>
 

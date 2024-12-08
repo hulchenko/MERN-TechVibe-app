@@ -22,15 +22,14 @@ const ProductCarousel = () => {
     <div className="w-full flex justify-center">
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
-          {products &&
-            products.map((product: ProductInterface) => (
-              <div className="embla__slide" key={product._id}>
-                <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} className="embla__slide__number" />
-                <div className="font-bold">
-                  <h2 className="w-52 text-center text-wrap">{product.name}</h2>
-                </div>
+          {products?.map((product: ProductInterface) => (
+            <div className="embla__slide" key={product._id}>
+              <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} className="embla__slide__number" />
+              <div className="font-bold">
+                <h2 className="w-52 text-center text-wrap">{product.name}</h2>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

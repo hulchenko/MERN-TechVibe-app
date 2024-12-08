@@ -1,13 +1,14 @@
-import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell, Button } from "@nextui-org/react";
+import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { FaTimes } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import { useGetAllOrdersQuery } from "../../slices/ordersApiSlice";
 import Paginate from "../../components/Paginate";
+import { useGetAllOrdersQuery } from "../../slices/ordersApiSlice";
 
 const OrderListScreen = () => {
-  const { pageNum = "1" } = useParams();
+  const [searchParams] = useSearchParams();
+  const pageNum = searchParams.get("page") || "1";
   const { data, isLoading, error } = useGetAllOrdersQuery({ pageNum });
   const navigate = useNavigate();
   console.log(`ORDERS: `, data?.orders);
@@ -29,7 +30,7 @@ const OrderListScreen = () => {
           <TableColumn>{""}</TableColumn>
         </TableHeader>
         <TableBody emptyContent={"No orders found."}>
-          {data?.orders.map((order) => (
+          {data?.orders?.map((order) => (
             <TableRow key={order._id}>
               <TableCell>{order._id}</TableCell>
               <TableCell>{order.user && order.user.name}</TableCell>
@@ -46,7 +47,7 @@ const OrderListScreen = () => {
           )) || []}
         </TableBody>
       </Table>
-      <Paginate pages={data?.pages} currPage={data?.page} isAdmin={true} />
+      <Paginate pages={data?.pages} currPage={data?.page} />
     </>
   );
 };

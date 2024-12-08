@@ -1,6 +1,6 @@
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
@@ -12,7 +12,8 @@ import { apiErrorHandler } from "../../utils/errorUtils";
 
 const UserListScreen = () => {
   const navigate = useNavigate();
-  const { pageNum = "1" } = useParams();
+  const [searchParams] = useSearchParams();
+  const pageNum = searchParams.get("page") || "1";
   const { data, refetch, isLoading, error } = useGetUsersQuery({ pageNum });
   const [deleteUser] = useDeleteUserMutation();
 
@@ -43,7 +44,7 @@ const UserListScreen = () => {
           <TableColumn>Actions</TableColumn>
         </TableHeader>
         <TableBody emptyContent={"No users found."}>
-          {data?.users.map((user: UserInterface) => (
+          {data?.users?.map((user: UserInterface) => (
             <TableRow key={user._id}>
               <TableCell>{user._id}</TableCell>
               <TableCell>{user.name}</TableCell>
@@ -66,7 +67,7 @@ const UserListScreen = () => {
           )) || []}
         </TableBody>
       </Table>
-      <Paginate pages={data?.pages} currPage={data?.page} isAdmin={true} />
+      <Paginate pages={data?.pages} currPage={data?.page} />
     </>
   );
 };

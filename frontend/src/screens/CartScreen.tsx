@@ -44,7 +44,7 @@ const CartScreen = () => {
           </div>
         ) : (
           <div className="w-3/4 h-[60rem] overflow-auto">
-            {cartItems.map((item) => (
+            {cartItems?.map((item) => (
               <Card key={item._id} className="w-full flex my-4">
                 <CardBody>
                   <div className="w-full flex items-center justify-between gap-4">

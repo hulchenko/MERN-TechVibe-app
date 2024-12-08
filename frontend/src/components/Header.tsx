@@ -32,7 +32,7 @@ const Header = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.auth);
   const totalCartItems = reduceCartItems(cartItems);
-  const isHomePage = location.pathname === "/" || location.pathname.includes("page") || location.pathname.includes("search");
+  const isHomePage = location.pathname === "/";
 
   const [logoutApiCall] = useLogoutMutation();
 

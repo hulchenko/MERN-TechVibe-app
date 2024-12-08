@@ -167,8 +167,8 @@ const OrderScreen = () => {
           <Divider className="mt-2" />
           <h2 className="my-6 font-bold text-xl">Order items</h2>
           <div className="h-[20rem] overflow-auto">
-            {order.orderItems.length === 0 && <Message title="No orders to display." />}
-            {order.orderItems.map((item, index) => (
+            {order?.orderItems?.length === 0 && <Message title="No orders to display." />}
+            {order?.orderItems?.map((item, index) => (
               <Card key={index} className="w-full flex my-4">
                 <CardBody>
                   <div className="w-full flex items-center justify-between gap-4">

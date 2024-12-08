@@ -15,7 +15,6 @@ export const productsApiSlice = apiSlice.injectEndpoints({
           pageNum,
         },
       }),
-      keepUnusedDataFor: 5,
       providesTags: ["Product"],
     }),
     getProductDetails: builder.query<ProductInterface, string>({

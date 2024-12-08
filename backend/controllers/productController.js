@@ -1,25 +1,26 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
+import { paginationParams } from "../utils/pagination.js";
 
 const getProducts = asyncHandler(async (req, res) => {
-  // Pagination params
-  const pageSize = 10;
-  const page = Number(req.query.pageNum) || 1;
-
   // Search params
   const keyword = req.query.keyword ? { name: { $regex: req.query.keyword, $options: "i" } } : {}; //$options i is for insensitive case
+
+  //Pagination
+  const { pageSize, page } = paginationParams(req);
   const count = await Product.countDocuments({ ...keyword });
+  const totalPages = Math.ceil(count / pageSize);
 
   const products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  res.status(200).json({ products, page, pages: totalPages });
 });
 
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
-    return res.json(product);
+    return res.status(200).json(product);
   } else {
     res.status(404);
     throw new Error("Resource not found");
@@ -61,14 +62,14 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 
   const updateProduct = await product.save();
-  res.json(updateProduct);
+  res.status(204).json(updateProduct);
 });
 
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     await Product.deleteOne({ _id: product._id });
-    res.json({ message: "Product deleted" });
+    res.status(204).json({ message: "Product deleted" });
   } else {
     res.status(404);
     throw new Error("Product not found");

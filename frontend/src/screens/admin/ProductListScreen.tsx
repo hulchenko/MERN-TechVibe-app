@@ -14,11 +14,12 @@ import { apiErrorHandler } from "../../utils/errorUtils";
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
-  const { pageNum = "0" } = useParams();
+  const { pageNum = "1" } = useParams();
   const { data = { products: [], pages: 0, page: 0 }, isLoading, error, refetch } = useGetProductsQuery({ pageNum });
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
 
   const productDeleteHandler = async (productId: string) => {
+    // TODO use modals
     if (window.confirm("Are you sure?")) {
       try {
         await deleteProduct(productId);
@@ -32,11 +33,10 @@ const ProductListScreen = () => {
 
   return (
     <>
-      <div className="flex w-full justify-between py-2">
-        {/* TODO USE THIS FOR THE PAGES */}
-        <h1 className="text-lg font-bold">Products</h1>
+      <div className="flex w-full justify-between">
+        <h1 className="text-lg font-bold py-4">Products</h1>
         <div>
-          <Button color="primary" variant="solid" onClick={() => navigate("/admin/product/create")}>
+          <Button color="primary" variant="faded" onClick={() => navigate("/admin/product/create")}>
             <FaEdit /> Create Product
           </Button>
         </div>
@@ -48,7 +48,7 @@ const ProductListScreen = () => {
         <Message color="danger" title="Error" description={error} />
       ) : (
         <>
-          <Table>
+          <Table className="mb-2">
             <TableHeader>
               <TableColumn>ID</TableColumn>
               <TableColumn>Name</TableColumn>
@@ -57,24 +57,22 @@ const ProductListScreen = () => {
               <TableColumn>Actions</TableColumn>
             </TableHeader>
             <TableBody emptyContent={"No products found."}>
-              {(data &&
-                data.products?.map((product: ProductInterface) => (
-                  <TableRow key={product._id}>
-                    <TableCell>{product._id}</TableCell>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>${product.price}</TableCell>
-                    <TableCell>{product.genre}</TableCell>
-                    <TableCell className="flex gap-2">
-                      <Button color="primary" variant="faded" onClick={() => navigate(`/admin/product/${product._id}/edit`)}>
-                        <FaEdit />
-                      </Button>
-                      <Button color="danger" variant="bordered" onClick={() => productDeleteHandler(product._id || "")}>
-                        <FaTrash />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))) ||
-                []}
+              {data?.products.map((product: ProductInterface) => (
+                <TableRow key={product._id}>
+                  <TableCell>{product._id}</TableCell>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>${product.price}</TableCell>
+                  <TableCell>{product.genre}</TableCell>
+                  <TableCell className="flex gap-2">
+                    <Button color="primary" variant="faded" onClick={() => navigate(`/admin/product/${product._id}/edit`)}>
+                      <FaEdit />
+                    </Button>
+                    <Button color="danger" variant="bordered" onClick={() => productDeleteHandler(product._id || "")}>
+                      <FaTrash />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )) || []}
             </TableBody>
           </Table>
           <Paginate pages={data?.pages} currPage={data?.page} isAdmin={true} />

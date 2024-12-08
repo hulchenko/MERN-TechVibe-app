@@ -1,6 +1,6 @@
 import { OrderResponseBody } from "@paypal/paypal-js";
 import { ORDERS_URL, PAYPAL_URL } from "../constants";
-import { OrderInterface } from "../interfaces/order.interface";
+import { OrderInterface, OrderPaginationRes } from "../interfaces/order.interface";
 import { PayPalClientId } from "../types/paypal-client.type";
 import { apiSlice } from "./apiSlice";
 
@@ -32,17 +32,19 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
-    getMyOrders: builder.query<OrderInterface[], void>({
-      query: () => ({
+    getMyOrders: builder.query<OrderPaginationRes, { pageNum: string }>({
+      query: ({ pageNum }) => ({
         url: `${ORDERS_URL}/myorders`,
+        params: { pageNum },
       }),
-      keepUnusedDataFor: 5,
     }),
-    getAllOrders: builder.query<OrderInterface[], void>({
-      query: () => ({
+    getAllOrders: builder.query<OrderPaginationRes, { pageNum: string }>({
+      query: ({ pageNum }) => ({
         url: ORDERS_URL,
+        params: {
+          pageNum,
+        },
       }),
-      keepUnusedDataFor: 5,
     }),
     deliverOrder: builder.mutation<OrderInterface, string>({
       query: (orderId) => ({

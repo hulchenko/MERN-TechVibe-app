@@ -1,5 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Order from "../models/orderModel.js";
+import { paginationParams } from "../utils/pagination.js";
 
 // Create new order
 const addOrderItems = asyncHandler(async (req, res) => {
@@ -29,12 +30,26 @@ const addOrderItems = asyncHandler(async (req, res) => {
 });
 
 const getAllOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate("user", "id name");
-  res.status(200).json(orders);
+  //Pagination
+  const { pageSize, page } = paginationParams(req);
+  const count = await Order.countDocuments({});
+  const totalPages = Math.ceil(count / pageSize);
+  console.log({ pageSize, page, count });
+
+  const orders = await Order.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .populate("user", "id name");
+  res.status(200).json({ orders, page, pages: totalPages });
 });
 
 const getMyOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id });
+  //Pagination
+  const { pageSize, page } = paginationParams(req);
+
+  const orders = await Order.find({ user: req.user._id })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
   return res.status(200).json(orders);
 });
 

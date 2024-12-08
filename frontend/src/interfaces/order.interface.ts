@@ -20,3 +20,9 @@ export interface OrderInterface {
   user?: UserInterface;
   createdAt?: string;
 }
+
+export interface OrderPaginationRes {
+  orders: OrderInterface[];
+  page: number;
+  pages: number;
+}

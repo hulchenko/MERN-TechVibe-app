@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import { paginationParams } from "../utils/pagination.js";
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -80,7 +81,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       user.password = req.body.password;
     }
     const updatedUser = await user.save();
-    res.status(200).json({
+    res.status(204).json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
@@ -93,14 +94,21 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
-  res.json(users);
+  //Pagination
+  const { pageSize, page } = paginationParams(req);
+  const count = await User.countDocuments({});
+  const totalPages = Math.ceil(count / pageSize);
+
+  const users = await User.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.status(200).json({ users, page, pages: totalPages });
 });
 
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password"); // return user, ignore password field
   if (user) {
-    res.json(user);
+    res.status(200).json(user);
   } else {
     res.send(404);
     throw new Error("User not found");
@@ -108,6 +116,7 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
+  // Admin action
   const user = await User.findById(req.params.id);
   if (user) {
     user.name = req.body.name || user.name;
@@ -116,7 +125,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
     const updatedUser = await user.save();
 
-    res.status(200).json({
+    res.status(204).json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
@@ -136,7 +145,7 @@ const deleteUser = asyncHandler(async (req, res) => {
       throw new Error("Cannot delete admin user");
     }
     await User.deleteOne({ _id: user._id });
-    res.json({ message: "User deleted successfully" });
+    res.status(204).json({ message: "User deleted successfully" });
   } else {
     res.status(404);
     throw new Error("User not found");

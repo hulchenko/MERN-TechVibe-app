@@ -1,5 +1,5 @@
 import { USERS_URL } from "../constants";
-import { UserInterface, UserAuth } from "../interfaces/user.interface";
+import { UserAuth, UserInterface, UserPaginationRes } from "../interfaces/user.interface";
 import { apiSlice } from "./apiSlice";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
@@ -31,9 +31,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getUsers: builder.query<UserInterface[], void>({
-      query: () => ({
+    getUsers: builder.query<UserPaginationRes, { pageNum: string }>({
+      query: ({ pageNum }) => ({
         url: USERS_URL,
+        params: { pageNum },
       }),
       providesTags: ["User"],
       keepUnusedDataFor: 5,

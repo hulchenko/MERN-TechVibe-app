@@ -11,3 +11,9 @@ export interface UserAuth {
   email: string;
   password: string;
 }
+
+export interface UserPaginationRes {
+  users: UserInterface[];
+  page: number;
+  pages: number;
+}

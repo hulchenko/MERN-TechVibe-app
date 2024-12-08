@@ -1,9 +1,10 @@
-import { Button, Table, TableHeader, TableColumn, TableBody, TableCell, TableRow, Card } from "@nextui-org/react";
+import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
+import Paginate from "../../components/Paginate";
 import { UserInterface } from "../../interfaces/user.interface";
 import { useDeleteUserMutation, useGetUsersQuery } from "../../slices/usersApiSlice";
 import { APIError } from "../../types/api-error.type";
@@ -11,7 +12,8 @@ import { apiErrorHandler } from "../../utils/errorUtils";
 
 const UserListScreen = () => {
   const navigate = useNavigate();
-  const { data: users, refetch, isLoading, error } = useGetUsersQuery();
+  const { pageNum = "1" } = useParams();
+  const { data, refetch, isLoading, error } = useGetUsersQuery({ pageNum });
   const [deleteUser] = useDeleteUserMutation();
 
   const deleteHandler = async (id: string) => {
@@ -30,9 +32,9 @@ const UserListScreen = () => {
   if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
 
   return (
-    <Card>
-      <h1>Users</h1>
-      <Table>
+    <>
+      <h1 className="text-lg font-bold py-4">Users</h1>
+      <Table className="mb-2">
         <TableHeader>
           <TableColumn>ID</TableColumn>
           <TableColumn>Name</TableColumn>
@@ -41,32 +43,31 @@ const UserListScreen = () => {
           <TableColumn>Actions</TableColumn>
         </TableHeader>
         <TableBody emptyContent={"No users found."}>
-          {(users &&
-            users.map((user: UserInterface) => (
-              <TableRow key={user._id}>
-                <TableCell>{user._id}</TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</TableCell>
-                <TableCell>
-                  {!user.isAdmin && (
-                    <div className="flex content-center">
-                      <Button color="primary" variant="faded" onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
-                        <FaEdit />
-                      </Button>
+          {data?.users.map((user: UserInterface) => (
+            <TableRow key={user._id}>
+              <TableCell>{user._id}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</TableCell>
+              <TableCell className="flex gap-2">
+                {!user.isAdmin && (
+                  <>
+                    <Button color="primary" variant="faded" onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
+                      <FaEdit />
+                    </Button>
 
-                      <Button color="danger" variant="bordered" onClick={() => deleteHandler(user._id || "")}>
-                        <FaTrash />
-                      </Button>
-                    </div>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))) ||
-            []}
+                    <Button color="danger" variant="bordered" onClick={() => deleteHandler(user._id || "")}>
+                      <FaTrash />
+                    </Button>
+                  </>
+                )}
+              </TableCell>
+            </TableRow>
+          )) || []}
         </TableBody>
       </Table>
-    </Card>
+      <Paginate pages={data?.pages} currPage={data?.page} isAdmin={true} />
+    </>
   );
 };
 

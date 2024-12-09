@@ -76,7 +76,7 @@ const ProductScreen = () => {
 
   return (
     <>
-      <div className="flex justify-between mt-12">
+      <div className="flex justify-around mt-12">
         <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
           Back
         </Button>

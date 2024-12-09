@@ -47,9 +47,10 @@ footer {
 
 /* Carousel */
 .embla {
-  border: 1px solid #a78bfa; /* violet-400 */
+  /* border: 1px solid #a78bfa; */
+  background-color: #111;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
   width: 75%;
   margin: auto;

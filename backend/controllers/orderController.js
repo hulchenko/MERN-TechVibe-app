@@ -34,7 +34,6 @@ const getAllOrders = asyncHandler(async (req, res) => {
   const { pageSize, page } = paginationParams(req);
   const count = await Order.countDocuments({});
   const totalPages = Math.ceil(count / pageSize);
-  console.log({ pageSize, page, count });
 
   const orders = await Order.find({})
     .limit(pageSize)

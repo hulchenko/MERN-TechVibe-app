@@ -14,7 +14,8 @@
     "url": "git+https://github.com/hulchenko/MERN-bookstore.git"
   },
   "keywords": [
-    "mern"
+    "mern",
+    "bookstore"
   ],
   "author": "Vadym Hulchenko",
   "license": "ISC",

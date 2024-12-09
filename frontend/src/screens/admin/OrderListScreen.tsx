@@ -7,11 +7,10 @@ import Paginate from "../../components/Paginate";
 import { useGetAllOrdersQuery } from "../../slices/ordersApiSlice";
 
 const OrderListScreen = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const pageNum = searchParams.get("page") || "1";
   const { data, isLoading, error } = useGetAllOrdersQuery({ pageNum });
-  const navigate = useNavigate();
-  console.log(`ORDERS: `, data?.orders);
 
   if (isLoading) return <Loader />;
   if (error) return <Message color="danger" title="Error" description={error} />;

@@ -11,7 +11,7 @@ const Paginate = ({ pages = 0, currPage = 0, search = "" }) => {
     <Pagination
       total={pages}
       initialPage={currPage}
-      className="relative z-50"
+      className="relative z-50 w-full flex justify-center"
       onChange={(page: number) => navigate(search ? `${currPath}?search=${search}&page=${page}` : `${currPath}?page=${page}`)}
     ></Pagination>
   );

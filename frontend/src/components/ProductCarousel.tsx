@@ -19,7 +19,7 @@ const ProductCarousel = () => {
   if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center mt-2">
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {products?.map((product: ProductInterface) => (

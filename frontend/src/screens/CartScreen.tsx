@@ -26,7 +26,7 @@ const CartScreen = () => {
 
   return (
     <>
-      <div className="flex justify-between mt-12">
+      <div className="flex justify-around mt-12">
         <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
           Back
         </Button>
@@ -39,7 +39,8 @@ const CartScreen = () => {
 
       <div className="flex justify-between mt-6">
         {cartItems.length === 0 ? (
-          <div className="h-full w-full mt-10">
+          <div className="h-full w-full mt-10 flex">
+            <span className="w-1/2" id="do-not-remove"></span>
             <Message title="Your Cart Is Empty" />
           </div>
         ) : (

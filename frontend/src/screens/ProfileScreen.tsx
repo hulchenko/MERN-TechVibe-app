@@ -1,17 +1,15 @@
-import { Button, Card, Input, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import { Button, Divider, Form, Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
-import { FaTimes } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import Message from "../components/Message";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { UserProfileValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
-import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
 import { useProfileMutation } from "../slices/usersApiSlice";
-import { APIError } from "../types/api-error.type";
 import { apiErrorHandler } from "../utils/errorUtils";
+import { validateEmailPassword, validateName } from "../utils/genericUtils";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -20,12 +18,10 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
-  const { pageNum = "1" } = useParams();
-
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.auth);
   const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
-  const { data, isLoading, error } = useGetMyOrdersQuery({ pageNum });
+  const [validators, setValidators] = useState<UserProfileValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   useEffect(() => {
     if (userInfo) {
@@ -36,28 +32,46 @@ const ProfileScreen = () => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-    } else {
-      try {
-        const res = await updateProfile({ _id: userInfo._id, name, email, password }).unwrap();
-        dispatch(setCredentials(res));
-        toast.success("Profile updated successfully");
-      } catch (error) {
-        apiErrorHandler(error);
-      }
+
+    const nameRegex = validateName(name);
+    const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
+
+    const formValidators: UserProfileValidators = {
+      name: nameRegex,
+      email: emailRegex,
+      password: passwordRegex,
+      passwordMatch: password === confirmPassword,
+    };
+
+    setValidators(formValidators);
+    const isInvalid = Object.values(formValidators).includes(false);
+    if (isInvalid) return;
+
+    try {
+      const res = await updateProfile({ _id: userInfo._id, name, email, password }).unwrap();
+      dispatch(setCredentials(res));
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      apiErrorHandler(error);
     }
   };
 
-  if (isLoading) return <Loader />;
-  if (error) return <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />;
-
   return (
-    <div className="flex">
-      <Card>
-        <h2>User Profile</h2>
-        <form onSubmit={submitHandler}>
+    <>
+      <div className="flex justify-around mt-12">
+        <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
+          Back
+        </Button>
+        <div>
+          <h1 className="text-lg font-bold">User Profile</h1>
+          <Divider />
+        </div>
+        <span id="do-no-remove"></span>
+      </div>
+      <div className="w-full flex justify-center mt-12">
+        <Form onSubmit={submitHandler} className="w-full max-w-56 flex flex-col gap-4 mt-4">
           <Input
+            isRequired
             color="primary"
             variant="bordered"
             type="text"
@@ -66,8 +80,11 @@ const ProfileScreen = () => {
             placeholder="Enter name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            isInvalid={!validators.name}
+            errorMessage={name.length === 0 ? "Name field cannot be empty" : "Please double check the input"}
           />
           <Input
+            isRequired
             color="primary"
             variant="bordered"
             type="email"
@@ -76,8 +93,11 @@ const ProfileScreen = () => {
             placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            isInvalid={!validators.email}
+            errorMessage={email.length === 0 ? "Email field cannot be empty" : "Please double check the input"}
           />
           <Input
+            isRequired
             color="primary"
             variant="bordered"
             type="password"
@@ -86,8 +106,15 @@ const ProfileScreen = () => {
             placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            isInvalid={!validators.password || !validators.passwordMatch}
+            errorMessage={
+              !validators.passwordMatch
+                ? "Passwords do not match"
+                : "At least 8 characters with 1 upper case, 1 lower case and 1 number. Can contain special characters."
+            }
           />
           <Input
+            isRequired
             color="primary"
             variant="bordered"
             type="password"
@@ -96,43 +123,20 @@ const ProfileScreen = () => {
             placeholder="Enter password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            isInvalid={!validators.password || !validators.passwordMatch}
+            errorMessage={
+              !validators.passwordMatch
+                ? "Passwords do not match"
+                : "At least 8 characters with 1 upper case, 1 lower case and 1 number. Can contain special characters."
+            }
           />
           <Button type="submit" color="primary" variant="solid" className="my-2">
             Update
           </Button>
           {loadingUpdateProfile && <Loader />}
-        </form>
-      </Card>
-      <Card>
-        <h2> My Orders</h2>
-        <Table>
-          <TableHeader>
-            <TableColumn>ID</TableColumn>
-            <TableColumn>Date</TableColumn>
-            <TableColumn>Total</TableColumn>
-            <TableColumn>Paid</TableColumn>
-            <TableColumn>Delivered</TableColumn>
-            <TableColumn>{""}</TableColumn>
-          </TableHeader>
-          <TableBody emptyContent={"No orders found."}>
-            {data?.orders.map((order) => (
-              <TableRow key={order._id}>
-                <TableCell>{order._id}</TableCell>
-                <TableCell>{order.createdAt?.substring(0, 10)}</TableCell>
-                <TableCell>{order.totalPrice}</TableCell>
-                <TableCell>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
-                <TableCell>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</TableCell>
-                <TableCell>
-                  <Button color="primary" variant="faded" onClick={() => navigate(`/order/${order._id}`)}>
-                    Details
-                  </Button>
-                </TableCell>
-              </TableRow>
-            )) || []}
-          </TableBody>
-        </Table>
-      </Card>
-    </div>
+        </Form>
+      </div>
+    </>
   );
 };
 

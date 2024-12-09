@@ -17,3 +17,10 @@ export interface UserPaginationRes {
   page: number;
   pages: number;
 }
+
+export interface UserProfileValidators {
+  name: boolean;
+  email: boolean;
+  password: boolean;
+  passwordMatch: boolean;
+}

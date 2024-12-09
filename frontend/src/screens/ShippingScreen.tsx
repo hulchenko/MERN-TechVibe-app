@@ -24,7 +24,7 @@ const ShippingScreen = () => {
     e.preventDefault();
 
     // validate form
-    const addressRegex = /^[a-zA-Z0-9\s,'-]*$/g;
+    const addressRegex = /^[a-zA-Z0-9\s,'-]+$/g;
     const cityRegex = /^([A-Z][a-z]+)+$/g;
     const postalUSRegex = /^\d{5}(?:[-\s]\d{4})?$/;
     const postalCARegex = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i;

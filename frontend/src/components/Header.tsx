@@ -24,6 +24,7 @@ import { resetCart } from "../slices/cartSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { reduceCartItems } from "../utils/cartUtils";
 import SearchBox from "./SearchBox";
+import { apiSlice } from "../slices/apiSlice";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +43,7 @@ const Header = () => {
       await logoutApiCall().unwrap();
       dispatch(clearCredentials());
       dispatch(resetCart());
+      dispatch(apiSlice.util.resetApiState()); // resets local state
       navigate("/login");
     } catch (error) {
       console.error(`Error occured: ${error}`);
@@ -49,7 +51,7 @@ const Header = () => {
   };
 
   return (
-    <Navbar>
+    <Navbar maxWidth="full" className="px-96" isBordered={true}>
       <NavbarBrand as={Link} to="/" className="text-2xl font-bold gap-2">
         <FontAwesomeIcon icon={faBook} className="text-violet-500" /> BookStore
       </NavbarBrand>

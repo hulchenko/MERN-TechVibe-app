@@ -75,9 +75,9 @@ const Header = () => {
               {userInfo.isAdmin && (
                 // Additional admin actions
                 <DropdownSection showDivider title="Admin Actions">
-                  <DropdownItem onClick={() => navigate("/admin/orderlist")}>Orders</DropdownItem>
-                  <DropdownItem onClick={() => navigate("/admin/userlist")}>Users</DropdownItem>
-                  <DropdownItem onClick={() => navigate("/admin/productlist")}>Products</DropdownItem>
+                  <DropdownItem onClick={() => navigate("/admin/orderlist")}>All Orders</DropdownItem>
+                  <DropdownItem onClick={() => navigate("/admin/userlist")}>All Users</DropdownItem>
+                  <DropdownItem onClick={() => navigate("/admin/productlist")}>All Products</DropdownItem>
                 </DropdownSection>
               )}
               <DropdownSection>

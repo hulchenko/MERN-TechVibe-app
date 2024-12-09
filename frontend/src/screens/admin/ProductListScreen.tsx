@@ -36,7 +36,7 @@ const ProductListScreen = () => {
       <div className="flex w-full justify-between">
         <h1 className="text-lg font-bold py-4">Products</h1>
         <div>
-          <Button color="primary" variant="faded" onClick={() => navigate("/admin/product/create")}>
+          <Button color="primary" variant="faded" onClick={() => navigate("/admin/product/create")} className="mt-2">
             <FaEdit /> Create Product
           </Button>
         </div>

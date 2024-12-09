@@ -46,11 +46,13 @@ const getAllOrders = asyncHandler(async (req, res) => {
 const getMyOrders = asyncHandler(async (req, res) => {
   //Pagination
   const { pageSize, page } = paginationParams(req);
+  const count = await Order.countDocuments({ user: req.user._id });
+  const totalPages = Math.ceil(count / pageSize);
 
   const orders = await Order.find({ user: req.user._id })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-  return res.status(200).json(orders);
+  return res.status(200).json({ orders, page, pages: totalPages });
 });
 
 const getOrderById = asyncHandler(async (req, res) => {

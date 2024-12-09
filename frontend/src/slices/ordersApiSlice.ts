@@ -34,7 +34,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     }),
     getMyOrders: builder.query<OrderPaginationRes, { pageNum: string }>({
       query: ({ pageNum }) => ({
-        url: `${ORDERS_URL}/myorders`,
+        url: `${ORDERS_URL}/my-orders`,
         params: { pageNum },
       }),
     }),

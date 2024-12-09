@@ -5,6 +5,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  DropdownSection,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -68,26 +69,23 @@ const Header = () => {
                 {userInfo.name}
               </Button>
             </DropdownTrigger>
-
-            {userInfo.isAdmin ? (
-              // Additional admin actions
-              <DropdownMenu>
-                <DropdownItem onClick={() => navigate("/admin/orderlist")}>Orders</DropdownItem>
-                <DropdownItem onClick={() => navigate("/admin/userlist")}>Users</DropdownItem>
-                <DropdownItem onClick={() => navigate("/admin/productlist")}>Products</DropdownItem>
+            <DropdownMenu>
+              {userInfo.isAdmin && (
+                // Additional admin actions
+                <DropdownSection showDivider title="Admin Actions">
+                  <DropdownItem onClick={() => navigate("/admin/orderlist")}>Orders</DropdownItem>
+                  <DropdownItem onClick={() => navigate("/admin/userlist")}>Users</DropdownItem>
+                  <DropdownItem onClick={() => navigate("/admin/productlist")}>Products</DropdownItem>
+                </DropdownSection>
+              )}
+              <DropdownSection>
+                <DropdownItem onClick={() => navigate("/my-orders")}>My Orders</DropdownItem>
                 <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
                 <DropdownItem onClick={logoutHandler} className="text-warning" color="warning">
                   Log Out
                 </DropdownItem>
-              </DropdownMenu>
-            ) : (
-              <DropdownMenu>
-                <DropdownItem onClick={() => navigate("/profile")}>Profile</DropdownItem>
-                <DropdownItem onClick={logoutHandler} className="text-warning" color="warning">
-                  Log Out
-                </DropdownItem>
-              </DropdownMenu>
-            )}
+              </DropdownSection>
+            </DropdownMenu>
           </Dropdown>
         ) : (
           <Button variant="ghost" color="primary" onClick={() => navigate("/login")}>

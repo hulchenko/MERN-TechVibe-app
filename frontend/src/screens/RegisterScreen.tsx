@@ -60,7 +60,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div className="w-full flex justify-center mt-12">
+    <div className="w-full flex justify-center mt-44">
       <div>
         <Greeting />
         <div className="w-full flex flex-col items-center mt-12">

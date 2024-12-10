@@ -2,13 +2,12 @@ import { Button, Divider, Form, Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Greeting from "../components/Greeting";
-import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { UserFormValidators } from "../interfaces/user.interface";
+import { UserAuthFormValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
-import { validateEmailPassword } from "../utils/genericUtils";
+import { validateEmail, validatePassword } from "../utils/genericUtils";
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +16,7 @@ const LoginScreen = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [validators, setValidators] = useState<UserFormValidators>({ email: true, password: true });
+  const [validators, setValidators] = useState<UserAuthFormValidators>({ email: true, password: true });
 
   const [loginApiCall, { isLoading }] = useLoginMutation();
 
@@ -33,10 +32,9 @@ const LoginScreen = () => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
-    const formValidators: UserFormValidators = {
-      email: emailRegex,
-      password: passwordRegex,
+    const formValidators: UserAuthFormValidators = {
+      email: validateEmail(email),
+      password: validatePassword(password),
     };
 
     setValidators(formValidators);

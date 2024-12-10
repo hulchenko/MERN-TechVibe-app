@@ -2,13 +2,12 @@ import { Button, Divider, Form, Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Greeting from "../components/Greeting";
-import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { UserFormValidators } from "../interfaces/user.interface";
+import { UserAuthFormValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useRegisterMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
-import { validateEmailPassword, validateName } from "../utils/genericUtils";
+import { validateEmail, validateName, validatePassword } from "../utils/genericUtils";
 
 const RegisterScreen = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +21,7 @@ const RegisterScreen = () => {
   const [registerApiCall, { isLoading }] = useRegisterMutation();
   const { userInfo } = useAppSelector((state) => state.auth);
 
-  const [validators, setValidators] = useState<UserFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
+  const [validators, setValidators] = useState<UserAuthFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
@@ -36,13 +35,10 @@ const RegisterScreen = () => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const nameRegex = validateName(name);
-    const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
-
-    const formValidators: UserFormValidators = {
-      name: nameRegex,
-      email: emailRegex,
-      password: passwordRegex,
+    const formValidators: UserAuthFormValidators = {
+      name: validateName(name),
+      email: validateEmail(email),
+      password: validatePassword(password),
       passwordMatch: password === confirmPassword,
     };
 

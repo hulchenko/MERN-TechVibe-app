@@ -3,20 +3,19 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { UserFormValidators } from "../interfaces/user.interface";
+import { UserAuthFormValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useProfileMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
-import { validateEmailPassword, validateName } from "../utils/genericUtils";
+import { validateEmail, validateName, validatePassword } from "../utils/genericUtils";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [validators, setValidators] = useState<UserFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
+  const [validators, setValidators] = useState<UserAuthFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -33,13 +32,10 @@ const ProfileScreen = () => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const nameRegex = validateName(name);
-    const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
-
-    const formValidators: UserFormValidators = {
-      name: nameRegex,
-      email: emailRegex,
-      password: passwordRegex,
+    const formValidators: UserAuthFormValidators = {
+      name: validateName(name),
+      email: validateEmail(email),
+      password: validatePassword(password),
       passwordMatch: password === confirmPassword,
     };
 

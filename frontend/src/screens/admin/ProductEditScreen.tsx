@@ -1,4 +1,4 @@
-import { Button, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Form, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Button, Divider, Form, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -32,14 +32,15 @@ const ProductEditScreen = () => {
   useEffect(() => {
     // update initial values
     if (initProduct) {
+      const { name, price, image, genre, countInStock, description } = initProduct;
       setProduct({
         ...product,
-        name: initProduct.name,
-        price: initProduct.price,
-        image: initProduct.image,
-        genre: initProduct.genre,
-        countInStock: initProduct.countInStock,
-        description: initProduct.description,
+        name,
+        price,
+        image,
+        genre,
+        countInStock,
+        description,
       });
     }
   }, [initProduct]);

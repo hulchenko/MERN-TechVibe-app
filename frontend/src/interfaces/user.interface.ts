@@ -18,9 +18,15 @@ export interface UserPaginationRes {
   pages: number;
 }
 
-export interface UserFormValidators {
+export interface UserAuthFormValidators {
   name?: boolean;
   email: boolean;
   password: boolean;
   passwordMatch?: boolean;
+}
+
+export interface UserEditValidators {
+  name: boolean;
+  email: boolean;
+  isAdmin?: boolean;
 }

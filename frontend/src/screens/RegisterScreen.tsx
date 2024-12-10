@@ -4,7 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Greeting from "../components/Greeting";
 import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { UserValidators } from "../interfaces/user.interface";
+import { UserFormValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useRegisterMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
@@ -22,7 +22,7 @@ const RegisterScreen = () => {
   const [registerApiCall, { isLoading }] = useRegisterMutation();
   const { userInfo } = useAppSelector((state) => state.auth);
 
-  const [validators, setValidators] = useState<UserValidators>({ name: true, email: true, password: true, passwordMatch: true });
+  const [validators, setValidators] = useState<UserFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
@@ -39,7 +39,7 @@ const RegisterScreen = () => {
     const nameRegex = validateName(name);
     const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
 
-    const formValidators: UserValidators = {
+    const formValidators: UserFormValidators = {
       name: nameRegex,
       email: emailRegex,
       password: passwordRegex,

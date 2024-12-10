@@ -187,7 +187,7 @@ const ProductScreen = () => {
               </div>
             </CardBody>
             <CardFooter className="flex-col">
-              <Button variant="bordered" color="primary" type="button" isDisabled={product.countInStock === 0} onClick={addToCartHandler}>
+              <Button variant="solid" color="primary" type="button" isDisabled={product.countInStock === 0} onClick={addToCartHandler}>
                 Add To Cart
               </Button>
             </CardFooter>

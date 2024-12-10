@@ -4,7 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Greeting from "../components/Greeting";
 import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { UserValidators } from "../interfaces/user.interface";
+import { UserFormValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
@@ -17,7 +17,7 @@ const LoginScreen = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [validators, setValidators] = useState<UserValidators>({ email: true, password: true });
+  const [validators, setValidators] = useState<UserFormValidators>({ email: true, password: true });
 
   const [loginApiCall, { isLoading }] = useLoginMutation();
 
@@ -34,7 +34,7 @@ const LoginScreen = () => {
     e.preventDefault();
 
     const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
-    const formValidators: UserValidators = {
+    const formValidators: UserFormValidators = {
       email: emailRegex,
       password: passwordRegex,
     };

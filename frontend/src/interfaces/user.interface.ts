@@ -18,7 +18,7 @@ export interface UserPaginationRes {
   pages: number;
 }
 
-export interface UserValidators {
+export interface UserFormValidators {
   name?: boolean;
   email: boolean;
   password: boolean;

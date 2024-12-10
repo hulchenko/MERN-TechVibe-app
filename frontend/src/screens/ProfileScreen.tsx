@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { UserValidators } from "../interfaces/user.interface";
+import { UserFormValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useProfileMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
@@ -21,7 +21,7 @@ const ProfileScreen = () => {
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.auth);
   const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
-  const [validators, setValidators] = useState<UserValidators>({ name: true, email: true, password: true, passwordMatch: true });
+  const [validators, setValidators] = useState<UserFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   useEffect(() => {
     if (userInfo) {
@@ -36,7 +36,7 @@ const ProfileScreen = () => {
     const nameRegex = validateName(name);
     const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
 
-    const formValidators: UserValidators = {
+    const formValidators: UserFormValidators = {
       name: nameRegex,
       email: emailRegex,
       password: passwordRegex,
@@ -50,7 +50,7 @@ const ProfileScreen = () => {
     try {
       const res = await updateProfile({ _id: userInfo._id, name, email, password }).unwrap();
       dispatch(setCredentials(res));
-      toast.success("Profile updated successfully");
+      toast.success("Profile updated");
     } catch (error) {
       apiErrorHandler(error);
     }

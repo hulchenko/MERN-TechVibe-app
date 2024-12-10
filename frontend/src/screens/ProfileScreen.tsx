@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { UserProfileValidators } from "../interfaces/user.interface";
+import { UserValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useProfileMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
@@ -21,7 +21,7 @@ const ProfileScreen = () => {
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.auth);
   const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
-  const [validators, setValidators] = useState<UserProfileValidators>({ name: true, email: true, password: true, passwordMatch: true });
+  const [validators, setValidators] = useState<UserValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   useEffect(() => {
     if (userInfo) {
@@ -36,7 +36,7 @@ const ProfileScreen = () => {
     const nameRegex = validateName(name);
     const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
 
-    const formValidators: UserProfileValidators = {
+    const formValidators: UserValidators = {
       name: nameRegex,
       email: emailRegex,
       password: passwordRegex,

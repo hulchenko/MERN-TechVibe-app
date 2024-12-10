@@ -1,11 +1,12 @@
 import {
+  Avatar,
   Badge,
   Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownTrigger,
   DropdownSection,
+  DropdownTrigger,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -19,12 +20,12 @@ import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { apiSlice } from "../slices/apiSlice";
 import { clearCredentials } from "../slices/authSlice";
 import { resetCart } from "../slices/cartSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { reduceCartItems } from "../utils/cartUtils";
 import SearchBox from "./SearchBox";
-import { apiSlice } from "../slices/apiSlice";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -55,10 +56,10 @@ const Header = () => {
       <NavbarBrand as={Link} to="/" className="text-2xl font-bold gap-2">
         <FontAwesomeIcon icon={faBook} className="text-violet-500" /> BookStore
       </NavbarBrand>
-      <NavbarContent justify="center">
-        {isHomePage && <SearchBox />}
+      <NavbarContent justify="end">
+        <NavbarItem>{isHomePage && <SearchBox />}</NavbarItem>
         <NavbarItem>
-          <NextUILink as={Link} to="/cart">
+          <NextUILink as={Link} to="/cart" className="flex content-center">
             <Badge color="primary" content={totalCartItems} isInvisible={totalCartItems === 0} shape="circle">
               <CartIcon className="text-violet-500" />
             </Badge>
@@ -67,9 +68,7 @@ const Header = () => {
         {userInfo ? (
           <Dropdown>
             <DropdownTrigger>
-              <Button variant="faded" color="primary">
-                {userInfo.name}
-              </Button>
+              <Avatar isBordered size="sm" color="success" showFallback name={userInfo.name} className="w-8 cursor-pointer" />
             </DropdownTrigger>
             <DropdownMenu>
               {userInfo.isAdmin && (

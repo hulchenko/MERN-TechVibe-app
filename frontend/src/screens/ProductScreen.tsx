@@ -156,7 +156,7 @@ const ProductScreen = () => {
           </div>
         </div>
 
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mt-6">
           <Card className="h-60 w-1/2">
             <CardHeader className="flex justify-between">
               <h2>Price</h2>

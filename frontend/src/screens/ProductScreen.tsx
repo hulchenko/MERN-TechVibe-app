@@ -9,6 +9,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Form,
   Image,
   Textarea,
 } from "@nextui-org/react";
@@ -97,7 +98,7 @@ const ProductScreen = () => {
           <h2 className="my-6 font-bold">Write a customer review</h2>
           {loadingReview && <Loader />}
           {userInfo ? (
-            <form onSubmit={submitHandler} className="flex flex-col gap-4">
+            <Form onSubmit={submitHandler} className="flex flex-col gap-4">
               <Dropdown>
                 <DropdownTrigger>
                   <Button color="primary" variant="faded" className="capitalize">
@@ -114,6 +115,7 @@ const ProductScreen = () => {
               </Dropdown>
               <Textarea
                 variant="bordered"
+                color="primary"
                 required
                 label="Comment"
                 placeholder="Add a comment"
@@ -123,7 +125,7 @@ const ProductScreen = () => {
               <Button isDisabled={loadingReview} type="submit" color="primary" className="max-w-6">
                 Submit
               </Button>
-            </form>
+            </Form>
           ) : (
             <Message title="Please sign in to write a review"></Message>
           )}

@@ -2,7 +2,6 @@ import { Button, Divider, Form, Input, Select, SelectItem, Textarea } from "@nex
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loader from "../../components/Loader";
 import { ProductFormValidators, ProductInterface } from "../../interfaces/product.interface";
 import { useCreateProductMutation, useUploadProductImageMutation } from "../../slices/productsApiSlice";
 import { APIError } from "../../types/api-error.type";
@@ -22,7 +21,7 @@ const ProductCreateScreen = () => {
     description: "",
   });
 
-  const [createProduct, { isLoading }] = useCreateProductMutation();
+  const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
   const [uploadProductImage] = useUploadProductImageMutation();
 
   const submitHandler = async (e: React.FormEvent) => {
@@ -63,8 +62,6 @@ const ProductCreateScreen = () => {
       apiErrorHandler(error);
     }
   };
-
-  if (isLoading) return <Loader />;
 
   return (
     <>
@@ -154,7 +151,7 @@ const ProductCreateScreen = () => {
             value={product.description}
             onChange={(e) => setProduct({ ...product, description: e.target.value })}
           />
-          <Button type="submit" color="primary">
+          <Button isLoading={loadingCreate} type="submit" color="primary" variant="solid">
             Save
           </Button>
         </Form>

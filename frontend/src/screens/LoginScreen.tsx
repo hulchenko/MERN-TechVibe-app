@@ -83,10 +83,9 @@ const LoginScreen = () => {
                 isInvalid={!validators.password}
                 errorMessage={"At least 8 characters with 1 upper case, 1 lower case and 1 number. Can contain special characters."}
               />
-              <Button type="submit" color="primary" variant="shadow" isDisabled={isLoading} className="w-full">
+              <Button type="submit" color="primary" variant="shadow" isLoading={isLoading} className="w-full">
                 Sign In
               </Button>
-              {isLoading && <Loader />}
             </div>
           </Form>
           <Divider className="my-2 w-56" />

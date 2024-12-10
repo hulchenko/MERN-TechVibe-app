@@ -1,17 +1,10 @@
-import { CircularProgress } from "@nextui-org/progress";
+import { Spinner } from "@nextui-org/react";
 
 const Loader = () => {
   return (
-    <CircularProgress
-      aria-label="Loading..."
-      // TODO not sure if style is needed
-      //   style={{
-      //     width: "100px",
-      //     height: "100px",
-      //     margin: "auto",
-      //     display: "block",
-      //   }}
-    ></CircularProgress>
+    <div className="w-full mt-96 flex justify-center">
+      <Spinner size="lg"></Spinner>
+    </div>
   );
 };
 

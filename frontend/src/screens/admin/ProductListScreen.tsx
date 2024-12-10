@@ -31,6 +31,9 @@ const ProductListScreen = () => {
     }
   };
 
+  if (isLoading) return <Loader />;
+  if (error) return <Message color="danger" title="Error" description={error} />;
+
   return (
     <>
       <div className="flex w-full justify-between">
@@ -41,43 +44,39 @@ const ProductListScreen = () => {
           </Button>
         </div>
       </div>
-      {loadingDelete && <Loader />}
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message color="danger" title="Error" description={error} />
-      ) : (
-        <>
-          <Table className="mb-2">
-            <TableHeader>
-              <TableColumn>ID</TableColumn>
-              <TableColumn>Name</TableColumn>
-              <TableColumn>Price</TableColumn>
-              <TableColumn>Genre</TableColumn>
-              <TableColumn>Actions</TableColumn>
-            </TableHeader>
-            <TableBody emptyContent={"No products found."}>
-              {data?.products?.map((product: ProductInterface) => (
-                <TableRow key={product._id}>
-                  <TableCell>{product._id}</TableCell>
-                  <TableCell>{product.name}</TableCell>
-                  <TableCell>${product.price}</TableCell>
-                  <TableCell>{product.genre}</TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button color="primary" variant="faded" onClick={() => navigate(`/admin/product/${product._id}/edit`)}>
-                      <FaEdit />
-                    </Button>
-                    <Button color="danger" variant="bordered" onClick={() => productDeleteHandler(product._id || "")}>
-                      <FaTrash />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              )) || []}
-            </TableBody>
-          </Table>
-          <Paginate pages={data?.pages} currPage={data?.page} />
-        </>
-      )}
+      <>
+        <Table className="mb-2">
+          <TableHeader>
+            <TableColumn>ID</TableColumn>
+            <TableColumn>Name</TableColumn>
+            <TableColumn>Price</TableColumn>
+            <TableColumn>Genre</TableColumn>
+            <TableColumn>Actions</TableColumn>
+          </TableHeader>
+          <TableBody emptyContent={"No products found."}>
+            {data?.products?.map((product: ProductInterface) => (
+              <TableRow key={product._id}>
+                <TableCell>{product._id}</TableCell>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>${product.price}</TableCell>
+                <TableCell>{product.genre}</TableCell>
+                <TableCell className="flex gap-2">
+                  <Button color="primary" variant="faded" onClick={() => navigate(`/product/${product._id}`)}>
+                    Details
+                  </Button>
+                  <Button color="primary" variant="faded" onClick={() => navigate(`/admin/product/${product._id}/edit`)}>
+                    Edit
+                  </Button>
+                  <Button color="danger" variant="bordered" isLoading={loadingDelete} onClick={() => productDeleteHandler(product._id || "")}>
+                    <FaTrash />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            )) || []}
+          </TableBody>
+        </Table>
+        <Paginate pages={data?.pages} currPage={data?.page} />
+      </>
     </>
   );
 };

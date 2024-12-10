@@ -216,23 +216,16 @@ const OrderScreen = () => {
 
             <div className="w-full">
               {!order.isPaid && (
-                <>
-                  {loadingPay || isPending ? (
-                    <Loader />
-                  ) : (
-                    <PayPalButtons
-                      style={{ color: "black", tagline: false, layout: "horizontal" }}
-                      className="bg-violet-400 border border-violet-400 rounded"
-                      createOrder={createOrder}
-                      onApprove={onApprove}
-                      onError={onError}
-                    ></PayPalButtons>
-                  )}
-                </>
+                <PayPalButtons
+                  style={{ color: "black", tagline: false, layout: "horizontal" }}
+                  className="bg-violet-400 border border-violet-400 rounded"
+                  createOrder={createOrder}
+                  onApprove={onApprove}
+                  onError={onError}
+                ></PayPalButtons>
               )}
-              {loadingDeliver && <Loader />}
               {userInfo?.isAdmin && order.isPaid && !order.isDelivered && (
-                <Button type="button" variant="solid" color="success" className="btn btn-block w-full" onClick={deliverOrderHandler}>
+                <Button type="button" variant="solid" color="success" className="btn btn-block w-full" isLoading={loadingDeliver} onClick={deliverOrderHandler}>
                   Mark As Delivered
                 </Button>
               )}

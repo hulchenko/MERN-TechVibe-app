@@ -93,7 +93,6 @@ const ProductScreen = () => {
           <Rating value={product.rating || 0} text={`${product.numReviews} review(s)`} />
           <Divider className="mt-6" />
           <h2 className="my-6 font-bold">Write a customer review</h2>
-          {loadingReview && <Loader />}
           {userInfo ? (
             <Form onSubmit={submitHandler} className="flex flex-col gap-4">
               <Dropdown>
@@ -119,7 +118,7 @@ const ProductScreen = () => {
                 className="w-full"
                 onChange={(e) => setComment(e.target.value)}
               />
-              <Button isDisabled={loadingReview} type="submit" color="primary" className="max-w-6">
+              <Button isLoading={loadingReview} type="submit" color="primary" className="max-w-6">
                 Submit
               </Button>
             </Form>

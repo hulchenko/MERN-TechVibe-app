@@ -15,7 +15,7 @@ const PlaceOrderScreen = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
 
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  const [createOrder, { isLoading: createLoading, error }] = useCreateOrderMutation();
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
@@ -110,7 +110,14 @@ const PlaceOrderScreen = () => {
               {error && <Message color="danger" title="Error" description={(error as APIError)?.data?.message} />}
             </CardBody>
             <CardFooter className="flex-col">
-              <Button type="button" color="success" variant="solid" isDisabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>
+              <Button
+                type="button"
+                color="success"
+                variant="solid"
+                isLoading={createLoading}
+                isDisabled={cart.cartItems.length === 0}
+                onClick={placeOrderHandler}
+              >
                 Place Order
               </Button>
             </CardFooter>

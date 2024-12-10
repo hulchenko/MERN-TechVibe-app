@@ -16,12 +16,12 @@ const ProfileScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [validators, setValidators] = useState<UserFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.auth);
   const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
-  const [validators, setValidators] = useState<UserFormValidators>({ name: true, email: true, password: true, passwordMatch: true });
 
   useEffect(() => {
     if (userInfo) {
@@ -127,10 +127,9 @@ const ProfileScreen = () => {
                 : "At least 8 characters with 1 upper case, 1 lower case and 1 number. Can contain special characters."
             }
           />
-          <Button type="submit" color="primary" variant="solid" className="my-2">
+          <Button isLoading={loadingUpdateProfile} type="submit" color="primary" variant="solid" className="my-2">
             Update
           </Button>
-          {loadingUpdateProfile && <Loader />}
         </Form>
       </div>
     </>

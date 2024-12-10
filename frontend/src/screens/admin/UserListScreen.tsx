@@ -54,9 +54,8 @@ const UserListScreen = () => {
                 {!user.isAdmin && (
                   <>
                     <Button color="primary" variant="faded" onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
-                      <FaEdit />
+                      Edit
                     </Button>
-
                     <Button color="danger" variant="bordered" onClick={() => deleteHandler(user._id || "")}>
                       <FaTrash />
                     </Button>

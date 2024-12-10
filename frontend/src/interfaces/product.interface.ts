@@ -6,7 +6,7 @@ export interface ProductInterface {
   image: string;
   genre: string;
   description: string;
-  price: string;
+  price: number;
   countInStock: number;
   qty?: number;
   _id?: string;
@@ -23,4 +23,12 @@ export interface ProductPaginationRes {
   products: ProductInterface[];
   page: number;
   pages: number;
+}
+
+export interface ProductFormValidators {
+  name: boolean;
+  price: boolean;
+  genre: boolean;
+  countInStock: boolean;
+  description: boolean;
 }

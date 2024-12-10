@@ -58,15 +58,12 @@ const ProfileScreen = () => {
 
   return (
     <>
-      <div className="flex justify-around mt-12">
+      <div className="flex justify-center items-center mt-12 h-6 gap-2">
         <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
           Back
         </Button>
-        <div>
-          <h1 className="text-lg font-bold">User Profile</h1>
-          <Divider />
-        </div>
-        <span id="do-no-remove"></span>
+        <Divider orientation="vertical" />
+        <h1 className="text-lg font-bold">User Profile</h1>
       </div>
       <div className="w-full flex justify-center mt-12">
         <Form onSubmit={submitHandler} className="w-full max-w-56 flex flex-col gap-4 mt-4">

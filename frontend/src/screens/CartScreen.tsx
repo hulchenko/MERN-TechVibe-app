@@ -26,22 +26,21 @@ const CartScreen = () => {
 
   return (
     <>
-      <div className="flex justify-around mt-12">
+      <div className="flex justify-center items-center mt-12 h-6 gap-2">
         <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
           Back
         </Button>
-        <div>
-          <h1 className="text-lg font-bold">Shopping Cart</h1>
-          <Divider />
-        </div>
-        <span></span>
+        <Divider orientation="vertical" />
+        <h1 className="text-lg font-bold">Shopping Cart</h1>
       </div>
 
       <div className="flex justify-between mt-6">
         {cartItems.length === 0 ? (
           <div className="h-full w-full mt-10 flex">
             <span className="w-1/2" id="do-not-remove"></span>
-            <Message title="Your Cart Is Empty" />
+            <div className="w-1/2">
+              <Message title="Your Cart Is Empty" />
+            </div>
           </div>
         ) : (
           <div className="w-3/4 h-[60rem] overflow-auto">
@@ -77,7 +76,7 @@ const CartScreen = () => {
             ))}
           </div>
         )}
-        <div className="w-1/2 flex justify-center">
+        <div className="w-1/2 flex justify-center mt-6">
           <Card className="h-40 w-1/2">
             <CardBody>
               <h2 className="font-bold text-md">Subtotal ({reduceCartItems(cartItems)}) item(s)</h2>

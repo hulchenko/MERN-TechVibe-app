@@ -104,7 +104,7 @@ const OrderScreen = () => {
 
   return (
     <>
-      <div className="flex justify-between mt-12">
+      <div className="flex justify-center items-center mt-12 h-6 gap-2">
         {userInfo.isAdmin && (
           <Button color="primary" variant="bordered" onClick={() => navigate("/admin/orderlist")}>
             Orders
@@ -115,11 +115,8 @@ const OrderScreen = () => {
             Home
           </Button>
         )}
-        <div>
-          <h1 className="text-lg font-bold">Order details</h1>
-          <Divider />
-        </div>
-        <span id="do-no-remove"></span>
+        <Divider orientation="vertical" />
+        <h1 className="text-lg font-bold">Order details</h1>
       </div>
 
       <div className="w-full flex justify-between">
@@ -186,7 +183,7 @@ const OrderScreen = () => {
           </div>
         </div>
 
-        <div className="w-full flex-col justify-items-center">
+        <div className="w-full flex-col justify-items-center mt-6">
           <div className="w-1/2">
             <Card>
               <CardHeader>

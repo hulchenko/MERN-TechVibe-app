@@ -77,15 +77,12 @@ const ProductScreen = () => {
 
   return (
     <>
-      <div className="flex justify-around mt-12">
+      <div className="flex justify-center items-center mt-12 h-6 gap-2">
         <Button color="primary" variant="bordered" onClick={() => navigate("/")}>
           Back
         </Button>
-        <div>
-          <h1 className="text-lg font-bold">Product Details</h1>
-          <Divider />
-        </div>
-        <span id="do-no-remove"></span>
+        <Divider orientation="vertical" />
+        <h1 className="text-lg font-bold">Product Details</h1>
       </div>
 
       <div className="flex gap-4 justify-between h-96 mt-6">

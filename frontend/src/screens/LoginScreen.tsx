@@ -1,25 +1,28 @@
-import { Button, Card, Divider, Input } from "@nextui-org/react";
+import { Button, Divider, Form, Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import Greeting from "../components/Greeting";
 import Loader from "../components/Loader";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { UserValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { apiErrorHandler } from "../utils/errorUtils";
+import { validateEmailPassword } from "../utils/genericUtils";
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const { userInfo } = useAppSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [validators, setValidators] = useState<UserValidators>({ email: true, password: true });
 
   const [loginApiCall, { isLoading }] = useLoginMutation();
 
-  const { userInfo } = useAppSelector((state) => state.auth);
-  const { search } = useLocation();
-  const sp = new URLSearchParams(search);
-  const redirect = sp.get("redirect") || "/";
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/"; // redirect param persists till the user is logged in
 
   useEffect(() => {
     if (userInfo) {
@@ -29,6 +32,17 @@ const LoginScreen = () => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const { emailRegex, passwordRegex } = validateEmailPassword(email, password);
+    const formValidators: UserValidators = {
+      email: emailRegex,
+      password: passwordRegex,
+    };
+
+    setValidators(formValidators);
+    const isInvalid = Object.values(formValidators).includes(false);
+    if (isInvalid) return;
+
     try {
       const res = await loginApiCall({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
@@ -39,46 +53,52 @@ const LoginScreen = () => {
   };
 
   return (
-    <Card>
-      <h1>Sign In</h1>
-      <form onSubmit={submitHandler}>
-        <div className="flex flex-col gap-2 w-56">
-          <Input
-            color="primary"
-            variant="bordered"
-            type="email"
-            label="Email"
-            labelPlacement={"outside"}
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            color="primary"
-            variant="bordered"
-            type="password"
-            label="Password"
-            labelPlacement={"outside"}
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+    <div className="w-full flex justify-center mt-12">
+      <div>
+        <Greeting />
+        <div className="w-full flex flex-col items-center mt-12">
+          <Form onSubmit={submitHandler}>
+            <div className="flex flex-col gap-2 w-56">
+              <Input
+                color="primary"
+                variant="bordered"
+                type="email"
+                label="Email"
+                labelPlacement={"inside"}
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                isInvalid={!validators.email}
+                errorMessage={email.length === 0 ? "Email field cannot be empty" : "Please double check the input"}
+              />
+              <Input
+                color="primary"
+                variant="bordered"
+                type="password"
+                label="Password"
+                labelPlacement={"inside"}
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                isInvalid={!validators.password}
+                errorMessage={"At least 8 characters with 1 upper case, 1 lower case and 1 number. Can contain special characters."}
+              />
+              <Button type="submit" color="primary" variant="shadow" isDisabled={isLoading} className="w-full">
+                Sign In
+              </Button>
+              {isLoading && <Loader />}
+            </div>
+          </Form>
+          <Divider className="my-2 w-56" />
+          <p className="w-full flex justify-center gap-4">
+            New Customer?{" "}
+            <Link to={redirect ? `/register?redirect=${redirect}` : "/register"} className="text-violet-500 underline">
+              Register
+            </Link>
+          </p>
         </div>
-
-        <Button type="submit" color="primary" variant="shadow" isDisabled={isLoading}>
-          Sign In
-        </Button>
-        {isLoading && <Loader />}
-      </form>
-
-      <Divider />
-      <p>
-        New Customer?{" "}
-        <Link to={redirect ? `/register?redirect=${redirect}` : "/register"} className="text-violet-500">
-          Sign Up
-        </Link>
-      </p>
-    </Card>
+      </div>
+    </div>
   );
 };
 

@@ -22,7 +22,7 @@ const MyOrderListScreen = () => {
       <Table className="mb-2">
         <TableHeader>
           <TableColumn>ID</TableColumn>
-          <TableColumn>Date</TableColumn>
+          <TableColumn>Created</TableColumn>
           <TableColumn>Total</TableColumn>
           <TableColumn>Paid</TableColumn>
           <TableColumn>Delivered</TableColumn>

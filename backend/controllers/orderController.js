@@ -38,7 +38,8 @@ const getAllOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({})
     .limit(pageSize)
     .skip(pageSize * (page - 1))
-    .populate("user", "id name");
+    .populate("user", "id name")
+    .sort({ createdAt: -1 });
   res.status(200).json({ orders, page, pages: totalPages });
 });
 
@@ -50,7 +51,8 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
   const orders = await Order.find({ user: req.user._id })
     .limit(pageSize)
-    .skip(pageSize * (page - 1));
+    .skip(pageSize * (page - 1))
+    .sort({ createdAt: -1 });
   return res.status(200).json({ orders, page, pages: totalPages });
 });
 

@@ -4,7 +4,8 @@ import { paginationParams } from "../utils/pagination.js";
 
 const getProducts = asyncHandler(async (req, res) => {
   // Search params
-  const search = req.query.search ? { name: { $regex: req.query.search, $options: "i" } } : {}; //$options i is for insensitive case
+  const searchParams = new RegExp(req.query.search, "i"); // case-insensitive; e.g. /TeST/i
+  const search = req.query.search ? { name: searchParams } : {}; //$options i is for insensitive case
 
   //Pagination
   const { pageSize, page } = paginationParams(req);
@@ -13,7 +14,8 @@ const getProducts = asyncHandler(async (req, res) => {
 
   const products = await Product.find({ ...search })
     .limit(pageSize)
-    .skip(pageSize * (page - 1));
+    .skip(pageSize * (page - 1))
+    .sort({ updatedAt: -1 });
   res.status(200).json({ products, page, pages: totalPages });
 });
 

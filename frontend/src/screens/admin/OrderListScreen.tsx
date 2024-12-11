@@ -22,7 +22,7 @@ const OrderListScreen = () => {
         <TableHeader>
           <TableColumn>ID</TableColumn>
           <TableColumn>User</TableColumn>
-          <TableColumn>Date</TableColumn>
+          <TableColumn>Created</TableColumn>
           <TableColumn>Total</TableColumn>
           <TableColumn>Paid</TableColumn>
           <TableColumn>Delivered</TableColumn>

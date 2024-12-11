@@ -18,7 +18,7 @@ const Product = ({ product }: { product: ProductInterface }) => {
         </div>
       </CardHeader>
       <CardBody className="items-center justify-center">
-        <Image src={product.image} alt="product image" className="object-cover rounded-xl w-40" />
+        <Image src={product.image} alt="product image" className="object-cover rounded-xl max-h-56" />
       </CardBody>
     </Card>
   );

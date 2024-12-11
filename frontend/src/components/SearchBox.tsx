@@ -1,9 +1,10 @@
 import { Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { SearchIcon } from "../icons/SearchIcon";
 
 const SearchBox = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
@@ -11,15 +12,20 @@ const SearchBox = () => {
   useEffect(() => {
     const callSearch = () => {
       if (search.length > 0) {
-        navigate(`/?search=${search.trim()}`);
-      } else {
-        navigate("/");
+        const keyword = search.trim();
+        navigate(`/?search=${keyword}`);
       }
     };
 
     const timer = setTimeout(() => callSearch(), 1500);
     return () => clearTimeout(timer);
   }, [search]);
+
+  useEffect(() => {
+    if (!location.search) {
+      setSearch(""); // clear input field on route change
+    }
+  }, [location]);
 
   return (
     <Input

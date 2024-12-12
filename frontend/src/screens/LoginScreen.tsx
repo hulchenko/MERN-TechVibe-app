@@ -2,6 +2,7 @@ import { Button, Divider, Form, Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Greeting from "../components/Greeting";
+import TestUsers from "../components/TestUsers";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { UserAuthFormValidators } from "../interfaces/user.interface";
 import { setCredentials } from "../slices/authSlice";
@@ -93,6 +94,7 @@ const LoginScreen = () => {
               Register
             </Link>
           </p>
+          <TestUsers />
         </div>
       </div>
     </div>

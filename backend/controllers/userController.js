@@ -152,4 +152,16 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser, logoutUser, getUserProfile, updateUserProfile, getUsers, getUser, updateUser, deleteUser };
+const getTestCredentials = asyncHandler(async (req, res) => {
+  const user = req.params.user;
+  if (user === "admin") {
+    return res.send({ creds: process.env.ADMIN_USER_CREDS });
+  } else if (user === "user") {
+    return res.send({ creds: process.env.USER_CREDS });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
+
+export { authUser, registerUser, logoutUser, getUserProfile, updateUserProfile, getUsers, getUser, updateUser, deleteUser, getTestCredentials };

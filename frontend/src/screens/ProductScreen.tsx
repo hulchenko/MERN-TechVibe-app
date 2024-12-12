@@ -88,7 +88,7 @@ const ProductScreen = () => {
       <div className="flex gap-4 justify-between h-96 mt-6">
         <div className="flex-col h-full w-full">
           <div className="flex items-center justify-center py-4">
-            <Image src={product.image} alt={product.name} height={400} width={250} isBlurred />
+            <Image fallbackSrc={"/images/no-image.png"} src={product.image} alt={product.name} height={400} width={250} isBlurred />
           </div>
           <Rating value={product.rating || 0} text={`${product.numReviews} review(s)`} />
           <Divider className="mt-6" />

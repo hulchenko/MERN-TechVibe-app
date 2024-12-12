@@ -169,7 +169,7 @@ const OrderScreen = () => {
               <Card key={index} className="w-full flex my-4">
                 <CardBody>
                   <div className="w-full flex items-center justify-between gap-4">
-                    <Image src={item.image} alt={item.name} height={100} radius="sm" width={60}></Image>
+                    <Image fallbackSrc={"/images/no-image.png"} src={item.image} alt={item.name} height={100} radius="sm" width={60}></Image>
                     <Link to={`/product/${item.product}`} className="w-40 underline text-violet-500">
                       {item.name}
                     </Link>

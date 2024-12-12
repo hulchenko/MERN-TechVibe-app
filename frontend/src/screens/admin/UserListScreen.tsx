@@ -41,6 +41,7 @@ const UserListScreen = () => {
           <TableColumn>Name</TableColumn>
           <TableColumn>Email</TableColumn>
           <TableColumn>Admin</TableColumn>
+          <TableColumn>Editable</TableColumn>
           <TableColumn>Actions</TableColumn>
         </TableHeader>
         <TableBody emptyContent={"No users found."}>
@@ -50,17 +51,14 @@ const UserListScreen = () => {
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.isAdmin ? <FaCheck style={{ color: "green" }} /> : <FaTimes style={{ color: "red" }} />}</TableCell>
+              <TableCell>{user.isProtected ? <FaTimes style={{ color: "red" }} /> : <FaCheck style={{ color: "green" }} />}</TableCell>
               <TableCell className="flex gap-2">
-                {!user.isAdmin && (
-                  <>
-                    <Button color="primary" variant="faded" onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
-                      Edit
-                    </Button>
-                    <Button color="danger" variant="bordered" onClick={() => deleteHandler(user._id || "")}>
-                      <FaTrash />
-                    </Button>
-                  </>
-                )}
+                <Button color="primary" variant="faded" isDisabled={user.isProtected} onClick={() => navigate(`/admin/user/${user._id}/edit`)}>
+                  Edit
+                </Button>
+                <Button color="danger" variant="bordered" isDisabled={user.isProtected} onClick={() => deleteHandler(user._id || "")}>
+                  <FaTrash />
+                </Button>
               </TableCell>
             </TableRow>
           )) || []}

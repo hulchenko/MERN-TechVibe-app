@@ -18,14 +18,7 @@ const Product = ({ product }: { product: ProductInterface }) => {
         </div>
       </CardHeader>
       <CardBody className="items-center justify-center">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fallbackSrc={"/images/no-image.png"}
-          className="object-cover rounded-xl max-h-56"
-          height={220}
-          width={140}
-        />
+        <Image src={product.image} alt={product.name} className="object-cover rounded-xl" height={220} width={140} />
       </CardBody>
     </Card>
   );

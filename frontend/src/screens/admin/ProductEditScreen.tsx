@@ -18,7 +18,7 @@ const ProductEditScreen = () => {
     productId,
     name: "",
     price: 0,
-    image: "/images/no-image.png", // default
+    image: "/images/no-image.jpg", // default
     genre: "",
     countInStock: 1,
     description: "",

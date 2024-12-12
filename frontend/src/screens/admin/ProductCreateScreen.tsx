@@ -15,7 +15,7 @@ const ProductCreateScreen = () => {
   const [product, setProduct] = useState<ProductInterface>({
     name: "",
     price: 0,
-    image: "/images/no-image.png", // default
+    image: "/images/no-image.jpg", // default
     genre: "",
     countInStock: 1,
     description: "",

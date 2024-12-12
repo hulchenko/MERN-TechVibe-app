@@ -25,7 +25,6 @@ const ProductCarousel = () => {
           {products?.map((product: ProductInterface) => (
             <div className="embla__slide" key={product._id}>
               <Image
-                fallbackSrc={"/images/no-image.png"}
                 src={product.image}
                 alt={product.name}
                 onClick={() => navigate(`/product/${product._id}`)}

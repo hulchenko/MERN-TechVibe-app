@@ -3,7 +3,8 @@ export interface UserInterface {
   email: string;
   isAdmin: boolean;
   _id?: string;
-  userId?: string;
+  userId?: string; // for local updates
+  isProtected?: boolean;
 }
 
 export interface UserAuth {

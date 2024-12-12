@@ -67,7 +67,7 @@ const PlaceOrderScreen = () => {
                 <Card key={index} className="w-full flex my-4">
                   <CardBody>
                     <div className="w-full flex items-center justify-between gap-4">
-                      <Image src={item.image} alt={item.name} height={150} radius="sm" width={100}></Image>
+                      <Image src={item.image} alt={item.name} height={150} radius="sm" width={100} className="object-cover"></Image>
                       <Link className="w-40 underline text-violet-500" to={`/product/${item._id}`}>
                         {item.name}
                       </Link>

@@ -28,7 +28,7 @@ const ProductCarousel = () => {
                 src={product.image}
                 alt={product.name}
                 onClick={() => navigate(`/product/${product._id}`)}
-                className="embla__slide__number"
+                className="embla__slide__number object-cover"
                 height={320}
                 width={250}
               />

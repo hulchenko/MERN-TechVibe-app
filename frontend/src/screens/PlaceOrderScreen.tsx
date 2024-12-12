@@ -1,9 +1,8 @@
+import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image } from "@nextui-org/react";
 import { useEffect } from "react";
-import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image, Input } from "@nextui-org/react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CheckoutSteps from "../components/CheckoutSteps";
-import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { clearCartItems } from "../slices/cartSlice";

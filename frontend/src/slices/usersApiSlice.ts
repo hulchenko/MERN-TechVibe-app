@@ -1,4 +1,4 @@
-import { USERS_URL } from "../constants";
+import { TEST_USER_URL, USERS_URL } from "../constants";
 import { UserAuth, UserInterface, UserPaginationRes } from "../interfaces/user.interface";
 import { apiSlice } from "./apiSlice";
 
@@ -39,6 +39,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: ["User"],
       keepUnusedDataFor: 5,
     }),
+    getTestUserCredentials: builder.query({
+      query: (type: string) => ({
+        url: `${TEST_USER_URL}/${type}`,
+      }),
+      providesTags: ["User"],
+    }),
     deleteUser: builder.mutation<void, string>({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
@@ -68,6 +74,7 @@ export const {
   useLogoutMutation,
   useProfileMutation,
   useGetUsersQuery,
+  useGetTestUserCredentialsQuery,
   useDeleteUserMutation,
   useGetUserDetailsQuery,
   useUpdateUserMutation,

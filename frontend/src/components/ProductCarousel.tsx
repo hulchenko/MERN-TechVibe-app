@@ -24,7 +24,14 @@ const ProductCarousel = () => {
         <div className="embla__container">
           {products?.map((product: ProductInterface) => (
             <div className="embla__slide" key={product._id}>
-              <Image src={product.image} alt={product.name} onClick={() => navigate(`/product/${product._id}`)} className="embla__slide__number" />
+              <Image
+                src={product.image}
+                alt={product.name}
+                onClick={() => navigate(`/product/${product._id}`)}
+                className="embla__slide__number"
+                height={320}
+                width={250}
+              />
               <div className="font-bold">
                 <h2 className="w-52 text-center text-wrap">{product.name}</h2>
               </div>

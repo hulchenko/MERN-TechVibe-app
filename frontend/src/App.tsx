@@ -10,7 +10,7 @@ const App = () => {
     <>
       <Header />
       <NextUIProvider>
-        <main className="px-96">
+        <main className="w-full px-4 lg:w-3/5 lg:px-0 m-auto">
           <Outlet />
         </main>
       </NextUIProvider>

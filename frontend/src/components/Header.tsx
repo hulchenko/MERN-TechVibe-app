@@ -52,7 +52,7 @@ const Header = () => {
   };
 
   return (
-    <Navbar maxWidth="full" className="px-96" isBordered={true}>
+    <Navbar maxWidth="2xl" isBordered={true}>
       <NavbarBrand as={Link} to="/" className="text-2xl font-bold gap-2">
         <FontAwesomeIcon icon={faBook} className="text-violet-500" /> BookStore
       </NavbarBrand>
@@ -68,7 +68,7 @@ const Header = () => {
         {userInfo ? (
           <Dropdown>
             <DropdownTrigger>
-              <Avatar isBordered size="sm" color="success" showFallback name={userInfo.name} className="w-8 cursor-pointer" />
+              <Avatar isBordered size="sm" color="success" showFallback name={userInfo.name} className="min-w-8 cursor-pointer" />
             </DropdownTrigger>
             <DropdownMenu>
               {userInfo.isAdmin && (

@@ -141,15 +141,16 @@ const ProductScreen = () => {
             {product?.reviews?.map((review: ReviewInterface) => (
               <Card key={review._id} className="mt-4">
                 <CardHeader>
-                  <h2 className="font-bold">{review.name}</h2>
+                  <div className="flex-col">
+                    <h2 className="font-bold mb-2">{review.name}</h2>
+                    <Rating value={review.rating} text={""} />
+                    <p>{review?.createdAt?.substring(0, 10)}</p>
+                  </div>
                 </CardHeader>
+                <Divider />
                 <CardBody>
-                  <Rating value={review.rating} text={""} />
-                  <p>{review?.createdAt?.substring(0, 10)}</p>
+                  <p className="italic">{review.comment}</p>
                 </CardBody>
-                <CardFooter>
-                  <p>{review.comment}</p>
-                </CardFooter>
               </Card>
             ))}
           </div>

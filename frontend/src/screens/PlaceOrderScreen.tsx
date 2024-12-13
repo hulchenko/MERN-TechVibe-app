@@ -47,7 +47,7 @@ const PlaceOrderScreen = () => {
       <div className="flex justify-center">
         <CheckoutSteps cartStep shippingStep paymentStep orderStep />
       </div>
-      <div className="flex gap-4 justify-between h-96 mt-6">
+      <div className="flex-col sm:flex sm:flex-row gap-4 justify-between h-full sm:h-96 mt-6">
         <div className="flex-col h-full w-full">
           <div>
             <h2 className="my-6 font-bold">Shipping To</h2>
@@ -61,7 +61,7 @@ const PlaceOrderScreen = () => {
           <Divider className="mt-2" />
           <div>
             <h2 className="my-6 font-bold">Order Items</h2>
-            <div className="h-[44rem] overflow-auto">
+            <div className="h-full sm:h-[44rem] overflow-auto">
               {cart.cartItems.length === 0 && <Message title="Your cart is empty" />}
               {cart.cartItems.map((item, index) => (
                 <Card key={index} className="w-full flex my-4">
@@ -82,7 +82,7 @@ const PlaceOrderScreen = () => {
           </div>
         </div>
         <div className="w-full flex justify-center">
-          <Card className="h-96 w-1/2">
+          <Card className="h-full sm:h-96 w-1/2">
             <CardHeader>
               <h2 className="font-bold text-xl w-full text-center">Order Summary</h2>
             </CardHeader>

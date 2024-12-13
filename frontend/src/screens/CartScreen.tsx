@@ -34,16 +34,16 @@ const CartScreen = () => {
         <h1 className="text-lg font-bold">Shopping Cart</h1>
       </div>
 
-      <div className="flex justify-between mt-6">
+      <div className="flex-col sm:flex sm:flex-row justify-between mt-6">
         {cartItems.length === 0 ? (
           <div className="h-full w-full mt-10 flex">
-            <span className="w-1/2" id="do-not-remove"></span>
-            <div className="w-1/2">
+            <span className="w-1/2 hidden lg:block" id="do-not-remove"></span>
+            <div className="w-full lg:w-1/2">
               <Message title="Your Cart Is Empty" />
             </div>
           </div>
         ) : (
-          <div className="w-3/4 h-[60rem] overflow-auto">
+          <div className="w-full sm:w-3/4 sm:h-[60rem] overflow-auto">
             {cartItems?.map((item) => (
               <Card key={item._id} className="w-full flex my-4">
                 <CardBody>
@@ -76,14 +76,14 @@ const CartScreen = () => {
             ))}
           </div>
         )}
-        <div className="w-1/2 flex justify-center mt-6">
-          <Card className="h-40 w-1/2">
+        <div className="w-full sm:w-1/2 flex justify-center content-center mt-6">
+          <Card className="h-40 w-full sm:w-1/2">
             <CardBody>
               <h2 className="font-bold text-md">Subtotal ({reduceCartItems(cartItems)}) item(s)</h2>
               <p>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</p>
               <Divider className="mt-2" />
             </CardBody>
-            <CardFooter className="flex-col">
+            <CardFooter className="flex-col sm:flex sm:flex-row justify-center">
               <Button type="button" variant="solid" color="primary" className="btn-block" isDisabled={cartItems.length === 0} onClick={checkoutHandler}>
                 Proceed To Checkout
               </Button>

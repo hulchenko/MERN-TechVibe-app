@@ -119,7 +119,7 @@ const OrderScreen = () => {
         <h1 className="text-lg font-bold">Order details</h1>
       </div>
 
-      <div className="w-full flex justify-between">
+      <div className="w-full flex-col sm:flex sm:flex-row justify-between">
         <div className="w-full">
           <div>
             <h2 className="my-6 font-bold text-xl">Shipping details</h2>
@@ -163,7 +163,7 @@ const OrderScreen = () => {
           </div>
           <Divider className="mt-2" />
           <h2 className="my-6 font-bold text-xl">Order items</h2>
-          <div className="h-[20rem] overflow-auto">
+          <div className="h-full sm:h-[20rem] overflow-auto">
             {order?.orderItems?.length === 0 && <Message title="No orders to display." />}
             {order?.orderItems?.map((item, index) => (
               <Card key={index} className="w-full flex my-4">
@@ -184,7 +184,7 @@ const OrderScreen = () => {
         </div>
 
         <div className="w-full flex-col justify-items-center mt-6">
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2 pb-2">
             <Card>
               <CardHeader>
                 <h2 className="font-bold text-xl w-full text-center">Order Summary</h2>

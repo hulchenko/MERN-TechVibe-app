@@ -85,7 +85,7 @@ const ProductScreen = () => {
         <h1 className="text-lg font-bold">Product Details</h1>
       </div>
 
-      <div className="flex gap-4 justify-between h-96 mt-6">
+      <div className="flex-col sm:flex sm:flex-row gap-4 justify-between h-full sm:h-96 mt-6">
         <div className="flex-col h-full w-full">
           <div className="flex items-center justify-center py-4">
             <Image src={product.image} alt={product.name} height={400} width={250} className="object-cover" isBlurred />
@@ -136,7 +136,7 @@ const ProductScreen = () => {
           </Card>
           <Divider className="mt-6" />
           <h2 className="my-6 font-bold">Customer comments</h2>
-          <div className="h-[44rem] overflow-auto">
+          <div className="sm:h-[44rem] overflow-auto">
             {product?.reviews?.length === 0 && <Message title="No comments here yet."></Message>}
             {product?.reviews?.map((review: ReviewInterface) => (
               <Card key={review._id} className="mt-4">
@@ -156,8 +156,8 @@ const ProductScreen = () => {
           </div>
         </div>
 
-        <div className="w-full flex justify-center mt-6">
-          <Card className="h-60 w-1/2">
+        <div className="w-full flex justify-center mt-6 pb-2">
+          <Card className="h-60 w-full 2xl:w-1/2">
             <CardHeader className="flex justify-between">
               <h2>Price</h2>
               <p className="font-bold">${product.price}</p>

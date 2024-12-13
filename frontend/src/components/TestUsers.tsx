@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, Divider, Tooltip } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -40,24 +40,33 @@ const TestUsers = () => {
   };
 
   return (
-    <Card className="rounded max-w-56 bg-transparent border border-gray-900 absolute bottom-12">
-      <CardHeader>
-        <div className="w-full text-center text-sm">
-          <h2>Quick Join</h2>
+    <Tooltip
+      content={
+        <div className="w-full text-center">
+          <div className="text-small font-bold">Test users</div>
+          <div className="text-tiny">These are protected: they cannot be edited or removed.</div>
         </div>
-      </CardHeader>
-      <Divider />
-      <CardBody>
-        <div className="flex gap-2">
-          <Button color="warning" variant="light" isLoading={isLoading && selectedType === "admin"} name="admin" onClick={(e) => setUserType(e)}>
-            Admin
-          </Button>
-          <Button color="warning" variant="light" isLoading={isLoading && selectedType === "user"} name="user" onClick={(e) => setUserType(e)}>
-            User
-          </Button>
-        </div>
-      </CardBody>
-    </Card>
+      }
+    >
+      <Card className="rounded max-w-56 bg-transparent border border-gray-900 absolute bottom-12">
+        <CardHeader>
+          <div className="w-full text-center text-sm">
+            <h2>Quick Join</h2>
+          </div>
+        </CardHeader>
+        <Divider />
+        <CardBody>
+          <div className="flex gap-2">
+            <Button color="warning" variant="light" isLoading={isLoading && selectedType === "admin"} name="admin" onClick={(e) => setUserType(e)}>
+              Admin
+            </Button>
+            <Button color="warning" variant="light" isLoading={isLoading && selectedType === "user"} name="user" onClick={(e) => setUserType(e)}>
+              User
+            </Button>
+          </div>
+        </CardBody>
+      </Card>
+    </Tooltip>
   );
 };
 

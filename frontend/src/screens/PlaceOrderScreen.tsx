@@ -74,6 +74,7 @@ const PlaceOrderScreen = () => {
                         alt={item.name}
                         radius="sm"
                         className="object-cover max-h-20"
+                        height={80}
                       ></Image>
                       <Link className="w-40 underline text-violet-500" to={`/product/${item._id}`}>
                         {item.name}

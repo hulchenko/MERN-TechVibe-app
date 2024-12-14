@@ -176,6 +176,8 @@ const OrderScreen = () => {
                       alt={item.name}
                       radius="sm"
                       className="object-cover max-h-20"
+                      height={80}
+                      width={50}
                     ></Image>
                     <Link to={`/product/${item.product}`} className="w-40 underline text-violet-500">
                       {item.name}

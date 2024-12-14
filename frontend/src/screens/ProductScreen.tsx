@@ -66,6 +66,7 @@ const ProductScreen = () => {
       toast.success(response?.message || "Review submitted");
       setRating(0);
       setComment("");
+      setSelectedRating("Rating");
     } catch (error) {
       apiErrorHandler(error);
     }
@@ -115,6 +116,7 @@ const ProductScreen = () => {
                 required
                 label="Comment"
                 placeholder="Add a comment"
+                value={comment}
                 className="w-full"
                 onChange={(e) => setComment(e.target.value)}
               />

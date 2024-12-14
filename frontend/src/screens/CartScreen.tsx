@@ -48,7 +48,14 @@ const CartScreen = () => {
               <Card key={item._id} className="w-full flex my-4">
                 <CardBody>
                   <div className="w-full flex items-center justify-between gap-4">
-                    <Image src={item.image} alt={item.name} height={150} width={100} radius="sm" className="object-cover"></Image>
+                    <Image
+                      loading="lazy"
+                      fallbackSrc={"/images/no-image.jpg"}
+                      src={item.image}
+                      alt={item.name}
+                      radius="sm"
+                      className="object-cover max-h-20"
+                    ></Image>
                     <Link className="w-40 underline text-violet-500" to={`/product/${item._id}`}>
                       {item.name}
                     </Link>

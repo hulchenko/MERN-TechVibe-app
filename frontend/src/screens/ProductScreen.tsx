@@ -89,7 +89,17 @@ const ProductScreen = () => {
       <div className="flex-col sm:flex sm:flex-row gap-4 justify-between h-full sm:h-96 mt-6">
         <div className="flex-col h-full w-full">
           <div className="flex items-center justify-center py-4">
-            <Image src={product.image} alt={product.name} height={400} width={250} className="object-cover" isBlurred />
+            <Image
+              loading="lazy"
+              fallbackSrc={"/images/no-image.jpg"}
+              src={product.image}
+              alt={product.name}
+              radius="sm"
+              className="object-cover"
+              height={400}
+              width={250}
+              isBlurred
+            />
           </div>
           <Rating value={product.rating || 0} text={`${product.numReviews} review(s)`} />
           <Divider className="mt-6" />

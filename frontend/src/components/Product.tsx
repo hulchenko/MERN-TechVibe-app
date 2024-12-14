@@ -14,13 +14,22 @@ const Product = ({ product }: { product: ProductInterface }) => {
         </b>
         <div className="flex-col 2xl:flex 2xl:flex-row 2xl:justify-between w-full px-6 items-center">
           <small>
-            <Rating value={product.rating || 0} text={`${product.numReviews} reviews`}></Rating>
+            <Rating value={product.rating || 0} text={`${product.numReviews} review(s)`}></Rating>
           </small>
           <p className="font-bold">${product.price}</p>
         </div>
       </CardHeader>
       <CardBody className="items-center justify-center overflow-hidden">
-        <Image src={product.image} alt={product.name} className="object-cover rounded-xl max-h-full 2xl:max-h-48" height={220} width={140} />
+        <Image
+          loading="lazy"
+          src={product.image}
+          fallbackSrc={"/images/no-image.jpg"}
+          alt={product.name}
+          className="object-cover rounded-xl max-h-full 2xl:max-h-48"
+          radius="sm"
+          height={220}
+          width={140}
+        />
       </CardBody>
     </Card>
   );

@@ -25,15 +25,18 @@ const ProductCarousel = () => {
           {products?.map((product: ProductInterface) => (
             <div className="embla__slide" key={product._id}>
               <Image
+                loading="lazy"
+                fallbackSrc={"/images/no-image.jpg"}
                 src={product.image}
                 alt={product.name}
                 onClick={() => navigate(`/product/${product._id}`)}
-                className="embla__slide__number object-cover"
+                className="embla__slide__number object-cover max-w-52"
+                radius="sm"
                 height={320}
                 width={250}
               />
-              <div className="font-bold">
-                <h2 className="w-52 text-center text-wrap">{product.name}</h2>
+              <div className="font-bold cursor-default">
+                <h2 className="w-full text-center text-wrap">{product.name}</h2>
               </div>
             </div>
           ))}

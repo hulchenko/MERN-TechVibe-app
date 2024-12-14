@@ -79,3 +79,9 @@ footer {
   border-radius: 10px !important;
   color: #fff !important;
 }
+
+/* fallBackSrc fix */
+div {
+  background-position: center;
+  background-size: contain;
+}

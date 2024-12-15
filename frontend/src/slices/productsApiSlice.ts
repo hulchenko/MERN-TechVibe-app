@@ -1,9 +1,8 @@
-import { PRODUCTS_URL, UPLOAD_URL } from "../constants";
+import { PRODUCTS_URL } from "../constants";
 import { ProductInterface, ProductPaginationRes } from "../interfaces/product.interface";
 import { ReviewInterface } from "../interfaces/review.interface";
-import { UploadImageRes } from "../types/upload-image-response.type";
-import { apiSlice } from "./apiSlice";
 import { FilterParams } from "../types/filter-params.type";
+import { apiSlice } from "./apiSlice";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -40,14 +39,6 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
-    uploadProductImage: builder.mutation<UploadImageRes, FormData>({
-      query: (data) => ({
-        url: `${UPLOAD_URL}`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["Product"],
-    }),
     deleteProduct: builder.mutation<void, string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
@@ -79,7 +70,6 @@ export const {
   useGetProductDetailsQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
-  useUploadProductImageMutation,
   useDeleteProductMutation,
   useCreateReviewMutation,
   useGetTopProductsQuery,

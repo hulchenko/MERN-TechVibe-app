@@ -5,7 +5,6 @@ import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 import orderRoutes from "./routes/orderRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
-import uploadRoutes from "./routes/uploadRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 import cookieParser from "cookie-parser";
@@ -26,15 +25,20 @@ app.use(cookieParser()); // allows to access req.cookies.cookie_name
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/upload", uploadRoutes);
 app.get("/api/config/paypal", (req, res) => res.send({ clientId: process.env.PAYPAL_CLIENT_ID }));
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.get("/api/config/aws", (req, res) =>
+  res.send({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    region: process.env.REGION,
+  })
+);
 
 if (process.env.NODE_ENV === "production") {
   // provide express with React build folder
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-  // if requesting route is not /api or /uploads - redirect to index.html
+  // if requesting route is not /api - redirect to index.html
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });

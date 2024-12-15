@@ -15,7 +15,6 @@ export default defineConfig({
       // this is the same proxy configuration, as in package.json for webpack
       // route specific
       "/api": "http://localhost:5000",
-      "/uploads": "http://localhost:5000",
     },
   },
   resolve: {

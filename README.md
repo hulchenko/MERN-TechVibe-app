@@ -31,6 +31,7 @@ BookStore is an advanced e-commerce web application tailored for book enthusiast
 - **TypeScript**
 - **Express**
 - **MongoDB & Mongoose**
+- **AWS S3**
 - **PayPal SDK**
 - **NextUI**
 - **Tailwind CSS**

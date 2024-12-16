@@ -4,7 +4,6 @@ import { AWSCredentials } from "../types/aws-creds.type";
 import { apiErrorHandler } from "./errorUtils";
 
 export const uploadFileToS3 = async (creds: AWSCredentials | undefined, file: File): Promise<string | null> => {
-  console.log(`CREDS: `, creds);
   if (!creds) {
     console.error("No AWS credentials were found.");
     return null;

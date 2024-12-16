@@ -6,14 +6,16 @@ import genres from "../../assets/data/genres.json";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { ProductFormValidators, ProductInterface } from "../../interfaces/product.interface";
-import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from "../../slices/productsApiSlice";
+import { useGetAWSCredentialsQuery } from "../../slices/externalApiSlice";
+import { useGetProductDetailsQuery, useUpdateProductMutation } from "../../slices/productsApiSlice";
 import { APIError } from "../../types/api-error.type";
-import { apiErrorHandler } from "../../utils/errorUtils";
+import { uploadFileToS3 } from "../../utils/uploadImageS3";
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
 
   const [validators, setValidators] = useState<ProductFormValidators>({ name: true, price: true, genre: true, countInStock: true, description: true });
+  const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [product, setProduct] = useState<ProductInterface>({
     productId,
     name: "",
@@ -23,9 +25,10 @@ const ProductEditScreen = () => {
     countInStock: 1,
     description: "",
   });
+
   const { data: initProduct, isLoading, error: getProductError } = useGetProductDetailsQuery(productId || "");
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
-  const [uploadProductImage] = useUploadProductImageMutation();
+  const { data: AWSCreds } = useGetAWSCredentialsQuery();
 
   const navigate = useNavigate();
 
@@ -61,6 +64,11 @@ const ProductEditScreen = () => {
     const isInvalid = Object.values(formValidators).includes(false);
     if (isInvalid) return;
 
+    const uploadedFileURL = await getUploadFileURL(fileToUpload);
+    if (uploadedFileURL) {
+      product.image = uploadedFileURL;
+    }
+
     const result = await updateProduct(product);
     if (result.error) {
       toast.error((result.error as APIError).data.message);
@@ -70,18 +78,17 @@ const ProductEditScreen = () => {
     }
   };
 
-  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const prepUploadFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { files } = e.target;
-    const formData = new FormData();
-    const fileToUpload = files ? files[0] : "";
-    formData.append("image", fileToUpload);
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      toast.success(res.message);
-      setProduct({ ...product, image: res.image });
-    } catch (error) {
-      apiErrorHandler(error);
+    const file = files ? files[0] : null;
+    if (file) {
+      setFileToUpload(file);
     }
+  };
+
+  const getUploadFileURL = async (file: File | null) => {
+    if (!file) return;
+    return await uploadFileToS3(AWSCreds, file);
   };
 
   if (isLoading) return <Loader />;
@@ -131,7 +138,8 @@ const ProductEditScreen = () => {
             label="Image"
             labelPlacement={"outside"}
             placeholder="Upload image"
-            onChange={uploadFileHandler}
+            accept="image/png, image/jpeg"
+            onChange={prepUploadFile}
             className="text-violet-500"
           />
           <Select

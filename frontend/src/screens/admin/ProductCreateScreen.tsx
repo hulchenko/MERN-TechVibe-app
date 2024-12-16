@@ -3,15 +3,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ProductFormValidators, ProductInterface } from "../../interfaces/product.interface";
-import { useCreateProductMutation, useUploadProductImageMutation } from "../../slices/productsApiSlice";
+import { useCreateProductMutation } from "../../slices/productsApiSlice";
 import { APIError } from "../../types/api-error.type";
-import { apiErrorHandler } from "../../utils/errorUtils";
 import genres from "./../../assets/data/genres.json";
+import { useGetAWSCredentialsQuery } from "../../slices/externalApiSlice";
+import { uploadFileToS3 } from "../../utils/uploadImageS3";
 
 const ProductCreateScreen = () => {
   const navigate = useNavigate();
 
   const [validators, setValidators] = useState<ProductFormValidators>({ name: true, price: true, genre: true, countInStock: true, description: true });
+  const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [product, setProduct] = useState<ProductInterface>({
     name: "",
     price: 0,
@@ -22,7 +24,7 @@ const ProductCreateScreen = () => {
   });
 
   const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
-  const [uploadProductImage] = useUploadProductImageMutation();
+  const { data: AWSCreds } = useGetAWSCredentialsQuery();
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +42,11 @@ const ProductCreateScreen = () => {
     const isInvalid = Object.values(formValidators).includes(false);
     if (isInvalid) return;
 
+    const uploadedFileURL = await getUploadFileURL(fileToUpload);
+    if (uploadedFileURL) {
+      product.image = uploadedFileURL;
+    }
+
     const result = await createProduct(product);
     if (result.error) {
       toast.error((result.error as APIError).data.message);
@@ -49,18 +56,17 @@ const ProductCreateScreen = () => {
     }
   };
 
-  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const prepUploadFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { files } = e.target;
-    const formData = new FormData();
-    const fileToUpload = files ? files[0] : "";
-    formData.append("image", fileToUpload);
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      toast.success(res.message);
-      setProduct({ ...product, image: res.image });
-    } catch (error) {
-      apiErrorHandler(error);
+    const file = files ? files[0] : null;
+    if (file) {
+      setFileToUpload(file);
     }
+  };
+
+  const getUploadFileURL = async (file: File | null) => {
+    if (!file) return;
+    return await uploadFileToS3(AWSCreds, file);
   };
 
   return (
@@ -108,7 +114,7 @@ const ProductCreateScreen = () => {
             label="Image"
             labelPlacement={"outside"}
             placeholder="Upload image"
-            onChange={uploadFileHandler}
+            onChange={prepUploadFile}
             className="text-violet-500"
           />
           <Select

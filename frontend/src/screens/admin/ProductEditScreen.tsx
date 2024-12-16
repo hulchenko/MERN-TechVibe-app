@@ -148,7 +148,7 @@ const ProductEditScreen = () => {
             isRequired
             label="Genre"
             labelPlacement="outside"
-            placeholder="Select genre"
+            placeholder={product.genre || "Select genre"}
             isInvalid={!validators.genre}
             errorMessage={"Please select a genre"}
           >
